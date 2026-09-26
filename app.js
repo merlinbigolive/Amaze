@@ -34,35 +34,7 @@
   function normalizeTrain(x){return `${x[0]} (${x[1]})`}
   function normalizeHotel(x){return `${x[0]}, ${x[1]}`}
 
-  function setupAutocomplete(input, type){
-    if(!input) return;
-    const wrap=document.createElement('div'); wrap.className='autocomplete-wrap';
-    input.parentNode.insertBefore(wrap,input); wrap.appendChild(input);
-    const menu=document.createElement('div'); menu.className='autocomplete-menu'; menu.hidden=true; wrap.appendChild(menu);
-    const source=type==='flight'?flightPlaces:type==='train'?trainPlaces:hotelPlaces;
-    const format=type==='flight'?normalizeFlight:type==='train'?normalizeTrain:normalizeHotel;
-    const detail=(x)=>type==='flight'?`${x[3]} · ${x[2]}`:type==='train'?`Railway station · ${x[2]}`:`Hotels, stays & accommodation · ${x[1]}`;
-    function render(){
-      const q=input.value.trim().toLowerCase();
-      if(!q){menu.hidden=true;menu.innerHTML='';return;}
-      const matches=source.filter(x=>x.join(' ').toLowerCase().includes(q)).slice(0,7);
-      if(!matches.length){menu.hidden=true;menu.innerHTML='';return;}
-      menu.innerHTML=matches.map((x,i)=>`<button type="button" class="autocomplete-item" data-i="${i}"><span class="ac-icon">${type==='flight'?'✈️':type==='train'?'🚆':'🏨'}</span><span class="ac-copy"><strong>${esc(format(x))}</strong><small>${esc(detail(x))}</small></span></button>`).join('');
-      menu.hidden=false;
-      menu.querySelectorAll('.autocomplete-item').forEach(btn=>btn.addEventListener('click',()=>{
-        const x=matches[Number(btn.dataset.i)]; input.value=format(x); input.dataset.code=type==='hotel'?'':x[1]; input.dataset.country=x[type==='hotel'?1:2]||''; menu.hidden=true;
-      }));
-    }
-    input.addEventListener('input',render);
-    input.addEventListener('focus',()=>{if(input.value.trim())render()});
-    document.addEventListener('click',e=>{if(!wrap.contains(e.target))menu.hidden=true});
-  }
-  setupAutocomplete($('#hotelDestination'),'hotel');
-  setupAutocomplete($('#flightFrom'),'flight');
-  setupAutocomplete($('#flightTo'),'flight');
-  setupAutocomplete($('#trainFrom'),'train');
-  setupAutocomplete($('#trainTo'),'train');
-
+  // Location autocomplete is handled by the authoritative v34 layer in index.html.
   function go(type, data){
     const q=new URLSearchParams({type,...data});
     location.href='results.html?'+q.toString();

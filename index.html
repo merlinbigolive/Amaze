@@ -523,7 +523,8 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
    </div>
 
    <div class="form cars" id="form-cars">
-    <div class="field"><label>Pick-up</label><div class="autocomplete" data-type="city"><input autocomplete="off" placeholder="City or airport"><div class="suggestions"></div></div></div>
+    <div class="field"><label>Pick-up</label><div class="autocomplete" data-type="city"><input autocomplete="off" placeholder="City, country or airport"><div class="suggestions"></div></div></div>
+    <div class="field"><label>Drop-off</label><div class="autocomplete" data-type="city"><input autocomplete="off" placeholder="City, country or airport"><div class="suggestions"></div></div></div>
     <div class="field"><label>Pick-up date</label><input type="date"></div>
     <div class="field"><label>Drop-off date</label><input type="date"></div>
     <div class="field"><label>Car type</label><select><option>Any car</option><option>Economy</option><option>SUV</option></select></div>
@@ -1222,5 +1223,78 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
     </div>
   </div>
 </div>
+
+<script>
+/* v34 — single authoritative interaction layer.
+   Replaces the conflicting account/location listeners from earlier versions. */
+(function(){
+  'use strict';
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+
+  /* ---------- USER LOGIN / SIGN UP ---------- */
+  function openAccountMenu(){
+    const a=$('#account-toggle'), p=$('#user-popover'), c=$('#country-menu');
+    if(!a||!p)return;
+    if(c)c.classList.remove('show');
+    const open=!p.classList.contains('show');
+    p.classList.toggle('show',open); p.setAttribute('aria-hidden',String(!open)); a.setAttribute('aria-expanded',String(open));
+  }
+  function openAuth(signup){
+    const modal=$('#login-modal'), p=$('#user-popover');
+    if(typeof window.__amazeSetMode==='function') window.__amazeSetMode(!!signup);
+    if(modal){modal.classList.add('show');modal.setAttribute('aria-hidden','false');}
+    if(p){p.classList.remove('show');p.setAttribute('aria-hidden','true');}
+  }
+  document.addEventListener('pointerdown',function(e){
+    const t=e.target.closest && e.target.closest('#account-toggle, #account-login-action, #account-signup-action');
+    if(!t)return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    if(t.id==='account-toggle') openAccountMenu();
+    else if(t.id==='account-login-action') openAuth(false);
+    else openAuth(true);
+  },true);
+  document.addEventListener('keydown',function(e){
+    const t=e.target.closest && e.target.closest('#account-toggle');
+    if(t&&(e.key==='Enter'||e.key===' ')){e.preventDefault();e.stopImmediatePropagation();openAccountMenu();}
+  },true);
+
+  /* ---------- LOCATION AUTOCOMPLETE ---------- */
+  // Remove every earlier listener by replacing each autocomplete wrapper with a clone.
+  $$('.autocomplete').forEach(box=>{
+    const fresh=box.cloneNode(true); box.replaceWith(fresh);
+  });
+  const countries=[
+    ['India','IN'],['United States','US'],['United Kingdom','GB'],['United Arab Emirates','AE'],['Singapore','SG'],['Australia','AU'],['Canada','CA'],['New Zealand','NZ'],['Germany','DE'],['France','FR'],['Italy','IT'],['Spain','ES'],['Netherlands','NL'],['Switzerland','CH'],['Sweden','SE'],['Norway','NO'],['Denmark','DK'],['Finland','FI'],['Ireland','IE'],['Portugal','PT'],['Brazil','BR'],['Mexico','MX'],['Argentina','AR'],['Chile','CL'],['Colombia','CO'],['Japan','JP'],['China','CN'],['South Korea','KR'],['Thailand','TH'],['Malaysia','MY'],['Indonesia','ID'],['Philippines','PH'],['Vietnam','VN'],['Pakistan','PK'],['Bangladesh','BD'],['Sri Lanka','LK'],['Nepal','NP'],['Saudi Arabia','SA'],['Qatar','QA'],['Kuwait','KW'],['Oman','OM'],['Bahrain','BH'],['Israel','IL'],['Türkiye','TR'],['South Africa','ZA'],['Nigeria','NG'],['Kenya','KE'],['Egypt','EG'],['Morocco','MA'],['Russia','RU'],['Austria','AT'],['Belgium','BE'],['Poland','PL'],['Czechia','CZ'],['Greece','GR'],['Iceland','IS'],['Romania','RO'],['Hungary','HU'],['Croatia','HR'],['Serbia','RS'],['Ukraine','UA'],['Georgia','GE'],['Armenia','AM'],['Azerbaijan','AZ'],['Kazakhstan','KZ'],['Uzbekistan','UZ'],['Mongolia','MN'],['Taiwan','TW'],['Hong Kong','HK'],['Cambodia','KH'],['Laos','LA'],['Myanmar','MM'],['Maldives','MV'],['Mauritius','MU'],['Seychelles','SC'],['Tanzania','TZ'],['Uganda','UG'],['Ghana','GH'],['Ethiopia','ET'],['Senegal','SN'],['Algeria','DZ'],['Jordan','JO'],['Lebanon','LB'],['Iraq','IQ'],['Iran','IR'],['Cyprus','CY'],['Malta','MT'],['Luxembourg','LU'],['Monaco','MC'],['Andorra','AD'],['Costa Rica','CR'],['Panama','PA'],['Guatemala','GT'],['Dominican Republic','DO'],['Jamaica','JM'],['Bahamas','BS'],['Barbados','BB'],['Trinidad and Tobago','TT'],['Uruguay','UY'],['Paraguay','PY'],['Bolivia','BO'],['Peru','PE'],['Ecuador','EC'],['Venezuela','VE'],['Fiji','FJ'],['Samoa','WS'],['Tonga','TO']
+  ];
+  const cityData=[
+    ['Delhi','DEL','India'],['Mumbai','BOM','India'],['Bengaluru','BLR','India'],['Hyderabad','HYD','India'],['Chennai','MAA','India'],['Kolkata','CCU','India'],['Goa','GOI','India'],['Ahmedabad','AMD','India'],['Pune','PNQ','India'],['Jaipur','JAI','India'],['Lucknow','LKO','India'],['Kochi','COK','India'],['Chandigarh','IXC','India'],['Amritsar','ATQ','India'],['Varanasi','VNS','India'],['Agra','AGR','India'],['Udaipur','UDR','India'],['Rishikesh','','India'],['Manali','','India'],['Shimla','','India'],['Dubai','DXB','United Arab Emirates'],['Abu Dhabi','AUH','United Arab Emirates'],['Doha','DOH','Qatar'],['Riyadh','RUH','Saudi Arabia'],['Jeddah','JED','Saudi Arabia'],['Singapore','SIN','Singapore'],['Bangkok','BKK','Thailand'],['Kuala Lumpur','KUL','Malaysia'],['Jakarta','CGK','Indonesia'],['Manila','MNL','Philippines'],['Tokyo','NRT','Japan'],['Osaka','KIX','Japan'],['Beijing','PEK','China'],['Shanghai','PVG','China'],['Hong Kong','HKG','Hong Kong'],['Seoul','ICN','South Korea'],['Taipei','TPE','Taiwan'],['Sydney','SYD','Australia'],['Melbourne','MEL','Australia'],['Perth','PER','Australia'],['Auckland','AKL','New Zealand'],['London','LHR','United Kingdom'],['Manchester','MAN','United Kingdom'],['Paris','CDG','France'],['Amsterdam','AMS','Netherlands'],['Frankfurt','FRA','Germany'],['Munich','MUC','Germany'],['Zurich','ZRH','Switzerland'],['Vienna','VIE','Austria'],['Rome','FCO','Italy'],['Milan','MXP','Italy'],['Madrid','MAD','Spain'],['Barcelona','BCN','Spain'],['Lisbon','LIS','Portugal'],['Dublin','DUB','Ireland'],['Copenhagen','CPH','Denmark'],['Stockholm','ARN','Sweden'],['Oslo','OSL','Norway'],['Helsinki','HEL','Finland'],['Istanbul','IST','Türkiye'],['Moscow','SVO','Russia'],['New York','JFK','United States'],['Los Angeles','LAX','United States'],['Chicago','ORD','United States'],['San Francisco','SFO','United States'],['Miami','MIA','United States'],['Las Vegas','LAS','United States'],['Boston','BOS','United States'],['Toronto','YYZ','Canada'],['Vancouver','YVR','Canada'],['Montreal','YUL','Canada'],['Mexico City','MEX','Mexico'],['São Paulo','GRU','Brazil'],['Rio de Janeiro','GIG','Brazil'],['Buenos Aires','EZE','Argentina'],['Santiago','SCL','Chile'],['Lima','LIM','Peru'],['Bogotá','BOG','Colombia'],['Quito','UIO','Ecuador'],['Johannesburg','JNB','South Africa'],['Cape Town','CPT','South Africa'],['Nairobi','NBO','Kenya'],['Cairo','CAI','Egypt'],['Casablanca','CMN','Morocco'],['Tel Aviv','TLV','Israel'],['Amman','AMM','Jordan'],['Beirut','BEY','Lebanon'],['Tehran','IKA','Iran'],['Tashkent','TAS','Uzbekistan'],['Almaty','ALA','Kazakhstan'],['Kathmandu','KTM','Nepal'],['Colombo','CMB','Sri Lanka'],['Dhaka','DAC','Bangladesh'],['Karachi','KHI','Pakistan'],['Lahore','LHE','Pakistan'],['Islamabad','ISB','Pakistan']
+  ];
+  const trainData=[['New Delhi','NDLS','India'],['Old Delhi','DLI','India'],['Hazrat Nizamuddin','NZM','India'],['Anand Vihar Terminal','ANVT','India'],['Mumbai Central','MMCT','India'],['Chhatrapati Shivaji Maharaj Terminus','CSMT','India'],['Bandra Terminus','BDTS','India'],['Jaipur','JP','India'],['Agra Cantt','AGC','India'],['Lucknow','LKO','India'],['Kanpur Central','CNB','India'],['Varanasi','BSBS','India'],['Howrah','HWH','India'],['Ahmedabad','ADI','India'],['Surat','ST','India'],['Bengaluru','SBC','India'],['Chennai Central','MAS','India'],['Hyderabad Deccan','HYB','India'],['Pune','PUNE','India'],['Kochi Ernakulam','ERS','India'],['Amritsar','ASR','India'],['Chandigarh','CDG','India']];
+  const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const iso=Object.fromEntries(countries.map(x=>[x[0],x[1]]));
+  function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+  function rows(type,q){
+    const n=norm(q), out=[];
+    const cities=type==='station'?trainData:cityData;
+    cities.forEach(x=>{if(!n||norm(x.join(' ')).includes(n))out.push([x[0],x[1],x[2],type==='station'?'🚆':(type==='airport'?'✈️':'🏙️')]);});
+    if(n)countries.forEach(x=>{if(norm(x[0]+' '+x[1]).includes(n))out.push([x[0],'',x[0],'🌍']);});
+    const seen=new Set(); return out.filter(x=>{const k=x.join('|');if(seen.has(k))return false;seen.add(k);return true;}).slice(0,12);
+  }
+  $$('.autocomplete').forEach(box=>{
+    const input=box.querySelector('input'), list=box.querySelector('.suggestions'), type=box.dataset.type;
+    if(!input||!list)return;
+    function draw(){
+      const q=input.value.trim(), data=rows(type,q);
+      list.innerHTML=data.map((x,i)=>`<div class="suggestion" data-index="${i}" role="option"><span class="suggestion-icon">${x[3]}</span><span><div class="suggestion-main">${esc(x[0])}${x[1]?` (${esc(x[1])})`:''}</div><div class="suggestion-sub">${esc(x[2])} (${esc(iso[x[2]]||'')})</div></span></div>`).join('');
+      list.classList.toggle('show',data.length>0);
+      list.querySelectorAll('.suggestion').forEach((row,i)=>row.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();const x=data[i];input.value=x[1]?`${x[0]} (${x[1]})`:x[0];input.dataset.code=x[1]||'';input.dataset.country=x[2]||'';input.dataset.countryCode=iso[x[2]]||'';list.classList.remove('show');}));
+    }
+    input.addEventListener('focus',draw); input.addEventListener('input',draw);
+    input.addEventListener('keydown',e=>{if(e.key==='Escape')list.classList.remove('show');});
+  });
+  document.addEventListener('pointerdown',e=>{if(!e.target.closest('.autocomplete'))$$('.suggestions.show').forEach(x=>x.classList.remove('show'));},true);
+})();
+</script>
+
 </body>
 </html>

@@ -1,12 +1,10 @@
-Amaze Vacation Professional v4
+Amaze Vacation Professional v5
 
-Fixed:
-- Custom mobile-friendly autocomplete dropdowns (not browser datalist).
-- Flights show City + Airport Code + Country.
-- Trains show City + Station Code + Country.
-- Hotels/Cars show City + Country.
-- Suggestions appear on focus and while typing.
-- Arrow keys + Enter supported on desktop.
-- Existing responsive premium design retained.
+Global autocomplete upgrade:
+- Flights: global airport database loaded from OpenFlights; city + IATA/ICAO + country + airport name.
+- Trains: Indian railway station directory with 8,990+ stations from Indian-Railway-Data; station name + code + state/address.
+- Hotels/Cars: city suggestions derived from the global airport-city dataset, with country.
+- Data is loaded once in the browser and cached in localStorage for faster subsequent searches.
+- Small fallback list remains if a data source is temporarily unavailable.
 
-Note: Suggestions are UI data. Live prices, availability and booking require supplier APIs.
+Important: these are location suggestions only. Live schedules, availability, prices and booking still require travel supplier APIs.

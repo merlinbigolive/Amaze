@@ -194,50 +194,84 @@ document.querySelectorAll("[data-open]").forEach(a=>a.addEventListener("click",(
   document.getElementById("search").scrollIntoView({behavior:"smooth"});
 }));
 
-/* Amaze Vacation autocomplete database.
-   Flights: city + airport code + country.
-   Trains: city + station code + country.
-   Hotels/Cars: city + country.
-   This is a UI suggestion database; live inventory will later come from the travel API.
+/* Global location databases
+   Airports: OpenFlights global airport dataset (city, country, IATA/ICAO).
+   Indian trains: Indian-Railway-Data station directory (station code, name, state).
+   Data is fetched once and cached locally; the small fallback list keeps the UI usable if a source is unavailable.
 */
-const DATA={
+const SOURCES={
+ airport:'https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat',
+ station:'https://raw.githubusercontent.com/prasenjit-27/Indian-Railway-Data/main/stations.json'
+};
+const DATA={airport:[],station:[],city:[]};
+const FALLBACK={
  airport:[
-  ["Delhi","DEL","India","✈️"],["Mumbai","BOM","India","✈️"],["Bengaluru","BLR","India","✈️"],
-  ["Hyderabad","HYD","India","✈️"],["Chennai","MAA","India","✈️"],["Kolkata","CCU","India","✈️"],
-  ["Goa","GOI","India","✈️"],["Ahmedabad","AMD","India","✈️"],["Pune","PNQ","India","✈️"],
-  ["Dubai","DXB","United Arab Emirates","✈️"],["Abu Dhabi","AUH","United Arab Emirates","✈️"],
-  ["Singapore","SIN","Singapore","✈️"],["London","LHR","United Kingdom","✈️"],
-  ["New York","JFK","United States","✈️"],["Paris","CDG","France","✈️"],
-  ["Bangkok","BKK","Thailand","✈️"],["Doha","DOH","Qatar","✈️"]
+  ['Delhi','DEL','India','✈️'],['Mumbai','BOM','India','✈️'],['Bengaluru','BLR','India','✈️'],['Hyderabad','HYD','India','✈️'],
+  ['Chennai','MAA','India','✈️'],['Kolkata','CCU','India','✈️'],['Goa','GOI','India','✈️'],['Dubai','DXB','United Arab Emirates','✈️'],
+  ['Singapore','SIN','Singapore','✈️'],['London','LHR','United Kingdom','✈️'],['Paris','CDG','France','✈️'],['New York','JFK','United States','✈️']
  ],
  station:[
-  ["New Delhi","NDLS","India","🚆"],["Old Delhi","DLI","India","🚆"],["Hazrat Nizamuddin","NZM","India","🚆"],
-  ["Anand Vihar Terminal","ANVT","India","🚆"],["Mumbai Central","MMCT","India","🚆"],
-  ["Chhatrapati Shivaji Maharaj Terminus","CSMT","India","🚆"],["Bandra Terminus","BDTS","India","🚆"],
-  ["Howrah","HWH","India","🚆"],["Sealdah","SDAH","India","🚆"],["Kolkata","KOAA","India","🚆"],
-  ["Kanpur Central","CNB","India","🚆"],["Lucknow","LKO","India","🚆"],["Jaipur","JP","India","🚆"],
-  ["Agra Cantt","AGC","India","🚆"],["Chandigarh","CDG","India","🚆"],["Ahmedabad","ADI","India","🚆"]
- ],
- city:[
-  ["Delhi","India","","🏨"],["Mumbai","India","","🏨"],["Bengaluru","India","","🏨"],["Goa","India","","🏨"],
-  ["Jaipur","India","","🏨"],["Agra","India","","🏨"],["Hyderabad","India","","🏨"],["Chennai","India","","🏨"],
-  ["Dubai","United Arab Emirates","","🏨"],["Abu Dhabi","United Arab Emirates","","🏨"],
-  ["Singapore","Singapore","","🏨"],["Bangkok","Thailand","","🏨"],["London","United Kingdom","","🏨"],
-  ["Paris","France","","🏨"],["New York","United States","","🏨"]
+  ['New Delhi','NDLS','Delhi','🚆'],['Mumbai Central','MMCT','Maharashtra','🚆'],['Howrah','HWH','West Bengal','🚆'],
+  ['Chhatrapati Shivaji Maharaj Terminus','CSMT','Maharashtra','🚆'],['Kanpur Central','CNB','Uttar Pradesh','🚆'],['Jaipur','JP','Rajasthan','🚆']
  ]
 };
+DATA.airport=[...FALLBACK.airport]; DATA.station=[...FALLBACK.station];
+const airportSeen=new Set();
+const citySeen=new Set();
+function rebuildCities(){
+ DATA.city=[]; citySeen.clear();
+ for(const a of DATA.airport){
+   const key=(a[0]+'|'+a[1]).toLowerCase();
+   if(!citySeen.has(key)){citySeen.add(key);DATA.city.push([a[0],a[1],'','🏨']);}
+ }
+}
+rebuildCities();
+function parseCSVLine(line){
+ const out=[];let cur='',q=false;
+ for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){if(q&&line[i+1]==='"'){cur+='"';i++;}else q=!q;}else if(c===','&&!q){out.push(cur);cur='';}else cur+=c;}out.push(cur);return out;}
+async function loadLocations(){
+ try{
+  const [aRes,sRes]=await Promise.all([fetch(SOURCES.airport,{cache:'force-cache'}),fetch(SOURCES.station,{cache:'force-cache'})]);
+  if(aRes.ok){
+   const txt=await aRes.text();
+   const parsed=[]; const seen=new Set();
+   txt.split(/\r?\n/).forEach(line=>{
+    if(!line.trim())return; const x=parseCSVLine(line); const city=x[2],country=x[3],iata=x[4],icao=x[5],name=x[1];
+    if(!city||!country||(!iata&&!icao))return;
+    const key=(city+'|'+country+'|'+(iata||icao)).toLowerCase(); if(seen.has(key))return; seen.add(key);
+    parsed.push([city,iata||icao,country,'✈️',name,icao]);
+   });
+   if(parsed.length>500) DATA.airport=parsed;
+  }
+  if(sRes.ok){
+   const arr=await sRes.json(); const parsed=[]; const seen=new Set();
+   for(const s of arr){const name=s.name||'',code=s.code||'',state=s.state||'',address=s.address||''; if(!name||!code)continue; const key=(name+'|'+code).toLowerCase(); if(seen.has(key))continue; seen.add(key); parsed.push([name,code,state||address||'India','🚆']);}
+   if(parsed.length>1000) DATA.station=parsed;
+  }
+  rebuildCities();
+  localStorage.setItem('amaze_airports_v1',JSON.stringify(DATA.airport));
+  localStorage.setItem('amaze_stations_v1',JSON.stringify(DATA.station));
+ }catch(e){
+  try{
+   const a=JSON.parse(localStorage.getItem('amaze_airports_v1')||'null'); if(Array.isArray(a)&&a.length>500) DATA.airport=a;
+   const s=JSON.parse(localStorage.getItem('amaze_stations_v1')||'null'); if(Array.isArray(s)&&s.length>1000) DATA.station=s;
+   rebuildCities();
+  }catch(_){/* fallback remains */}
+ }
+}
+loadLocations();
 
 function setupAutocomplete(box){
   const type=box.dataset.type, input=box.querySelector("input"), list=box.querySelector(".suggestions");
   let active=-1;
   function render(q=""){
     const query=q.trim().toLowerCase();
-    const matches=DATA[type].filter(x=>(x[0]+" "+x[1]+" "+x[2]).toLowerCase().includes(query)).slice(0,8);
+    const matches=DATA[type].filter(x=>(x[0]+' '+x[1]+' '+x[2]+' '+(x[4]||'')+' '+(x[5]||'')).toLowerCase().includes(query)).slice(0,10);
     list.innerHTML="";
     matches.forEach((x,i)=>{
       const row=document.createElement("div");
       row.className="suggestion";
-      row.innerHTML=`<span class="suggestion-icon">${x[3]}</span><span><div class="suggestion-main">${x[0]}${x[1] ? " ("+x[1]+")" : ""}</div><div class="suggestion-sub">${x[2]}</div></span>`;
+      row.innerHTML=`<span class="suggestion-icon">${x[3]}</span><span><div class="suggestion-main">${x[0]}${x[1] ? " ("+x[1]+")" : ""}</div><div class="suggestion-sub">${x[2]}${x[4] ? " • "+x[4] : ""}</div></span>`;
       row.addEventListener("mousedown",e=>{e.preventDefault();input.value=x[0]+(x[1] ? " ("+x[1]+")" : "");list.classList.remove("show");});
       list.appendChild(row);
     });

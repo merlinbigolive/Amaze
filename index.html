@@ -910,6 +910,7 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
 (function(){
  const modal=document.getElementById('login-modal'), closeBtn=document.getElementById('login-close');
  const accountToggle=document.getElementById('account-toggle'), pop=document.getElementById('user-popover');
+ const countryMenu=document.getElementById('country-menu');
  const loginAction=document.getElementById('account-login-action'), signupAction=document.getElementById('account-signup-action'), logoutAction=document.getElementById('account-logout-action');
  const form=document.getElementById('auth-form'), modeBtn=document.getElementById('auth-mode-toggle');
  const title=document.getElementById('login-title'), sub=document.getElementById('login-subtitle'), submit=document.getElementById('auth-submit');
@@ -930,7 +931,6 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
    accountToggle.setAttribute('aria-expanded',String(open));
  }
  accountToggle?.addEventListener('click',toggleAccountMenu);
- accountToggle?.addEventListener('pointerup',e=>{ if(e.pointerType==='touch') toggleAccountMenu(e); });
  loginAction?.addEventListener('click',e=>{e.stopPropagation();setMode(false);openAuth();});
  signupAction?.addEventListener('click',e=>{e.stopPropagation();setMode(true);openAuth();});
  logoutAction?.addEventListener('click',e=>{e.stopPropagation();localStorage.removeItem('amazeUser');refreshAccount();pop.classList.remove('show');});
@@ -948,7 +948,7 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
  document.addEventListener('click',e=>{if(!document.getElementById('phone-country-picker')?.contains(e.target)){if(menu)menu.hidden=true;trigger?.setAttribute('aria-expanded','false');}});
  form?.addEventListener('submit',e=>{e.preventDefault();const phone=document.getElementById('auth-phone').value.trim();const email=emailInput.value.trim();const name=nameInput.value.trim()||'Amaze Traveller';if(signupMode&&!email&&!phone){msg.textContent='Please enter your Gmail/email or phone number.';msg.classList.add('show');return;}if(!signupMode&&!email&&!phone){msg.textContent='Please enter your email or phone number.';msg.classList.add('show');return;}localStorage.setItem('amazeUser',JSON.stringify({name,email,phone:phone?selectedPhoneCode+' '+phone:''}));refreshAccount();closeAuth();pop.classList.add('show');});
  refreshAccount();setMode(false);
- const countryToggle=document.getElementById('country-toggle'), countryMenu=document.getElementById('country-menu'), flag=document.getElementById('selected-flag'), countryName=document.getElementById('selected-country-name');
+ const countryToggle=document.getElementById('country-toggle'), flag=document.getElementById('selected-flag'), countryName=document.getElementById('selected-country-name');
  const countryMeta={IN:['India','+91'],US:['United States','+1'],GB:['United Kingdom','+44'],AE:['UAE','+971'],SG:['Singapore','+65'],AU:['Australia','+61']};
  const codeToFlag=code=>{
    if(!/^[A-Z]{2}$/.test(code||'')) return '🌐';

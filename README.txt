@@ -1,10 +1,3 @@
-Amaze Vacation Professional v5
+Amaze Vacation Professional v8
 
-Global autocomplete upgrade:
-- Flights: global airport database loaded from OpenFlights; city + IATA/ICAO + country + airport name.
-- Trains: Indian railway station directory with 8,990+ stations from Indian-Railway-Data; station name + code + state/address.
-- Hotels/Cars: city suggestions derived from the global airport-city dataset, with country.
-- Data is loaded once in the browser and cached in localStorage for faster subsequent searches.
-- Small fallback list remains if a data source is temporarily unavailable.
-
-Important: these are location suggestions only. Live schedules, availability, prices and booking still require travel supplier APIs.
+Updated Train search: 1A First AC-specific preferences are shown when 1A is selected: Cabin (4 berth), Coupe (2 berth), lower-berth reservation preferences, same cabin/coupe preference, auto-upgradation, confirmed-berth-only option, and preferred coach. Options are subject to live railway provider availability/rules. Flight and train customer-facing times use 12-hour AM/PM display.

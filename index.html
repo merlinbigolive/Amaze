@@ -49,6 +49,21 @@ footer{background:#061e2d;color:#c8d9e1;padding:60px 0 20px}.footer-grid{display
   .quick-search-form .gold-btn{width:100%}
 }
 
+
+/* Premium silver shine animation */
+.silver-shine{
+  background:linear-gradient(110deg,#ffffff 0%,#c7cdd2 18%,#ffffff 34%,#8f989f 48%,#ffffff 62%,#dce1e5 78%,#ffffff 100%);
+  background-size:240% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+  animation:silverSweep 3.2s ease-in-out infinite;
+}
+.brand-shine{display:inline-block}
+.headline-shine{display:inline-block}
+@keyframes silverSweep{0%{background-position:140% 50%}50%{background-position:0% 50%}100%{background-position:-140% 50%}}
+@media(prefers-reduced-motion:reduce){.silver-shine{animation:none;background-position:50% 50%}}
 </style>
 <style>
 .hero{min-height:900px;position:relative;overflow:hidden;background:#031d2c}
@@ -153,7 +168,7 @@ footer{background:#061e2d;color:#c8d9e1;padding:60px 0 20px}.footer-grid{display
 </style>
 </head>
 <body>
-<header class="header"><div class="nav wrap"><a class="logo" href="index.html">Amaze <span>Vacation</span></a>
+<header class="header"><div class="nav wrap"><a class="logo" href="index.html"><span class="silver-shine brand-shine">Amaze</span> <span>Vacation</span></a>
 <nav><a href="#destinations">Destinations</a><a href="#experiences">Experiences</a><a href="#guides">Travel Guides</a><a class="navbtn" href="#search">Plan a Trip</a></nav><button class="menu" aria-label="Menu">☰</button></div></header>
 
 <main>
@@ -170,7 +185,7 @@ footer{background:#061e2d;color:#c8d9e1;padding:60px 0 20px}.footer-grid{display
 </div>
 <div class="hero-overlay"></div><div class="glow g1"></div><div class="glow g2"></div>
 <div class="wrap hero-inner"><div class="badge">✦ PREMIUM GLOBAL TRAVEL PORTAL</div>
-<h1>Find your next <em>journey.</em></h1>
+<h1><span class="silver-shine headline-shine">Find your next</span> <em>journey.</em></h1>
 <p>Search stays, flights, trains, experiences and car rentals — all in one place.</p>
 <div class="booking-shell" id="travel-search">
   <div class="tabs" role="tablist" aria-label="Travel booking options">
@@ -178,7 +193,7 @@ footer{background:#061e2d;color:#c8d9e1;padding:60px 0 20px}.footer-grid{display
     <button class="tab" type="button" data-tab="flights" role="tab" aria-selected="false"><span class="tab-icon">✈</span><span>Flights</span></button>
     <button class="tab" type="button" data-tab="trains" role="tab" aria-selected="false"><span class="tab-icon">🚆</span><span>Trains</span></button>
     <button class="tab" type="button" data-tab="tours" role="tab" aria-selected="false"><span class="tab-icon">✦</span><span>Experiences</span></button>
-    <button class="tab" type="button" data-tab="cars" role="tab" aria-selected="false"><span class="tab-icon">◆</span><span>Cars</span></button>
+    <button class="tab" type="button" data-tab="cars" role="tab" aria-selected="false"><span class="tab-icon">◆</span><span>Cabs</span></button>
   </div>
   <div class="searchbox glass">
     <div class="tab-line"></div>
@@ -265,7 +280,7 @@ footer{background:#061e2d;color:#c8d9e1;padding:60px 0 20px}.footer-grid{display
 <section class="cta"><div class="wrap ctain"><div><small>AMAZEVACATION</small><h2>Plan less. Experience more.</h2><p>Discover your next unforgettable journey.</p></div><a href="#search">Start exploring</a></div></section>
 </main>
 
-<footer><div class="wrap footer-grid"><div><a class="logo" href="index.html">Amaze <span>Vacation</span></a><p>Discover destinations, compare travel options and find unforgettable experiences around the world.</p></div>
+<footer><div class="wrap footer-grid"><div><a class="logo" href="index.html"><span class="silver-shine brand-shine">Amaze</span> <span>Vacation</span></a><p>Discover destinations, compare travel options and find unforgettable experiences around the world.</p></div>
 <div><h4>Explore</h4><a href="#destinations">Destinations</a><a href="#experiences">Experiences</a><a href="#guides">Travel Guides</a></div>
 <div><h4>Legal</h4><a href="affiliate-disclosure.html">Affiliate Disclosure</a><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></div>
 <div><h4>Contact</h4><a href="contact.html">Contact Us</a><a href="cookie-policy.html">Cookie Policy</a></div></div>
@@ -278,22 +293,34 @@ document.addEventListener("DOMContentLoaded", function () {
   const menu = document.querySelector(".menu");
 
   function activateTab(id) {
+    const target = document.getElementById(id);
+    if (!target) return;
     tabs.forEach(tab => {
       const on = tab.dataset.tab === id;
       tab.classList.toggle("active", on);
       tab.setAttribute("aria-selected", on ? "true" : "false");
+      tab.setAttribute("tabindex", on ? "0" : "-1");
     });
     panels.forEach(panel => {
-      const on = panel.id === id;
+      const on = panel === target;
       panel.classList.toggle("active", on);
-      panel.hidden = !on;
+      if (on) panel.removeAttribute("hidden");
+      else panel.setAttribute("hidden", "");
     });
+    target.scrollIntoView({behavior:"smooth", block:"nearest", inline:"nearest"});
   }
 
-  tabs.forEach(tab => {
+  tabs.forEach((tab, index) => {
     tab.addEventListener("click", function (event) {
       event.preventDefault();
       activateTab(tab.dataset.tab);
+    });
+    tab.addEventListener("keydown", function (event) {
+      if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+      event.preventDefault();
+      const next = event.key === "ArrowRight" ? (index + 1) % tabs.length : (index - 1 + tabs.length) % tabs.length;
+      tabs[next].focus();
+      activateTab(tabs[next].dataset.tab);
     });
   });
 
@@ -409,5 +436,4 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 </script>
-<script>document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));t.classList.add("active");document.getElementById(t.dataset.tab).classList.add("active")})})</script>
 </body></html>

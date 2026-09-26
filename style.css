@@ -86,3 +86,18 @@ body{background:var(--av-bg);color:var(--av-text)}
   .nav{height:68px}.logo{font-size:23px}.nav nav{display:none}.menu{display:block;font-size:30px;padding:0;border:0}.hero-inner{padding:28px 14px 36px}.badge{font-size:10px}.hero h1{font-size:39px;letter-spacing:-1.6px;margin:15px 0 8px}.hero p{font-size:16px;line-height:1.5;margin-bottom:18px}.booking-shell{width:calc(100% + 28px);margin-left:-14px;margin-top:16px}.booking-shell .tabs{grid-template-columns:repeat(5,minmax(0,1fr));padding:0;border-radius:0;overflow:hidden}.booking-shell .tab{height:66px;padding:7px 2px;font-size:10px;line-height:1.1;flex-direction:column;gap:4px;border-bottom-width:3px}.booking-shell .tab-icon{font-size:18px!important}.booking-shell .searchbox{border-radius:0;box-shadow:0 3px 12px rgba(0,32,90,.10)}.booking-shell .panel{padding:20px 14px 22px}.booking-shell .panel h3{font-size:22px;line-height:1.2}.panel-top{gap:10px}.booking-form{grid-template-columns:1fr;gap:10px}.booking-form input{min-height:54px}.gold-btn{width:100%;min-height:54px}.partner-hint{font-size:11px;line-height:1.5}.section{padding:45px 0}.dest-grid,.cards,.guides{grid-template-columns:1fr}.destination{height:245px}.heading h2{font-size:34px}.footer-grid{grid-template-columns:1fr}
 }
 @media(min-width:768px){.booking-shell .panel{min-height:220px}.booking-shell .panel-top{align-items:center}}
+
+/* Clear travel service tabs — mobile readability fix */
+.booking-shell .tab{white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
+.booking-shell .tab>span:last-child{display:inline!important;width:auto!important;white-space:nowrap!important;overflow:visible!important;text-overflow:clip!important;text-align:center!important;font-weight:800}
+@media(max-width:767px){
+  .booking-shell .tabs{grid-template-columns:repeat(3,minmax(0,1fr));gap:0;background:var(--av-blue);padding:4px}
+  .booking-shell .tab{min-width:0!important;width:auto!important;height:68px!important;padding:8px 4px!important;font-size:13px!important;line-height:1.1!important;gap:5px!important;border-radius:6px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;border-bottom:3px solid transparent!important}
+  .booking-shell .tab-icon{font-size:19px!important;line-height:1!important;margin:0!important}
+  .booking-shell .tab>span:last-child{font-size:13px!important;letter-spacing:0!important}
+  .booking-shell .tab.active{background:#fff;color:#111827;border-bottom-color:var(--av-yellow)!important}
+}
+@media(max-width:380px){
+  .booking-shell .tab{height:66px!important;padding-left:2px!important;padding-right:2px!important}
+  .booking-shell .tab>span:last-child{font-size:12px!important}
+}

@@ -354,8 +354,18 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
 .brand-name b{display:block!important;font-size:29px!important;line-height:.92!important}
 .brand-name span{display:block!important;margin-top:7px!important;margin-left:20px!important;font-size:19px!important;font-weight:900!important;letter-spacing:1.2px!important;line-height:1!important;font-family:Georgia,"Times New Roman",serif!important;color:#f4c95e!important}
 .user-popover{z-index:9999!important;pointer-events:auto!important}
-.top-account{z-index:10000!important}
-.top-icon-btn{position:relative!important;z-index:10001!important;cursor:pointer!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent}
+.top-account{z-index:10000!important;pointer-events:auto!important}
+.top-icon-btn{position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important;pointer-events:auto!important;z-index:10001!important;cursor:pointer!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent}
+/* v31 — Stays children stepper */
+.stay-children-row{align-items:center!important}
+.guest-hint{display:block;color:#7b8798;font-size:10px;font-weight:600;margin-top:2px}
+.children-stepper{display:flex;align-items:center;gap:0;border:1px solid #d8dee7;border-radius:10px;overflow:hidden;background:#fff;min-height:38px}
+.children-stepper button{width:38px;height:38px;border:0;background:#f5f7fa;color:#17233b;font-size:23px;line-height:1;cursor:pointer;font-weight:700}
+.children-stepper button:hover{background:#eaf0f6}
+.children-stepper button:disabled{opacity:.4;cursor:not-allowed}
+.children-stepper span{min-width:38px;text-align:center;font-size:15px;font-weight:800;color:#17233b}
+.sr-only-select{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+
 @media(max-width:560px){
  .brand-name b{font-size:23px!important}
  .brand-name span{font-size:16px!important;margin-top:6px!important;margin-left:15px!important;letter-spacing:1px!important}
@@ -462,12 +472,11 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
     <div class="field"><label>Check-in</label><input type="date"></div>
     <div class="field"><label>Check-out</label><input type="date"></div>
     <div class="field"><label>Guests</label><div class="passenger-wrap">
-      <button type="button" class="passenger-btn" id="stay-passenger-btn">2 Adults</button>
+      <button type="button" class="passenger-btn" id="stay-passenger-btn">2 Adults, 0 Children</button>
       <div class="passenger-panel" id="stay-passenger-panel">
         <div class="passenger-row"><div><strong>Adults</strong></div><select id="stay-adults"></select></div>
         <div class="custom-count" id="stay-adults-custom" style="display:none"><label>Number of adults</label><input id="stay-adults-custom-input" type="number" min="11" max="50" inputmode="numeric" placeholder="Enter 11–50"></div>
-        <div class="passenger-row"><div><strong>Children</strong></div><select id="stay-children"></select></div>
-        <div class="custom-count" id="stay-children-custom" style="display:none"><label>Number of children</label><input id="stay-children-custom-input" type="number" min="11" max="50" inputmode="numeric" placeholder="Enter 11–50"></div>
+        <div class="passenger-row stay-children-row"><div><strong>Children</strong><small class="guest-hint">Ages 0–17</small></div><div class="children-stepper" role="group" aria-label="Number of children"><button type="button" id="stay-children-minus" aria-label="Decrease children">−</button><span id="stay-children-count" aria-live="polite">0</span><button type="button" id="stay-children-plus" aria-label="Increase children">+</button></div><select id="stay-children" class="sr-only-select" aria-hidden="true" tabindex="-1"></select></div>
         <div class="passenger-row"><div><strong>Senior citizen</strong></div><select id="stay-senior"></select></div>
         <div class="custom-count" id="stay-senior-custom" style="display:none"><label>Number of senior citizens</label><input id="stay-senior-custom-input" type="number" min="11" max="50" inputmode="numeric" placeholder="Enter 11–50"></div>
         <div class="passenger-note">Adults, children and senior citizens can be selected separately. Up to 10 can be selected in each category; use Custom for more.</div>
@@ -624,7 +633,7 @@ function rebuildCities(){
  DATA.city=[]; citySeen.clear();
  for(const a of DATA.airport){
    const key=(a[0]+'|'+a[1]).toLowerCase();
-   if(!citySeen.has(key)){citySeen.add(key);DATA.city.push([a[0],a[1],'','🏨']);}
+   if(!citySeen.has(key)){citySeen.add(key);DATA.city.push([a[0],a[1],a[2],'🏨','',countryIso(a[2])]);}
  }
 }
 rebuildCities();
@@ -641,13 +650,13 @@ async function loadLocations(){
     if(!line.trim())return; const x=parseCSVLine(line); const city=x[2],country=x[3],iata=x[4],icao=x[5],name=x[1];
     if(!city||!country||(!iata&&!icao))return;
     const key=(city+'|'+country+'|'+(iata||icao)).toLowerCase(); if(seen.has(key))return; seen.add(key);
-    parsed.push([city,iata||icao,country,'✈️',name,icao]);
+    parsed.push([city,iata||icao,country,'✈️',name,icao,countryIso(country)]);
    });
    if(parsed.length>500) DATA.airport=parsed;
   }
   if(sRes.ok){
    const arr=await sRes.json(); const parsed=[]; const seen=new Set();
-   for(const s of arr){const name=s.name||'',code=s.code||'',state=s.state||'',address=s.address||''; if(!name||!code)continue; const key=(name+'|'+code).toLowerCase(); if(seen.has(key))continue; seen.add(key); parsed.push([name,code,state||address||'India','🚆']);}
+   for(const s of arr){const name=s.name||'',code=s.code||'',state=s.state||'',address=s.address||''; if(!name||!code)continue; const key=(name+'|'+code).toLowerCase(); if(seen.has(key))continue; seen.add(key); parsed.push([name,code,state||address||'India','🚆','', '', 'IN']);}
    if(parsed.length>1000) DATA.station=parsed;
   }
   rebuildCities();
@@ -663,37 +672,103 @@ async function loadLocations(){
 }
 loadLocations();
 
+const REMOTE_GEO={cities:new Map(),countries:new Map()};
+const REMOTE_GEO_URL='https://countries.dev';
+async function fetchWorldCities(query){
+  const q=query.trim(); if(q.length<2) return [];
+  const key=q.toLowerCase(); if(REMOTE_GEO.cities.has(key)) return REMOTE_GEO.cities.get(key);
+  try{
+    const r=await fetch(`${REMOTE_GEO_URL}/cities?q=${encodeURIComponent(q)}&limit=10`,{cache:'force-cache'});
+    if(!r.ok) return [];
+    const data=await r.json();
+    const arr=(Array.isArray(data)?data:(data.data||data.cities||[])).map(x=>[
+      x.name||x.city||x.cityName||'',
+      '',
+      x.countryName||x.country||x.country_name||x.countryCode||'',
+      '🏙️',
+      x.adminName||x.admin||x.region||x.state||'',
+      x.countryCode||x.country_code||x.cca2||''
+    ]).filter(x=>x[0]);
+    REMOTE_GEO.cities.set(key,arr); return arr;
+  }catch(_){return []}
+}
+async function fetchWorldCountries(query){
+  const q=query.trim(); if(q.length<2) return [];
+  const key=q.toLowerCase(); if(REMOTE_GEO.countries.has(key)) return REMOTE_GEO.countries.get(key);
+  try{
+    const r=await fetch(`${REMOTE_GEO_URL}/name/${encodeURIComponent(q)}`,{cache:'force-cache'});
+    if(!r.ok) return [];
+    const data=await r.json();
+    const arr=(Array.isArray(data)?data:(data.data||[])).map(x=>[
+      x.name||'', x.alpha2Code||x.cca2||'', x.region||'', '🌍', x.capital||''
+    ]).filter(x=>x[0]);
+    REMOTE_GEO.countries.set(key,arr); return arr;
+  }catch(_){return []}
+}
+const COUNTRY_ISO={India:'IN','United States':'US','United Kingdom':'GB','United Arab Emirates':'AE','Singapore':'SG','Australia':'AU','Canada':'CA','New Zealand':'NZ','Germany':'DE','France':'FR','Italy':'IT','Spain':'ES','Netherlands':'NL','Switzerland':'CH','Sweden':'SE','Norway':'NO','Denmark':'DK','Finland':'FI','Ireland':'IE','Portugal':'PT','Brazil':'BR','Mexico':'MX','Argentina':'AR','Chile':'CL','Colombia':'CO','Japan':'JP','China':'CN','South Korea':'KR','Thailand':'TH','Malaysia':'MY','Indonesia':'ID','Philippines':'PH','Vietnam':'VN','Pakistan':'PK','Bangladesh':'BD','Sri Lanka':'LK','Nepal':'NP','Saudi Arabia':'SA','Qatar':'QA','Kuwait':'KW','Oman':'OM','Bahrain':'BH','Israel':'IL','Türkiye':'TR','South Africa':'ZA','Nigeria':'NG','Kenya':'KE','Egypt':'EG','Morocco':'MA','Russia':'RU','Austria':'AT','Belgium':'BE','Czechia':'CZ','Poland':'PL','Greece':'GR','Iceland':'IS','Romania':'RO','Hungary':'HU','Croatia':'HR','Serbia':'RS','Ukraine':'UA','United States of America':'US','UAE':'AE'};
+function countryIso(name){const n=String(name||'').trim();return COUNTRY_ISO[n]||COUNTRY_ISO[Object.keys(COUNTRY_ISO).find(k=>k.toLowerCase()===n.toLowerCase())]||'';}
+const COUNTRY_ISO_CACHE=new Map();
+async function fetchCountryIso(name){const known=countryIso(name);if(known)return known;const key=String(name||'').trim().toLowerCase();if(!key)return '';if(COUNTRY_ISO_CACHE.has(key))return COUNTRY_ISO_CACHE.get(key);try{const r=await fetch(`https://restcountries.com/v3.1/name/${encodeURIComponent(name)}?fields=name,cca2`,{cache:'force-cache'});if(!r.ok)return '';const d=await r.json();const code=d?.[0]?.cca2||'';COUNTRY_ISO_CACHE.set(key,code);return code;}catch(_){return ''}}
+
 function setupAutocomplete(box){
-  const type=box.dataset.type, input=box.querySelector("input"), list=box.querySelector(".suggestions");
-  let active=-1;
-  function render(q=""){
+  const type=box.dataset.type, input=box.querySelector('input'), list=box.querySelector('.suggestions');
+  let active=-1, timer=null, requestId=0;
+  const isWorldSearch=type==='city'||type==='station';
+  function localMatches(q){
     const query=q.trim().toLowerCase();
-    const matches=DATA[type].filter(x=>(x[0]+' '+x[1]+' '+x[2]+' '+(x[4]||'')+' '+(x[5]||'')).toLowerCase().includes(query)).slice(0,10);
-    list.innerHTML="";
-    matches.forEach((x,i)=>{
-      const row=document.createElement("div");
-      row.className="suggestion";
-      row.innerHTML=`<span class="suggestion-icon">${x[3]}</span><span><div class="suggestion-main">${x[0]}${x[1] ? " ("+x[1]+")" : ""}</div><div class="suggestion-sub">${x[2]}${x[4] ? " • "+x[4] : ""}</div></span>`;
-      row.addEventListener("mousedown",e=>{e.preventDefault();input.value=x[0]+(x[1] ? " ("+x[1]+")" : "");list.classList.remove("show");});
+    return DATA[type].filter(x=>(x[0]+' '+x[1]+' '+x[2]+' '+(x[4]||'')+' '+(x[5]||'')).toLowerCase().includes(query)).slice(0,8);
+  }
+  function draw(matches){
+    list.innerHTML='';
+    matches.slice(0,10).forEach((x,i)=>{
+      const row=document.createElement('div'); row.className='suggestion';
+      const label=x[1] ? `${x[0]} (${x[1]})` : x[0];
+      const iso=x[6]||countryIso(x[2]);
+      const sub=[x[2]||'',iso?`(${iso})`:'',x[4]||''].filter(Boolean).join(' ');
+      row.innerHTML=`<span class="suggestion-icon">${x[3]||'🏙️'}</span><span><div class="suggestion-main">${esc(label)}</div><div class="suggestion-sub">${esc(sub)}</div></span>`;
+      row.addEventListener('mousedown',e=>{
+        e.preventDefault();
+        input.value=x[1] ? `${x[0]} (${x[1]})` : x[0];
+        input.dataset.code=x[1]||''; input.dataset.country=x[2]||''; input.dataset.countryCode=x[6]||countryIso(x[2]);
+        list.classList.remove('show');
+      });
       list.appendChild(row);
     });
-    list.classList.toggle("show",matches.length>0);
-    active=-1;
+    list.classList.toggle('show',matches.length>0); active=-1;
   }
-  input.addEventListener("focus",()=>render(input.value));
-  input.addEventListener("input",()=>render(input.value));
-  input.addEventListener("keydown",e=>{
-    const rows=[...list.querySelectorAll(".suggestion")];
-    if(!list.classList.contains("show")||!rows.length)return;
-    if(e.key==="ArrowDown"){e.preventDefault();active=(active+1)%rows.length;}
-    if(e.key==="ArrowUp"){e.preventDefault();active=(active-1+rows.length)%rows.length;}
-    if(e.key==="Enter"&&active>=0){e.preventDefault();rows[active].dispatchEvent(new MouseEvent("mousedown"));return;}
-    if(e.key==="Escape")list.classList.remove("show");
-    rows.forEach((r,i)=>r.classList.toggle("active",i===active));
+  async function render(q=''){
+    const query=q.trim();
+    if(!query){draw(localMatches(''));return;}
+    const id=++requestId;
+    let matches=localMatches(query);
+    if(isWorldSearch && query.length>=2){
+      const [cities,countries]=await Promise.all([fetchWorldCities(query),fetchWorldCountries(query)]);
+      if(id!==requestId)return;
+      const seen=new Set(matches.map(x=>(x[0]+'|'+x[1]+'|'+x[2]).toLowerCase()));
+      for(const x of countries.concat(cities)){
+        const k=(x[0]+'|'+x[1]+'|'+x[2]).toLowerCase();
+        if(!seen.has(k)){seen.add(k);matches.push(x)}
+      }
+    }
+    // Resolve ISO country codes for every suggestion so Flights, Stays, Trains and Cars all show them.
+    await Promise.all(matches.slice(0,10).map(async x=>{if(!x[6]&&x[2])x[6]=await fetchCountryIso(x[2]);}));
+    if(id!==requestId)return;
+    draw(matches);
+  }
+  input.addEventListener('focus',()=>render(input.value));
+  input.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>render(input.value),120)});
+  input.addEventListener('keydown',e=>{
+    const rows=[...list.querySelectorAll('.suggestion')];
+    if(!list.classList.contains('show')||!rows.length)return;
+    if(e.key==='ArrowDown'){e.preventDefault();active=(active+1)%rows.length;}
+    if(e.key==='ArrowUp'){e.preventDefault();active=(active-1+rows.length)%rows.length;}
+    if(e.key==='Enter'&&active>=0){e.preventDefault();rows[active].dispatchEvent(new MouseEvent('mousedown'));return;}
+    if(e.key==='Escape')list.classList.remove('show');
+    rows.forEach((r,i)=>r.classList.toggle('active',i===active));
   });
-  document.addEventListener("mousedown",e=>{if(!box.contains(e.target))list.classList.remove("show")});
+  document.addEventListener('mousedown',e=>{if(!box.contains(e.target))list.classList.remove('show')});
 }
-document.querySelectorAll(".autocomplete").forEach(setupAutocomplete);
+document.querySelectorAll('.autocomplete').forEach(setupAutocomplete);
 // Customer-facing travel times: always display 12-hour format with AM/PM.
 function formatTravelTime(time, dateOnly=false){
   if(!time) return "";
@@ -910,6 +985,7 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
 (function(){
  const modal=document.getElementById('login-modal'), closeBtn=document.getElementById('login-close');
  const accountToggle=document.getElementById('account-toggle'), pop=document.getElementById('user-popover');
+ const countryMenu=document.getElementById('country-menu');
  const loginAction=document.getElementById('account-login-action'), signupAction=document.getElementById('account-signup-action'), logoutAction=document.getElementById('account-logout-action');
  const form=document.getElementById('auth-form'), modeBtn=document.getElementById('auth-mode-toggle');
  const title=document.getElementById('login-title'), sub=document.getElementById('login-subtitle'), submit=document.getElementById('auth-submit');
@@ -921,19 +997,25 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
  function openAuth(){modal.classList.add('show');modal.setAttribute('aria-hidden','false');pop.classList.remove('show');setTimeout(()=>{if(signupMode)nameInput.focus();else emailInput.focus()},50);}
  function closeAuth(){modal.classList.remove('show');modal.setAttribute('aria-hidden','true');msg.classList.remove('show');}
  function setMode(signup){signupMode=signup;title.textContent=signup?'Create your Amaze account':'Welcome to Amaze';sub.textContent=signup?'Sign up with Google, Gmail/email, or phone number.':'Login with your email or phone number.';nameInput.required=signup;emailInput.required=signup;document.getElementById('auth-phone').required=!signup;submit.textContent=signup?'Create account':'Continue';document.getElementById('auth-switch-text').textContent=signup?'Already have an account?':'New to Amaze?';modeBtn.textContent=signup?'Login':'Create account';googleBtn.hidden=!signup;}
+ window.__amazeSetMode=setMode;
+ function setAccountMenu(open){
+   if(!accountToggle || !pop) return;
+   if(open && countryMenu) countryMenu.classList.remove('show');
+   pop.classList.toggle('show',!!open);
+   pop.setAttribute('aria-hidden',String(!open));
+   accountToggle.setAttribute('aria-expanded',String(!!open));
+ }
  function toggleAccountMenu(e){
    if(e){e.preventDefault();e.stopPropagation();}
-   const open=!pop.classList.contains('show');
-   if(open){countryMenu.classList.remove('show');}
-   pop.classList.toggle('show',open);
-   pop.setAttribute('aria-hidden',String(!open));
-   accountToggle.setAttribute('aria-expanded',String(open));
+   setAccountMenu(!pop.classList.contains('show'));
  }
+ // Use click for reliable mouse + touch activation. A document-level pointerdown handler previously closed the menu before this ran.
  accountToggle?.addEventListener('click',toggleAccountMenu);
- accountToggle?.addEventListener('pointerup',e=>{ if(e.pointerType==='touch') toggleAccountMenu(e); });
- loginAction?.addEventListener('click',e=>{e.stopPropagation();setMode(false);openAuth();});
- signupAction?.addEventListener('click',e=>{e.stopPropagation();setMode(true);openAuth();});
- logoutAction?.addEventListener('click',e=>{e.stopPropagation();localStorage.removeItem('amazeUser');refreshAccount();pop.classList.remove('show');});
+ accountToggle?.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleAccountMenu(e);}});
+ pop?.addEventListener('click',e=>e.stopPropagation());
+ loginAction?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();setMode(false);openAuth();});
+ signupAction?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();setMode(true);openAuth();});
+ logoutAction?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();localStorage.removeItem('amazeUser');refreshAccount();setAccountMenu(false);});
  closeBtn?.addEventListener('click',closeAuth);modal?.addEventListener('click',e=>{if(e.target===modal)closeAuth();});modeBtn?.addEventListener('click',()=>setMode(!signupMode));
  googleBtn?.addEventListener('click',()=>{msg.textContent='Google signup is selected. Connect your Google OAuth client to enable live Google authentication.';msg.classList.add('show');});
  // Searchable phone country-code picker
@@ -948,7 +1030,7 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
  document.addEventListener('click',e=>{if(!document.getElementById('phone-country-picker')?.contains(e.target)){if(menu)menu.hidden=true;trigger?.setAttribute('aria-expanded','false');}});
  form?.addEventListener('submit',e=>{e.preventDefault();const phone=document.getElementById('auth-phone').value.trim();const email=emailInput.value.trim();const name=nameInput.value.trim()||'Amaze Traveller';if(signupMode&&!email&&!phone){msg.textContent='Please enter your Gmail/email or phone number.';msg.classList.add('show');return;}if(!signupMode&&!email&&!phone){msg.textContent='Please enter your email or phone number.';msg.classList.add('show');return;}localStorage.setItem('amazeUser',JSON.stringify({name,email,phone:phone?selectedPhoneCode+' '+phone:''}));refreshAccount();closeAuth();pop.classList.add('show');});
  refreshAccount();setMode(false);
- const countryToggle=document.getElementById('country-toggle'), countryMenu=document.getElementById('country-menu'), flag=document.getElementById('selected-flag'), countryName=document.getElementById('selected-country-name');
+ const countryToggle=document.getElementById('country-toggle'), flag=document.getElementById('selected-flag'), countryName=document.getElementById('selected-country-name');
  const countryMeta={IN:['India','+91'],US:['United States','+1'],GB:['United Kingdom','+44'],AE:['UAE','+971'],SG:['Singapore','+65'],AU:['Australia','+61']};
  const codeToFlag=code=>{
    if(!/^[A-Z]{2}$/.test(code||'')) return '🌐';
@@ -1003,11 +1085,128 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
  document.addEventListener('click',e=>{
    const insideAccount=!!e.target.closest?.('#account-toggle, #user-popover');
    const insideCountry=!!e.target.closest?.('#country-toggle, #country-menu');
-   if(!insideAccount){pop.classList.remove('show');pop.setAttribute('aria-hidden','true');accountToggle.setAttribute('aria-expanded','false');}
-   if(!insideCountry)countryMenu.classList.remove('show');
+   if(!insideAccount) setAccountMenu(false);
+   if(!insideCountry && countryMenu) countryMenu.classList.remove('show');
  });
  refreshAccount();
  setMode(false);
+})();
+
+/* v32 — harden account touch/click + stays children steppers */
+(function(){
+  function wireAmazeControls(){
+    const account=document.getElementById('account-toggle');
+    const pop=document.getElementById('user-popover');
+    const login=document.getElementById('account-login-action');
+    const signup=document.getElementById('account-signup-action');
+    const modal=document.getElementById('login-modal');
+    const mode=document.getElementById('auth-mode-toggle');
+    const minus=document.getElementById('stay-children-minus');
+    const plus=document.getElementById('stay-children-plus');
+    const count=document.getElementById('stay-children-count');
+    const select=document.getElementById('stay-children');
+    const summary=document.getElementById('stay-passenger-btn');
+    if(!account || account.dataset.v32wired==='1') return;
+    account.dataset.v32wired='1';
+    const openMenu=()=>{
+      if(!pop) return;
+      const open=!pop.classList.contains('show');
+      pop.classList.toggle('show',open);
+      pop.setAttribute('aria-hidden',String(!open));
+      account.setAttribute('aria-expanded',String(open));
+    };
+    // Capture phase prevents any earlier document handler from closing the menu first.
+    account.addEventListener('pointerup',e=>{e.preventDefault();e.stopPropagation();openMenu();},true);
+    account.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();},true);
+    window.amazeOpenLogin=()=>{
+      if(typeof window.__amazeSetMode==='function') window.__amazeSetMode(false);
+      else if(mode) mode.dataset.force='login';
+      if(modal){modal.classList.add('show');modal.setAttribute('aria-hidden','false');}
+      if(pop){pop.classList.remove('show');pop.setAttribute('aria-hidden','true');}
+    };
+    window.amazeOpenSignup=()=>{
+      if(typeof window.__amazeSetMode==='function') window.__amazeSetMode(true);
+      else if(mode) mode.dataset.force='signup';
+      if(modal){modal.classList.add('show');modal.setAttribute('aria-hidden','false');}
+      if(pop){pop.classList.remove('show');pop.setAttribute('aria-hidden','true');}
+    };
+    login?.addEventListener('pointerup',e=>{e.preventDefault();e.stopPropagation();window.amazeOpenLogin();},true);
+    signup?.addEventListener('pointerup',e=>{e.preventDefault();e.stopPropagation();window.amazeOpenSignup();},true);
+    if(minus && plus && count && select){
+      const setChildren=(n)=>{
+        n=Math.max(0,Math.min(10,Number(n)||0));
+        count.textContent=String(n);
+        select.value=String(n);
+        select.dispatchEvent(new Event('change',{bubbles:true}));
+        minus.disabled=n<=0; plus.disabled=n>=10;
+        if(summary){
+          const a=document.getElementById('stay-adults');
+          const sc=document.getElementById('stay-senior');
+          const av=a && a.value!=='custom'?Number(a.value||2):2;
+          const sv=sc && sc.value!=='custom'?Number(sc.value||0):0;
+          const parts=[`${av} Adult${av===1?'':'s'}`];
+          if(n) parts.push(`${n} Child${n===1?'':'ren'}`);
+          if(sv) parts.push(`${sv} Senior${sv===1?'':'s'}`);
+          summary.textContent=parts.join(', ');
+        }
+      };
+      minus.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();setChildren(Number(count.textContent)-1);});
+      plus.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();setChildren(Number(count.textContent)+1);});
+      setChildren(Number(select.value||0));
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',wireAmazeControls,{once:true}); else wireAmazeControls();
+})();
+
+/* v33 REAL FALLBACK: independent account + location autocomplete layer.
+   This layer is intentionally self-contained so it still works if an earlier
+   optional API/network handler fails. */
+(function(){
+  const $=id=>document.getElementById(id);
+  function stop(e){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();}
+
+  /* ---------- ACCOUNT ---------- */
+  const account=$('account-toggle'), pop=$('user-popover'), login=$('account-login-action'), signup=$('account-signup-action'), modal=$('login-modal');
+  if(account && pop){
+    const openMenu=()=>{pop.classList.add('show');pop.setAttribute('aria-hidden','false');account.setAttribute('aria-expanded','true');};
+    const closeMenu=()=>{pop.classList.remove('show');pop.setAttribute('aria-hidden','true');account.setAttribute('aria-expanded','false');};
+    const toggle=e=>{stop(e); const open=pop.classList.contains('show'); open?closeMenu():openMenu();};
+    account.addEventListener('pointerdown',toggle,true);
+    account.addEventListener('pointerup',e=>stop(e),true);
+    account.addEventListener('click',e=>stop(e),true);
+    account.addEventListener('touchstart',e=>stop(e),{capture:true,passive:false});
+    if(login){login.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();if(typeof window.__amazeSetMode==='function')window.__amazeSetMode(false);if(modal){modal.classList.add('show');modal.setAttribute('aria-hidden','false');}},true);}
+    if(signup){signup.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();if(typeof window.__amazeSetMode==='function')window.__amazeSetMode(true);if(modal){modal.classList.add('show');modal.setAttribute('aria-hidden','false');}},true);}
+  }
+
+  /* ---------- LOCATION DATA ---------- */
+  const C=[
+    ['IN','India'],['US','United States'],['GB','United Kingdom'],['AE','United Arab Emirates'],['SG','Singapore'],['AU','Australia'],['CA','Canada'],['NZ','New Zealand'],['DE','Germany'],['FR','France'],['IT','Italy'],['ES','Spain'],['NL','Netherlands'],['CH','Switzerland'],['SE','Sweden'],['NO','Norway'],['DK','Denmark'],['FI','Finland'],['IE','Ireland'],['PT','Portugal'],['BR','Brazil'],['MX','Mexico'],['AR','Argentina'],['CL','Chile'],['CO','Colombia'],['JP','Japan'],['CN','China'],['KR','South Korea'],['TH','Thailand'],['MY','Malaysia'],['ID','Indonesia'],['PH','Philippines'],['VN','Vietnam'],['PK','Pakistan'],['BD','Bangladesh'],['LK','Sri Lanka'],['NP','Nepal'],['SA','Saudi Arabia'],['QA','Qatar'],['KW','Kuwait'],['OM','Oman'],['BH','Bahrain'],['IL','Israel'],['TR','Türkiye'],['ZA','South Africa'],['NG','Nigeria'],['KE','Kenya'],['EG','Egypt'],['MA','Morocco'],['RU','Russia'],['AT','Austria'],['BE','Belgium'],['PL','Poland'],['CZ','Czechia'],['GR','Greece'],['IS','Iceland'],['RO','Romania'],['HU','Hungary'],['HR','Croatia'],['RS','Serbia'],['UA','Ukraine'],['EE','Estonia'],['LV','Latvia'],['LT','Lithuania'],['SI','Slovenia'],['SK','Slovakia'],['BG','Bulgaria'],['AL','Albania'],['BA','Bosnia and Herzegovina'],['ME','Montenegro'],['MK','North Macedonia'],['GE','Georgia'],['AM','Armenia'],['AZ','Azerbaijan'],['KZ','Kazakhstan'],['UZ','Uzbekistan'],['MN','Mongolia'],['TW','Taiwan'],['HK','Hong Kong'],['MO','Macau'],['KH','Cambodia'],['LA','Laos'],['MM','Myanmar'],['BN','Brunei'],['MV','Maldives'],['MU','Mauritius'],['SC','Seychelles'],['TZ','Tanzania'],['UG','Uganda'],['GH','Ghana'],['ET','Ethiopia'],['SN','Senegal'],['CI','Côte d’Ivoire'],['CM','Cameroon'],['TN','Tunisia'],['DZ','Algeria'],['JO','Jordan'],['LB','Lebanon'],['IQ','Iraq'],['IR','Iran'],['PK','Pakistan'],['OM','Oman'],['YE','Yemen'],['BH','Bahrain'],['CY','Cyprus'],['MT','Malta'],['LU','Luxembourg'],['MC','Monaco'],['LI','Liechtenstein'],['AD','Andorra'],['SM','San Marino'],['VA','Vatican City'],['CR','Costa Rica'],['PA','Panama'],['GT','Guatemala'],['DO','Dominican Republic'],['JM','Jamaica'],['BS','Bahamas'],['BB','Barbados'],['TT','Trinidad and Tobago'],['CU','Cuba'],['UY','Uruguay'],['PY','Paraguay'],['BO','Bolivia'],['PE','Peru'],['EC','Ecuador'],['VE','Venezuela'],['GY','Guyana'],['SR','Suriname'],['FJ','Fiji'],['WS','Samoa'],['TO','Tonga'],['VU','Vanuatu'],['PG','Papua New Guinea'],['NC','New Caledonia']
+  ];
+  const cities=[
+   ['Delhi','DEL','India','airport'],['Mumbai','BOM','India','airport'],['Bengaluru','BLR','India','airport'],['Hyderabad','HYD','India','airport'],['Chennai','MAA','India','airport'],['Kolkata','CCU','India','airport'],['Goa','GOI','India','airport'],['Ahmedabad','AMD','India','airport'],['Pune','PNQ','India','airport'],['Jaipur','JAI','India','airport'],['Lucknow','LKO','India','airport'],['Kochi','COK','India','airport'],['Chandigarh','IXC','India','airport'],['Amritsar','ATQ','India','airport'],['Varanasi','VNS','India','airport'],['Dubai','DXB','United Arab Emirates','airport'],['Abu Dhabi','AUH','United Arab Emirates','airport'],['Doha','DOH','Qatar','airport'],['Riyadh','RUH','Saudi Arabia','airport'],['Jeddah','JED','Saudi Arabia','airport'],['Singapore','SIN','Singapore','airport'],['Bangkok','BKK','Thailand','airport'],['Kuala Lumpur','KUL','Malaysia','airport'],['Jakarta','CGK','Indonesia','airport'],['Manila','MNL','Philippines','airport'],['Tokyo','NRT','Japan','airport'],['Osaka','KIX','Japan','airport'],['Beijing','PEK','China','airport'],['Shanghai','PVG','China','airport'],['Hong Kong','HKG','Hong Kong','airport'],['Seoul','ICN','South Korea','airport'],['Taipei','TPE','Taiwan','airport'],['Sydney','SYD','Australia','airport'],['Melbourne','MEL','Australia','airport'],['Perth','PER','Australia','airport'],['Auckland','AKL','New Zealand','airport'],['London','LHR','United Kingdom','airport'],['Manchester','MAN','United Kingdom','airport'],['Paris','CDG','France','airport'],['Amsterdam','AMS','Netherlands','airport'],['Frankfurt','FRA','Germany','airport'],['Munich','MUC','Germany','airport'],['Zurich','ZRH','Switzerland','airport'],['Vienna','VIE','Austria','airport'],['Rome','FCO','Italy','airport'],['Milan','MXP','Italy','airport'],['Madrid','MAD','Spain','airport'],['Barcelona','BCN','Spain','airport'],['Lisbon','LIS','Portugal','airport'],['Dublin','DUB','Ireland','airport'],['Copenhagen','CPH','Denmark','airport'],['Stockholm','ARN','Sweden','airport'],['Oslo','OSL','Norway','airport'],['Helsinki','HEL','Finland','airport'],['Istanbul','IST','Türkiye','airport'],['Moscow','SVO','Russia','airport'],['New York','JFK','United States','airport'],['Los Angeles','LAX','United States','airport'],['Chicago','ORD','United States','airport'],['San Francisco','SFO','United States','airport'],['Miami','MIA','United States','airport'],['Las Vegas','LAS','United States','airport'],['Boston','BOS','United States','airport'],['Washington','DCA','United States','airport'],['Toronto','YYZ','Canada','airport'],['Vancouver','YVR','Canada','airport'],['Montreal','YUL','Canada','airport'],['Mexico City','MEX','Mexico','airport'],['São Paulo','GRU','Brazil','airport'],['Rio de Janeiro','GIG','Brazil','airport'],['Buenos Aires','EZE','Argentina','airport'],['Santiago','SCL','Chile','airport'],['Lima','LIM','Peru','airport'],['Bogotá','BOG','Colombia','airport'],['Quito','UIO','Ecuador','airport'],['Johannesburg','JNB','South Africa','airport'],['Cape Town','CPT','South Africa','airport'],['Nairobi','NBO','Kenya','airport'],['Cairo','CAI','Egypt','airport'],['Casablanca','CMN','Morocco','airport'],['Tel Aviv','TLV','Israel','airport'],['Amman','AMM','Jordan','airport'],['Beirut','BEY','Lebanon','airport'],['Tehran','IKA','Iran','airport'],['Tashkent','TAS','Uzbekistan','airport'],['Almaty','ALA','Kazakhstan','airport'],['Kathmandu','KTM','Nepal','airport'],['Colombo','CMB','Sri Lanka','airport'],['Dhaka','DAC','Bangladesh','airport'],['Karachi','KHI','Pakistan','airport'],['Lahore','LHE','Pakistan','airport'],['Islamabad','ISB','Pakistan','airport']
+  ];
+  const isoName=Object.fromEntries(C.map(x=>[x[0],x[1]]));
+  const nameIso=Object.fromEntries(C.map(x=>[x[1],x[0]]));
+  const flag=cc=>String(cc||'').toUpperCase().replace(/./g,c=>String.fromCodePoint(127397+c.charCodeAt(0)));
+  const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  function esc2(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+  function rowsFor(type,q){
+    const n=norm(q), rows=[];
+    if(type==='airport') cities.forEach(x=>{if(!n||norm(x[0]+' '+x[1]+' '+x[2]).includes(n))rows.push([x[0],x[1],x[2],'✈️']);});
+    else if(type==='city') cities.forEach(x=>{if(!n||norm(x[0]+' '+x[2]).includes(n))rows.push([x[0],'',x[2],'🏙️']);});
+    else if(type==='station') cities.forEach(x=>{if(!n||norm(x[0]+' '+x[2]).includes(n))rows.push([x[0],x[1],x[2],'🚆']);});
+    if(n){C.forEach(x=>{if(norm(x[0]+' '+x[1]).includes(n))rows.push([x[1],'',x[1],'🌍']);});}
+    const seen=new Set(); return rows.filter(x=>{const k=x.join('|');if(seen.has(k))return false;seen.add(k);return true;}).slice(0,12);
+  }
+  document.querySelectorAll('.autocomplete').forEach(box=>{
+    if(box.dataset.v33==='1')return; box.dataset.v33='1';
+    const input=box.querySelector('input'), list=box.querySelector('.suggestions'), type=box.dataset.type;
+    if(!input||!list)return;
+    const render=()=>{const rows=rowsFor(type,input.value);list.innerHTML=rows.map(x=>`<div class="suggestion" data-v33-row="1"><span class="suggestion-icon">${x[3]}</span><span><div class="suggestion-main">${esc2(x[0])}${x[1]?` (${esc2(x[1])})`:''}</div><div class="suggestion-sub">${esc2(x[2])} (${esc2(isoName[x[2]]||'')})</div></span></div>`).join('');list.classList.toggle('show',rows.length>0);};
+    input.addEventListener('focus',render,{capture:true}); input.addEventListener('input',render,{capture:true});
+    list.addEventListener('pointerdown',e=>{const r=e.target.closest('[data-v33-row]');if(!r)return;const main=r.querySelector('.suggestion-main')?.textContent||'';input.value=main;list.classList.remove('show');e.preventDefault();e.stopPropagation();},{capture:true});
+  });
 })();
 
 </script>

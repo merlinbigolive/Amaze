@@ -116,6 +116,52 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
 .booking-passenger-row input,.booking-passenger-row select{width:100%;height:44px;border:1px solid #d7dee7;border-radius:10px;background:#f8fafc;color:#14233d;padding:0 11px;font-size:14px;outline:none;box-sizing:border-box}
 .booking-passenger-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}.booking-close,.booking-continue{height:46px;border-radius:10px;padding:0 20px;font-weight:800;cursor:pointer}.booking-close{background:#edf1f5;border:1px solid #d7dee7;color:#26364d}.booking-continue{background:#f4c95e;border:1px solid #e0b548;color:#14233d}
 @media(max-width:620px){.booking-passenger-page{padding:12px 8px}.booking-passenger-card{padding:16px;border-radius:16px}.booking-passenger-row{grid-template-columns:1fr 1fr;}.booking-passenger-row .name-field{grid-column:1/-1}.booking-passenger-actions{flex-direction:column}.booking-close,.booking-continue{width:100%}}
+
+/* v19 account + country controls */
+.header-right{align-items:center}
+.top-account,.top-country{position:relative}
+.top-icon-btn,.country-btn{height:40px;display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.04)!important;border:1px solid rgba(255,255,255,.18)!important;color:#fff;border-radius:20px;padding:0 12px;cursor:pointer;font-weight:700}
+.top-icon-btn{width:42px;justify-content:center;padding:0;font-size:20px}
+.country-btn{min-width:78px;justify-content:center;font-size:14px}
+.country-menu{display:none;position:absolute;right:0;top:46px;width:260px;background:#fff;color:#17233b;border-radius:14px;padding:12px;box-shadow:0 20px 45px rgba(0,0,0,.3);border:1px solid #dce2e9;z-index:260}
+.country-menu.show{display:block}
+.country-menu-title{font-size:12px;font-weight:800;color:#536175;margin:2px 4px 9px}
+.country-option{display:flex;align-items:center;gap:9px;padding:9px 7px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer}
+.country-option:hover{background:#f3f6fa}
+.country-option input{width:16px;height:16px;accent-color:#c69b3a}
+.country-flag{font-size:18px}
+.login-modal{display:none;position:fixed;inset:0;z-index:700;background:rgba(3,10,20,.72);backdrop-filter:blur(6px);padding:18px;overflow:auto}
+.login-modal.show{display:flex;align-items:center;justify-content:center}
+.login-card{width:min(440px,100%);background:#fff;color:#17233b;border-radius:22px;padding:25px;box-shadow:0 30px 80px rgba(0,0,0,.4);position:relative}
+.login-card h2{margin:0 0 5px;font-size:28px}.login-card>p{margin:0 0 20px;color:#718096;font-size:13px}
+.login-close{position:absolute;right:14px;top:12px;width:36px;height:36px;border:0;background:#f1f4f7;border-radius:50%;font-size:21px;cursor:pointer;color:#40516a}
+.auth-socials{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:15px}
+.auth-social{height:42px;border:1px solid #d8dfe8;background:#fff;border-radius:10px;font-weight:800;cursor:pointer;color:#1d2b41}
+.auth-divider{display:flex;align-items:center;gap:9px;color:#98a2b3;font-size:11px;margin:14px 0}.auth-divider:before,.auth-divider:after{content:"";height:1px;background:#e4e8ee;flex:1}
+.auth-field{margin-bottom:11px}.auth-field label{display:block;font-size:11px;font-weight:800;color:#526175;margin-bottom:6px}
+.auth-field input,.auth-field select{width:100%;height:44px;border:1px solid #d6dde7;border-radius:10px;background:#f8fafc;color:#17233b;padding:0 11px;font-size:14px;box-sizing:border-box}
+.phone-row{display:grid;grid-template-columns:120px 1fr;gap:8px}
+.auth-submit{width:100%;height:46px;border:0;border-radius:10px;background:#f4c95e;color:#081525;font-weight:900;cursor:pointer;margin-top:4px}
+.auth-switch{text-align:center;margin:14px 0 0;font-size:12px;color:#718096}.auth-switch button{border:0;background:none;color:#9b721c;font-weight:900;cursor:pointer}
+.auth-message{display:none;margin:0 0 12px;padding:9px 11px;border-radius:9px;background:#eef8f0;color:#27653a;font-size:12px;font-weight:700}
+.auth-message.show{display:block}
+.user-popover{display:none;position:absolute;right:0;top:46px;width:230px;background:#fff;color:#17233b;border-radius:14px;padding:10px;box-shadow:0 20px 45px rgba(0,0,0,.3);border:1px solid #dce2e9;z-index:260}
+.user-popover.show{display:block}.user-popover strong{display:block;font-size:13px;padding:7px}.user-popover small{display:block;color:#718096;padding:0 7px 8px}.user-popover button{width:100%;border:0;background:#f4f6f8;border-radius:9px;padding:10px;cursor:pointer;font-weight:800;color:#29384e}
+@media(max-width:900px){
+ .header-right{display:flex;gap:6px;margin-left:auto}
+ .header-right .country-btn{min-width:50px;padding:0 9px}
+ .header-right .country-btn .country-code-label{display:none}
+ .header-right .top-icon-btn{width:40px}
+ .menu{margin-left:2px}
+}
+@media(max-width:560px){
+ .header-right{gap:5px}
+ .top-icon-btn,.country-btn{height:38px}
+ .country-menu{right:-40px;width:245px}
+ .login-card{padding:21px;border-radius:18px}
+ .auth-socials{grid-template-columns:1fr}
+ .phone-row{grid-template-columns:105px 1fr}
+}
 </style>
 </head>
 <body>
@@ -128,7 +174,28 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
  <nav class="nav">
   <a href="#search">Search</a><a href="#flights-card">Flights</a><a href="#stays-card">Stays</a><a href="#trains-card">Trains</a><a href="#cars-card">Cars</a>
  </nav>
- <div class="header-right"><button>INR ▾</button><button>Account</button></div>
+ <div class="header-right">
+  <div class="top-account">
+   <button class="top-icon-btn" id="account-toggle" aria-label="User Login" aria-expanded="false">👤</button>
+   <div class="user-popover" id="user-popover" aria-hidden="true">
+    <strong id="account-name">Welcome</strong>
+    <small id="account-status">Login to manage your trips</small>
+    <button id="account-main-action">Login / Sign Up</button>
+   </div>
+  </div>
+  <div class="top-country">
+   <button class="country-btn" id="country-toggle" aria-label="Select country"><span id="selected-flag">🇮🇳</span><span class="country-code-label"> India ▾</span></button>
+   <div class="country-menu" id="country-menu" aria-hidden="true">
+    <div class="country-menu-title">Select country</div>
+    <label class="country-option"><input type="checkbox" value="IN" checked><span class="country-flag">🇮🇳</span><span>India (+91)</span></label>
+    <label class="country-option"><input type="checkbox" value="US"><span class="country-flag">🇺🇸</span><span>United States (+1)</span></label>
+    <label class="country-option"><input type="checkbox" value="GB"><span class="country-flag">🇬🇧</span><span>United Kingdom (+44)</span></label>
+    <label class="country-option"><input type="checkbox" value="AE"><span class="country-flag">🇦🇪</span><span>UAE (+971)</span></label>
+    <label class="country-option"><input type="checkbox" value="SG"><span class="country-flag">🇸🇬</span><span>Singapore (+65)</span></label>
+    <label class="country-option"><input type="checkbox" value="AU"><span class="country-flag">🇦🇺</span><span>Australia (+61)</span></label>
+   </div>
+  </div>
+ </div>
  <button class="menu" id="menu-toggle" aria-label="Menu" aria-expanded="false">☰</button>
  <div class="menu-panel" id="menu-panel" aria-hidden="true">
   <div class="menu-title">Amaze Vacation</div>
@@ -259,6 +326,34 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
   <article class="card" id="cars-card"><div class="icon">🚗</div><h3>Cars & activities</h3><p>Complete the trip with rental cars, tours and activities.</p><a data-open="cars">Search cars →</a></article>
  </div>
 </section>
+
+<div class="login-modal" id="login-modal" aria-hidden="true">
+ <div class="login-card" role="dialog" aria-modal="true" aria-labelledby="login-title">
+  <button class="login-close" id="login-close" aria-label="Close">×</button>
+  <h2 id="login-title">Welcome to Amaze</h2>
+  <p id="login-subtitle">Login or create your account to manage trips.</p>
+  <div class="auth-message" id="auth-message"></div>
+  <div class="auth-socials">
+   <button class="auth-social" type="button" data-social="Google">G&nbsp; Google</button>
+   <button class="auth-social" type="button" data-social="Facebook">f&nbsp; Facebook</button>
+   <button class="auth-social" type="button" data-social="X">𝕏&nbsp; X</button>
+  </div>
+  <div class="auth-divider"><span>or continue with phone</span></div>
+  <form id="auth-form">
+   <div class="auth-field"><label for="auth-name">Full name</label><input id="auth-name" type="text" placeholder="Your name"></div>
+   <div class="auth-field"><label for="auth-phone">Phone number</label>
+    <div class="phone-row">
+     <select id="auth-country"><option value="+91" selected>🇮🇳 +91</option><option value="+1">🇺🇸 +1</option><option value="+44">🇬🇧 +44</option><option value="+971">🇦🇪 +971</option><option value="+65">🇸🇬 +65</option><option value="+61">🇦🇺 +61</option></select>
+     <input id="auth-phone" type="tel" inputmode="tel" placeholder="Phone number" required>
+    </div>
+   </div>
+   <div class="auth-field" id="auth-email-field"><label for="auth-email">Email (optional)</label><input id="auth-email" type="email" placeholder="you@example.com"></div>
+   <button class="auth-submit" id="auth-submit" type="submit">Continue with phone</button>
+  </form>
+  <div class="auth-switch"><span id="auth-switch-text">New to Amaze?</span> <button type="button" id="auth-mode-toggle">Create account</button></div>
+ </div>
+</div>
+
 <footer>© 2026 Amaze Vacation • Your travel, one portal.</footer>
 
 <script>
@@ -598,6 +693,70 @@ function closeBookingPassengerPage(){bookingPage.style.display="none";bookingPag
 if(trainSearchBtn) trainSearchBtn.addEventListener("click",()=>goToResults('trains'));
 document.getElementById("booking-close").addEventListener("click",closeBookingPassengerPage);
 document.getElementById("booking-continue").addEventListener("click",()=>{ alert("Passenger details saved for the ticket-booking step."); });
+
+// v19 account, signup and country selector
+(function(){
+ const modal=document.getElementById('login-modal'), closeBtn=document.getElementById('login-close');
+ const accountToggle=document.getElementById('account-toggle'), pop=document.getElementById('user-popover');
+ const accountAction=document.getElementById('account-main-action');
+ const form=document.getElementById('auth-form'), modeBtn=document.getElementById('auth-mode-toggle');
+ const title=document.getElementById('login-title'), sub=document.getElementById('login-subtitle'), submit=document.getElementById('auth-submit');
+ const msg=document.getElementById('auth-message'), nameInput=document.getElementById('auth-name');
+ let signupMode=false;
+ const getUser=()=>{try{return JSON.parse(localStorage.getItem('amazeUser')||'null')}catch(e){return null}};
+ function refreshAccount(){
+   const u=getUser();
+   document.getElementById('account-name').textContent=u?(u.name||'Amaze Traveller'):'Welcome';
+   document.getElementById('account-status').textContent=u?('Signed in with '+(u.phone||'phone')):'Login to manage your trips';
+   accountAction.textContent=u?'Logout':'Login / Sign Up';
+ }
+ function openAuth(){ modal.classList.add('show');modal.setAttribute('aria-hidden','false');pop.classList.remove('show');setTimeout(()=>document.getElementById('auth-phone').focus(),50); }
+ function closeAuth(){modal.classList.remove('show');modal.setAttribute('aria-hidden','true');msg.classList.remove('show');}
+ function setMode(signup){
+   signupMode=signup; title.textContent=signup?'Create your Amaze account':'Welcome to Amaze';
+   sub.textContent=signup?'Sign up to manage trips and travel details.':'Login or create your account to manage trips.';
+   nameInput.required=signup; document.getElementById('auth-email').required=false;
+   submit.textContent=signup?'Create account':'Continue with phone';
+   document.getElementById('auth-switch-text').textContent=signup?'Already have an account?':'New to Amaze?';
+   modeBtn.textContent=signup?'Login':'Create account';
+ }
+ accountToggle?.addEventListener('click',e=>{e.stopPropagation();const open=!pop.classList.contains('show');pop.classList.toggle('show',open);countryMenu.classList.remove('show');});
+ accountAction?.addEventListener('click',()=>{if(getUser()){localStorage.removeItem('amazeUser');refreshAccount();pop.classList.remove('show');}else openAuth();});
+ closeBtn?.addEventListener('click',closeAuth);
+ modal?.addEventListener('click',e=>{if(e.target===modal)closeAuth();});
+ modeBtn?.addEventListener('click',()=>setMode(!signupMode));
+ document.querySelectorAll('[data-social]').forEach(b=>b.addEventListener('click',()=>{
+   msg.textContent=b.dataset.social+' sign-in is ready to connect. For now, continue with your phone number below.';
+   msg.classList.add('show');
+ }));
+ form?.addEventListener('submit',e=>{
+   e.preventDefault();
+   const phone=document.getElementById('auth-phone').value.trim();
+   const country=document.getElementById('auth-country').value;
+   const name=nameInput.value.trim()||'Amaze Traveller';
+   if(!phone)return;
+   localStorage.setItem('amazeUser',JSON.stringify({name,phone:country+' '+phone}));
+   refreshAccount(); closeAuth(); pop.classList.add('show');
+ });
+ const countryToggle=document.getElementById('country-toggle'), countryMenu=document.getElementById('country-menu'), flag=document.getElementById('selected-flag');
+ countryToggle?.addEventListener('click',e=>{e.stopPropagation();countryMenu.classList.toggle('show');pop.classList.remove('show');});
+ countryMenu?.querySelectorAll('input[type=checkbox]').forEach(cb=>cb.addEventListener('change',()=>{
+   if(cb.checked){flag.textContent=cb.parentElement.querySelector('.country-flag').textContent;
+     document.querySelectorAll('#country-menu input[type=checkbox]').forEach(x=>{if(x!==cb)x.checked=false;});
+     const code={IN:'+91',US:'+1',GB:'+44',AE:'+971',SG:'+65',AU:'+61'}[cb.value];
+     const select=document.getElementById('auth-country'); if(select) select.value=code;
+   } else {
+     const any=[...countryMenu.querySelectorAll('input[type=checkbox]')].some(x=>x.checked);
+     if(!any) cb.checked=true;
+   }
+ }));
+ document.addEventListener('click',e=>{
+   if(!pop.contains(e.target)&&e.target!==accountToggle)pop.classList.remove('show');
+   if(!countryMenu.contains(e.target)&&e.target!==countryToggle)countryMenu.classList.remove('show');
+ });
+ refreshAccount();
+})();
+
 </script>
 
 <div class="booking-passenger-page" id="booking-passenger-page" aria-hidden="true">

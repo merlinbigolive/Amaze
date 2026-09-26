@@ -39,3 +39,6 @@ The Train tab includes station autocomplete in the format `Station Name — CODE
 
 ## Design refresh
 The homepage uses an original Booking.com-inspired travel-search layout: blue service navigation, clean white search panels, yellow accent, and mobile-first stacked booking fields.
+
+
+v19 additions: responsive user login/signup control, phone country-code selector, country flag dropdown (India default), and account state saved locally in the browser.

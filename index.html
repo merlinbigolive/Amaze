@@ -87,6 +87,268 @@ footer{background:#061e2d;color:#c8d9e1;padding:60px 0 20px}.footer-grid{display
 }
 </style>
 
+
+<style id="amazevacation-final-overrides">
+/* Final mobile/desktop hero composition */
+.hero-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:100svh;padding:88px 0 38px;box-sizing:border-box}
+.hero h1{margin:18px 0 14px}
+.hero p{margin:0 auto 24px}
+.searchbox{width:min(1080px,100%);text-align:left}
+.booking-form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:10px;align-items:end}
+.booking-form label{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:900;color:#31536a}
+.booking-form input{box-sizing:border-box;width:100%;padding:12px 13px;border:1px solid #d2dfe5;border-radius:12px;background:#fff;color:#17344b;font:inherit;outline:none}
+.booking-form input:focus{border-color:#0b5a82;box-shadow:0 0 0 3px rgba(11,90,130,.12)}
+.gold-btn{border:0;border-radius:12px;padding:13px 16px;background:#e5b94f;color:#102a43;font-weight:950;cursor:pointer;white-space:nowrap;min-height:45px}
+.gold-btn:hover{filter:brightness(1.05);transform:translateY(-1px)}
+.partner-hint{margin-top:10px;font-size:11px;color:#6b8291}
+.tab[aria-selected="true"],.tab.active{background:#073b5c;color:#fff}
+.panel[hidden]{display:none!important}
+.panel{display:block}
+.panel:not(.active){display:none}
+.experience-form{grid-template-columns:1fr auto}
+.toast-message{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:9999;background:#073b5c;color:#fff;padding:12px 18px;border-radius:999px;box-shadow:0 12px 35px rgba(0,0,0,.25);font-size:13px;font-weight:800;max-width:90%;text-align:center}
+@media(max-width:767px){
+  .hero{min-height:auto}
+  .hero-inner{min-height:0;padding:92px 16px 28px}
+  .badge{font-size:10px;padding:8px 13px}
+  .hero h1{font-size:clamp(43px,13vw,58px);letter-spacing:-2.5px;line-height:.94;margin:16px 0 13px}
+  .hero p{font-size:16px;line-height:1.5;max-width:520px;margin-bottom:20px}
+  .searchbox{border-radius:22px;padding:8px}
+  .tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;overflow:visible}
+  .tab{min-width:0!important;padding:12px 3px!important;font-size:11px;line-height:1.15}
+  .tab span{display:block}
+  .tab:first-child span{display:inline}
+  .booking-form,.experience-form{grid-template-columns:1fr;gap:9px}
+  .booking-form .gold-btn{width:100%}
+  .panel{padding:16px 7px 8px}
+  .panel-top{gap:8px}
+  .panel h3{font-size:21px;line-height:1.15}
+  .hero-meta{justify-content:center;text-align:center;gap:8px 14px;font-size:10px;margin-top:8px}
+}
+</style>
+
+<style id="dark-blue-silver-theme">
+:root{
+  --navy:#061526;
+  --navy2:#0a2238;
+  --navy3:#0d304d;
+  --silver:#dfe8ef;
+  --silver2:#9eafbd;
+  --white:#f7fbff;
+  --line:rgba(211,226,238,.20);
+  --glass:rgba(5,23,39,.78);
+}
+
+/* Deep navy cinematic background */
+body{
+  background:#061526!important;
+  color:var(--white)!important;
+}
+.hero{
+  background:#061526!important;
+}
+.hero::after{
+  background:
+    linear-gradient(180deg,rgba(2,12,23,.25),rgba(2,14,27,.72) 72%,#061526 100%)!important;
+}
+.hero-video-player{
+  filter:saturate(.72) brightness(.58) contrast(1.08);
+}
+
+/* Silver animated shine text */
+.hero h1,
+.hero h1 span,
+.shine-text{
+  color:transparent!important;
+  background:
+    linear-gradient(
+      110deg,
+      #778795 0%,
+      #eef5fa 18%,
+      #ffffff 31%,
+      #9aaab7 43%,
+      #ffffff 54%,
+      #6f7f8d 70%,
+      #f7fbff 86%,
+      #82929f 100%
+    );
+  background-size:260% auto;
+  -webkit-background-clip:text;
+  background-clip:text;
+  animation:silverShine 4.5s linear infinite;
+  text-shadow:0 0 28px rgba(220,235,245,.12);
+}
+@keyframes silverShine{
+  0%{background-position:260% center}
+  100%{background-position:-60% center}
+}
+
+/* Brand */
+.brand,
+.logo,
+.site-logo{
+  color:#fff!important;
+}
+.brand span,
+.logo span,
+.site-logo span{
+  color:#dbe5ec!important;
+  background:linear-gradient(110deg,#778692,#fff,#a9b7c1,#fff,#758592);
+  background-size:220% auto;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:silverShine 4s linear infinite;
+}
+
+/* Premium badge */
+.badge,
+.eyebrow{
+  border-color:rgba(220,231,239,.35)!important;
+  color:#e9f0f5!important;
+  background:rgba(7,28,46,.42)!important;
+}
+
+/* Glass search panel */
+.searchbox,
+.glass{
+  background:linear-gradient(145deg,rgba(9,32,51,.91),rgba(3,18,32,.86))!important;
+  border:1px solid rgba(210,224,234,.34)!important;
+  box-shadow:
+    0 24px 70px rgba(0,0,0,.42),
+    inset 0 1px 0 rgba(255,255,255,.12),
+    0 0 0 1px rgba(255,255,255,.03)!important;
+  backdrop-filter:blur(18px);
+}
+
+/* Tabs */
+.tabs,.tab-line{
+  border-color:rgba(210,225,237,.16)!important;
+}
+.tab{
+  color:#b9c8d3!important;
+}
+.tab:hover{
+  color:#fff!important;
+  background:rgba(220,231,239,.07)!important;
+}
+.tab[aria-selected="true"],
+.tab.active{
+  background:linear-gradient(135deg,#173f5e,#0b2b45)!important;
+  color:#fff!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 8px 24px rgba(0,0,0,.2);
+}
+
+/* Panel */
+.panel-top h3{
+  color:#f2f7fa!important;
+}
+.panel-top small,
+.live{
+  color:#c9d6df!important;
+}
+.live{
+  text-shadow:0 0 12px rgba(220,235,245,.35);
+}
+
+/* Form */
+.booking-form label{
+  color:#c6d4de!important;
+}
+.booking-form input{
+  background:rgba(242,247,250,.97)!important;
+  color:#102c42!important;
+  border-color:rgba(218,231,240,.32)!important;
+}
+.gold-btn{
+  background:linear-gradient(135deg,#dfe7ec,#9eacb7,#f7fbff,#8797a4)!important;
+  background-size:220% auto!important;
+  color:#071a2b!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.7)!important;
+  animation:silverButton 4s linear infinite;
+}
+@keyframes silverButton{
+  0%{background-position:220% center}
+  100%{background-position:-40% center}
+}
+
+/* Hero copy */
+.hero p{
+  color:#d9e4eb!important;
+  text-shadow:0 2px 18px rgba(0,0,0,.5);
+}
+.hero-meta{
+  color:#c5d2dc!important;
+}
+
+/* Navigation */
+header{
+  background:linear-gradient(180deg,rgba(3,18,31,.90),rgba(3,18,31,.30))!important;
+}
+nav a{
+  color:#d4e0e8!important;
+}
+nav a:hover{
+  color:#fff!important;
+  text-shadow:0 0 14px rgba(220,235,245,.45);
+}
+
+/* Sections/footer */
+section:not(.hero){
+  background:#071a2c!important;
+}
+.card,
+.destination-card,
+.guide-card,
+.experience-card{
+  background:linear-gradient(145deg,#0b263e,#071a2c)!important;
+  border-color:rgba(214,228,238,.16)!important;
+}
+h2,h3,h4{
+  color:#edf4f8!important;
+}
+p{
+  color:#b8c8d3;
+}
+footer{
+  background:#04111f!important;
+  color:#aebec9!important;
+  border-top:1px solid rgba(214,228,238,.12)!important;
+}
+footer a{
+  color:#d8e3ea!important;
+}
+
+/* Silver shimmer on section headings */
+.section-title,
+.section-heading{
+  position:relative;
+}
+.section-title::after,
+.section-heading::after{
+  content:"";
+  display:block;
+  width:72px;
+  height:2px;
+  margin:12px auto 0;
+  background:linear-gradient(90deg,transparent,#e9f1f5,transparent);
+  animation:lineShine 2.8s ease-in-out infinite;
+}
+@keyframes lineShine{
+  0%,100%{opacity:.35;transform:scaleX(.55)}
+  50%{opacity:1;transform:scaleX(1)}
+}
+
+/* Mobile */
+@media(max-width:767px){
+  .hero-video-player{filter:saturate(.70) brightness(.55) contrast(1.08)}
+  .hero-inner{padding-top:86px!important}
+  .searchbox{background:linear-gradient(145deg,rgba(7,28,47,.94),rgba(3,17,30,.93))!important}
+  .tab{color:#b8c8d3!important}
+  .tab.active,.tab[aria-selected="true"]{color:#fff!important}
+}
+</style>
+
 </head>
 <body>
 <header class="header"><div class="nav wrap"><a class="logo" href="index.html">Amaze<span>Vacation</span></a>
@@ -106,30 +368,71 @@ footer{background:#061e2d;color:#c8d9e1;padding:60px 0 20px}.footer-grid{display
 </div>
 <div class="hero-overlay"></div><div class="glow g1"></div><div class="glow g2"></div>
 <div class="wrap hero-inner"><div class="badge">✦ PREMIUM GLOBAL TRAVEL PORTAL</div>
-<h1>Travel further.<br><em>Live more.</em></h1>
+<h1 class="shine-text">Travel further.<br><em>Live more.</em></h1>
 <p>Hotels, flights, experiences and car rentals — discover your next unforgettable journey in one beautiful place.</p>
-<div class="searchbox glass">
-<div class="tabs"><button class="tab active" data-tab="flights">✈ Flights</button>
-<button class="tab" data-tab="trains" type="button"><span class="tab-icon">🚆</span><span>Trains</span></button><button class="tab" data-tab="hotels">⌂ Hotels</button><button class="tab" data-tab="tours">✦ Experiences</button><button class="tab" data-tab="cars">◆ Cars</button></div><div class="tab-line"></div>
-<div class="panel active" id="flights"><div class="panel-top"><div><small>FLIGHTS</small><h3>Where do you want to fly?</h3></div><span class="live">● SEARCH</span></div><div class="affiliate"><b>Flight Search Widget</b>Insert your official Travelpayouts / WayAway affiliate-generated code here.</div></div>
-<div class="panel" id="trains">
-<div class="panel-top"><div><small>TRAINS</small><h3>Book your next rail journey</h3></div><span class="live">● SEARCH</span></div>
-<div class="affiliate train-affiliate">
-<b>Train Booking</b>
-<p>Compare train routes and fares with your official travel partner.</p>
-<form class="train-form" onsubmit="return false;">
-<label>From<input type="text" placeholder="Delhi, Mumbai, Paris…" autocomplete="off"></label>
-<label>To<input type="text" placeholder="Destination" autocomplete="off"></label>
-<label>Departure<input type="date"></label>
-<button class="gold-btn" type="button">Search Trains</button>
-</form>
-<small class="partner-note">Add your official train affiliate widget or booking link here.</small>
-</div>
-</div>
-<div class="panel" id="hotels"><div class="panel-top"><div><small>HOTELS</small><h3>Find a stay you'll love</h3></div><span class="live">● SEARCH</span></div><div class="affiliate"><b>Hotel Search Widget</b>Insert your official Booking.com / Agoda / Travelpayouts widget here.</div></div>
-<div class="panel" id="tours"><div class="panel-top"><div><small>EXPERIENCES</small><h3>Make the destination unforgettable</h3></div><span class="live">● EXPLORE</span></div><div class="affiliate"><b>Experiences Widget</b>Insert your official Viator / GetYourGuide widget here.</div></div>
-<div class="panel" id="cars"><div class="panel-top"><div><small>CAR RENTAL</small><h3>Your road trip starts here</h3></div><span class="live">● SEARCH</span></div><div class="affiliate"><b>Car Rental Widget</b>Insert your official Discover Cars / Rentalcars widget here.</div></div>
-</div><div class="hero-meta"><span>✦ Handpicked destinations</span><span>✦ Global travel partners</span><span>✦ Plan with confidence</span></div>
+<div class="searchbox glass" id="travel-search">
+  <div class="tabs" role="tablist" aria-label="Travel booking options">
+    <button class="tab active" type="button" data-tab="flights" role="tab" aria-selected="true">✈ <span>Flights</span></button>
+    <button class="tab" type="button" data-tab="trains" role="tab" aria-selected="false">🚆 <span>Trains</span></button>
+    <button class="tab" type="button" data-tab="hotels" role="tab" aria-selected="false">⌂ <span>Hotels</span></button>
+    <button class="tab" type="button" data-tab="tours" role="tab" aria-selected="false">✦ <span>Experiences</span></button>
+    <button class="tab" type="button" data-tab="cars" role="tab" aria-selected="false">◆ <span>Cars</span></button>
+  </div>
+  <div class="tab-line"></div>
+
+  <section class="panel active" id="flights" role="tabpanel">
+    <div class="panel-top"><div><small>FLIGHTS</small><h3>Where do you want to fly?</h3></div><span class="live">● SEARCH</span></div>
+    <form class="booking-form" data-partner="flights">
+      <label>From<input name="from" required placeholder="Delhi, Mumbai, London…" autocomplete="off"></label>
+      <label>To<input name="to" required placeholder="Dubai, Paris, Bali…" autocomplete="off"></label>
+      <label>Departure<input name="date" type="date" required></label>
+      <button class="gold-btn" type="submit">Search Flights</button>
+    </form>
+    <div class="partner-hint">Flight search partner: Skyscanner / your Travelpayouts or WayAway affiliate link.</div>
+  </section>
+
+  <section class="panel" id="trains" role="tabpanel" hidden>
+    <div class="panel-top"><div><small>TRAINS</small><h3>Book your next rail journey</h3></div><span class="live">● SEARCH</span></div>
+    <form class="booking-form" data-partner="trains">
+      <label>From<input name="from" required placeholder="Delhi, Mumbai, Paris…" autocomplete="off"></label>
+      <label>To<input name="to" required placeholder="Jaipur, London, Rome…" autocomplete="off"></label>
+      <label>Departure<input name="date" type="date" required></label>
+      <button class="gold-btn" type="submit">Search Trains</button>
+    </form>
+    <div class="partner-hint">Train search partner: 12Go / your official train affiliate integration.</div>
+  </section>
+
+  <section class="panel" id="hotels" role="tabpanel" hidden>
+    <div class="panel-top"><div><small>HOTELS</small><h3>Find a stay you'll love</h3></div><span class="live">● SEARCH</span></div>
+    <form class="booking-form one-line" data-partner="hotels">
+      <label>Destination<input name="destination" required placeholder="Dubai, Paris, Bali…" autocomplete="off"></label>
+      <label>Check-in<input name="checkin" type="date" required></label>
+      <label>Check-out<input name="checkout" type="date" required></label>
+      <button class="gold-btn" type="submit">Search Hotels</button>
+    </form>
+    <div class="partner-hint">Hotel search partner: Booking.com / Agoda / your Travelpayouts affiliate widget.</div>
+  </section>
+
+  <section class="panel" id="tours" role="tabpanel" hidden>
+    <div class="panel-top"><div><small>EXPERIENCES</small><h3>Make the destination unforgettable</h3></div><span class="live">● EXPLORE</span></div>
+    <form class="booking-form experience-form" data-partner="tours">
+      <label>Destination or activity<input name="query" required placeholder="Paris tours, Dubai desert safari…" autocomplete="off"></label>
+      <button class="gold-btn" type="submit">Find Experiences</button>
+    </form>
+    <div class="partner-hint">Experience partner: Viator / GetYourGuide / your official affiliate integration.</div>
+  </section>
+
+  <section class="panel" id="cars" role="tabpanel" hidden>
+    <div class="panel-top"><div><small>CAR RENTAL</small><h3>Your road trip starts here</h3></div><span class="live">● SEARCH</span></div>
+    <form class="booking-form" data-partner="cars">
+      <label>Pick-up location<input name="pickup" required placeholder="Dubai, Rome, Paris…" autocomplete="off"></label>
+      <label>Pick-up date<input name="pickupDate" type="date" required></label>
+      <label>Drop-off date<input name="dropoffDate" type="date" required></label>
+      <button class="gold-btn" type="submit">Search Cars</button>
+    </form>
+    <div class="partner-hint">Car partner: Discover Cars / Rentalcars / your official affiliate integration.</div>
+  </section>
+</div></div><div class="hero-meta"><span>✦ Handpicked destinations</span><span>✦ Global travel partners</span><span>✦ Plan with confidence</span></div>
 </div></section>
 
 <section class="section" id="destinations"><div class="wrap"><div class="heading"><div><small>WHERE WILL YOU GO?</small><h2>Popular destinations</h2></div><p>Explore city breaks, island escapes and luxury getaways.</p></div>
@@ -163,63 +466,100 @@ footer{background:#061e2d;color:#c8d9e1;padding:60px 0 20px}.footer-grid{display
 <div><h4>Contact</h4><a href="contact.html">Contact Us</a><a href="cookie-policy.html">Cookie Policy</a></div></div>
 <div class="wrap copyright">© 2026 AmazeVacation.com. All rights reserved. Travel offers are provided by third-party travel partners.</div></footer>
 <script id="amaze-main-js">
+document.addEventListener("DOMContentLoaded", function () {
+  const tabs = Array.from(document.querySelectorAll(".tab[data-tab]"));
+  const panels = Array.from(document.querySelectorAll(".panel[id]"));
+  const nav = document.querySelector("nav");
+  const menu = document.querySelector(".menu");
 
-document.addEventListener("DOMContentLoaded",function(){
- const tabs=document.querySelectorAll(".tab"), panels=document.querySelectorAll(".panel");
- tabs.forEach(tab=>tab.addEventListener("click",()=>{
-   tabs.forEach(t=>t.classList.remove("active"));
-   panels.forEach(p=>p.classList.remove("active"));
-   tab.classList.add("active");
-   document.getElementById(tab.dataset.tab).classList.add("active");
- }));
- const menu=document.querySelector(".menu"),nav=document.querySelector("nav");
- if(menu)menu.addEventListener("click",()=>{
-   nav.style.display=nav.style.display==="flex"?"none":"flex";
-   nav.style.position="absolute";nav.style.right="4%";nav.style.top="65px";
-   nav.style.background="rgba(6,30,45,.98)";nav.style.padding="18px";
-   nav.style.borderRadius="16px";nav.style.flexDirection="column";nav.style.alignItems="stretch";
- });
-});
+  function activateTab(id) {
+    tabs.forEach(tab => {
+      const on = tab.dataset.tab === id;
+      tab.classList.toggle("active", on);
+      tab.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    panels.forEach(panel => {
+      const on = panel.id === id;
+      panel.classList.toggle("active", on);
+      panel.hidden = !on;
+    });
+  }
 
-/* Responsive hero video switching: landscape video on desktop/tablet,
-   portrait video on mobile. Only the active video is played. */
-(() => {
+  tabs.forEach(tab => {
+    tab.addEventListener("click", function (event) {
+      event.preventDefault();
+      activateTab(tab.dataset.tab);
+    });
+  });
+
+  activateTab("flights");
+
+  if (menu && nav) {
+    menu.addEventListener("click", function () {
+      const open = nav.classList.toggle("mobile-open");
+      nav.style.display = open ? "flex" : "";
+      nav.style.position = open ? "absolute" : "";
+      nav.style.right = open ? "4%" : "";
+      nav.style.top = open ? "65px" : "";
+      nav.style.background = open ? "rgba(6,30,45,.98)" : "";
+      nav.style.padding = open ? "18px" : "";
+      nav.style.borderRadius = open ? "16px" : "";
+      nav.style.flexDirection = open ? "column" : "";
+      nav.style.alignItems = open ? "stretch" : "";
+    });
+  }
+
+  const partnerUrls = {
+    flights: "https://www.skyscanner.co.in/",
+    trains: "https://12go.asia/",
+    hotels: "https://www.booking.com/",
+    tours: "https://www.viator.com/",
+    cars: "https://www.discovercars.com/"
+  };
+
+  function showToast(message) {
+    const old = document.querySelector(".toast-message");
+    if (old) old.remove();
+    const toast = document.createElement("div");
+    toast.className = "toast-message";
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2800);
+  }
+
+  document.querySelectorAll(".booking-form").forEach(form => {
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+
+      const type = form.dataset.partner;
+      const url = partnerUrls[type];
+      showToast("Opening the " + type + " booking partner…");
+      setTimeout(() => window.open(url, "_blank", "noopener,noreferrer"), 250);
+    });
+  });
+
+  // Responsive hero video: landscape on desktop/tablet, portrait on mobile.
   const desktopVideo = document.querySelector(".hero-video-desktop");
   const mobileVideo = document.querySelector(".hero-video-mobile");
-  if (!desktopVideo || !mobileVideo) return;
-
-  const mobileQuery = window.matchMedia("(max-width: 767px)");
-
-  function setActiveHeroVideo() {
-    const useMobile = mobileQuery.matches;
-    const active = useMobile ? mobileVideo : desktopVideo;
-    const inactive = useMobile ? desktopVideo : mobileVideo;
-
-    inactive.pause();
-    inactive.removeAttribute("autoplay");
-    active.setAttribute("autoplay", "");
-    active.muted = true;
-    active.setAttribute("muted", "");
-    active.setAttribute("playsinline", "");
-
-    const playPromise = active.play();
-    if (playPromise && typeof playPromise.catch === "function") {
-      playPromise.catch(() => {});
-    }
+  if (desktopVideo && mobileVideo) {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const updateVideo = () => {
+      const active = mq.matches ? mobileVideo : desktopVideo;
+      const inactive = mq.matches ? desktopVideo : mobileVideo;
+      inactive.pause();
+      active.muted = true;
+      active.setAttribute("muted", "");
+      active.setAttribute("playsinline", "");
+      const promise = active.play();
+      if (promise && promise.catch) promise.catch(() => {});
+    };
+    updateVideo();
+    if (mq.addEventListener) mq.addEventListener("change", updateVideo);
+    else mq.addListener(updateVideo);
+    window.addEventListener("orientationchange", updateVideo, {passive:true});
   }
-
-  setActiveHeroVideo();
-
-  if (mobileQuery.addEventListener) {
-    mobileQuery.addEventListener("change", setActiveHeroVideo);
-  } else {
-    mobileQuery.addListener(setActiveHeroVideo);
-  }
-
-  window.addEventListener("orientationchange", setActiveHeroVideo, { passive: true });
-})();
-
-
+});
 </script>
 <script>document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));t.classList.add("active");document.getElementById(t.dataset.tab).classList.add("active")})})</script>
 </body></html>

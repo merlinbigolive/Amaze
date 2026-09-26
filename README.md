@@ -11,8 +11,8 @@ The included CNAME is `amazevacation.com`.
 
 ### Hero videos
 The hero now uses two local videos:
-- `assets/videos/hero-desktop.mp4` for desktop/tablet landscape screens.
-- `assets/videos/hero-mobile.mp4` for mobile portrait screens.
+- `hero-desktop.mp4` for desktop/tablet landscape screens.
+- `hero-mobile.mp4` for mobile portrait screens.
 
 JavaScript automatically activates the appropriate video based on viewport width and pauses the other one to avoid unnecessary playback.
 
@@ -27,3 +27,7 @@ A dedicated **Trains** tab is included in the unified search area. It contains a
 
 ### Final fix
 The homepage CSS and JavaScript are embedded in `index.html` so the premium design works even when GitHub Pages project-path asset loading is misconfigured. The desktop/mobile hero videos remain local in `assets/videos/`.
+
+
+### Final mobile UX update
+The hero content is centered on mobile with reduced vertical spacing. The Flights, Trains, Hotels, Experiences and Cars tabs are fully interactive. Each search form validates its fields and opens the corresponding travel partner landing page. Replace those partner URLs with your official affiliate URLs/widgets when available.

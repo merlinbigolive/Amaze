@@ -60,7 +60,9 @@ body{margin:0;font-family:Inter,Arial,sans-serif;color:#13213a;background:#f6f8f
 footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font-size:13px}
 
 @media(max-width:900px){
- .nav,.header-right{display:none}.menu{display:block}
+ .nav{display:none}
+ .header-right{display:flex;align-items:center;gap:6px;margin-left:auto}
+ .menu{display:block;margin-left:2px}
  .hero{padding-top:112px;min-height:auto;padding-bottom:48px}
  .hero-inner{max-width:720px}
  .eyebrow{letter-spacing:4px;font-size:11px}
@@ -162,6 +164,21 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
  .auth-socials{grid-template-columns:1fr}
  .phone-row{grid-template-columns:105px 1fr}
 }
+
+
+/* v19.1 header controls: keep account + country visible beside the mobile menu */
+.header-right{position:relative;z-index:310}
+.top-account,.top-country{touch-action:manipulation}
+.top-icon-btn,.country-btn{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+@media(max-width:560px){
+ .header-right{gap:5px;margin-left:auto}
+ .top-icon-btn,.country-btn{height:38px}
+ .top-icon-btn{width:40px}
+ .country-btn{min-width:40px;width:40px;padding:0}
+ .country-btn .country-code-label{display:none}
+ .country-menu{right:-36px;top:44px;width:min(250px,calc(100vw - 24px))}
+ .user-popover{right:-8px;top:44px;width:min(230px,calc(100vw - 24px))}
+}
 </style>
 </head>
 <body>
@@ -176,7 +193,12 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
  </nav>
  <div class="header-right">
   <div class="top-account">
-   <button class="top-icon-btn" id="account-toggle" aria-label="User Login" aria-expanded="false">👤</button>
+   <button class="top-icon-btn" id="account-toggle" aria-label="User Login" aria-expanded="false" type="button">
+    <svg class="user-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <circle cx="12" cy="8" r="3.4"></circle>
+      <path d="M5.2 20c.7-3.5 3.1-5.4 6.8-5.4s6.1 1.9 6.8 5.4"></path>
+    </svg>
+  </button>
    <div class="user-popover" id="user-popover" aria-hidden="true">
     <strong id="account-name">Welcome</strong>
     <small id="account-status">Login to manage your trips</small>

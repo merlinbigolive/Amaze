@@ -5,7 +5,51 @@
 <title>AmazeVacation | Hotels, Flights, Experiences & Car Rentals</title>
 <meta name="description" content="Discover hotels, flights, unforgettable experiences and car rentals around the world with AmazeVacation.">
 <meta name="robots" content="index,follow"><link rel="canonical" href="https://amazevacation.com/">
-<link rel="stylesheet" href="assets/style.css">
+<style id="amaze-main-css">
+
+:root{--blue:#073b5c;--blue2:#0b6e99;--emerald:#0c8f72;--gold:#e0b44e;--ink:#102a43;--muted:#627d98;--bg:#f5f8fa;--white:#fff;--shadow:0 22px 65px rgba(16,42,67,.14)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);line-height:1.6;background:var(--bg)}a{text-decoration:none;color:inherit}.wrap{width:min(1180px,92%);margin:auto}
+.header{position:absolute;z-index:20;left:0;right:0;color:#fff}.nav{height:82px;display:flex;align-items:center;justify-content:space-between}.logo{font-size:25px;font-weight:900;letter-spacing:-.7px}.logo span{color:#f3cf75}nav{display:flex;gap:28px;align-items:center;font-weight:700;font-size:14px}nav a:hover{color:#f3cf75}.navbtn{background:#fff;color:var(--blue)!important;padding:11px 18px;border-radius:999px}.menu{display:none;background:none;border:0;color:#fff;font-size:28px}
+.hero{min-height:850px;display:flex;align-items:center;position:relative;background:url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2200&q=90") center/cover;color:#fff;overflow:hidden}.hero-overlay{position:absolute;inset:0;background:linear-gradient(110deg,rgba(2,26,44,.86),rgba(2,44,64,.35))}.hero-inner{position:relative;z-index:2;padding-top:75px}.badge{display:inline-block;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);backdrop-filter:blur(10px);padding:8px 14px;border-radius:999px;font-size:11px;font-weight:900;letter-spacing:1px}.hero h1{font-size:clamp(48px,7vw,82px);line-height:.96;letter-spacing:-4px;margin:22px 0 15px}.hero h1 em{font-style:normal;color:#f3cf75}.hero p{font-size:19px;max-width:650px;color:#e8f0f4;margin:0 0 28px}
+.searchbox{max-width:1080px;background:rgba(255,255,255,.97);color:var(--ink);border-radius:25px;padding:9px;box-shadow:0 30px 80px rgba(0,0,0,.32)}.tabs{display:flex;gap:5px}.tab{flex:1;border:0;background:none;padding:16px 10px;border-radius:15px;color:#38536a;font-weight:900;cursor:pointer}.tab.active{background:var(--blue);color:#fff}.panel{display:none;padding:19px 10px 7px}.panel.active{display:block}.panel h3{margin:0 0 12px;font-size:19px}.affiliate{min-height:82px;border:1px dashed #b4c7d2;border-radius:15px;padding:16px;background:#fafcfd;color:#627d98}.affiliate b{display:block;color:var(--blue)}.affiliate span{font-size:13px}
+.section{padding:92px 0}.light{background:#fff}.heading{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-bottom:30px}.heading small,.ctain small{font-size:11px;font-weight:900;letter-spacing:1.5px;color:var(--emerald)}h2{font-size:clamp(34px,4vw,50px);line-height:1.05;letter-spacing:-1.8px;margin:8px 0 0}.heading>p{max-width:570px;color:var(--muted)}
+.dest-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.destination{height:325px;border-radius:23px;overflow:hidden;position:relative;color:#fff}.destination img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:.5s}.destination:hover img{transform:scale(1.07)}.destination:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 30%,rgba(0,0,0,.75))}.destination div{position:absolute;z-index:2;left:20px;bottom:18px}.destination h3{font-size:27px;margin:0}.destination span{font-size:13px;color:#e4edf1}
+.cards,.guides{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.cards article,.guides article{background:#fff;border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}.cards img,.guides img{width:100%;height:210px;object-fit:cover}.cards div,.guides div{padding:20px}.cards h3,.guides h3{margin:0 0 6px;font-size:21px}.cards p,.guides p{color:var(--muted);margin:0 0 12px}.cards a,.guides a{color:var(--blue2);font-weight:900}.guides article{box-shadow:none;border:1px solid #e5edf1}.guides small{font-weight:900;color:var(--emerald);font-size:10px;letter-spacing:1px}
+.cta{padding:70px 0;background:linear-gradient(120deg,#073b5c,#0b6e99);color:#fff}.ctain{display:flex;align-items:center;justify-content:space-between;gap:25px}.ctain h2{margin:7px 0;color:#fff}.ctain p{margin:0;color:#d8e8ef}.ctain a{background:var(--gold);color:#132f3e;padding:14px 22px;border-radius:999px;font-weight:900}
+footer{background:#061e2d;color:#c8d9e1;padding:60px 0 20px}.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:35px}.footer-grid p{color:#99b1bd;max-width:390px}.footer-grid h4{color:#fff;margin:4px 0 12px}.footer-grid>div:not(:first-child){display:flex;flex-direction:column;gap:8px;font-size:14px}.footer-grid a:hover{color:#fff}.copyright{border-top:1px solid rgba(255,255,255,.1);margin-top:40px;padding-top:18px;font-size:12px;color:#829da9}
+@media(max-width:900px){nav{display:none}.menu{display:block}.dest-grid{grid-template-columns:repeat(2,1fr)}.cards,.guides{grid-template-columns:1fr 1fr}.footer-grid{grid-template-columns:1fr 1fr}.hero{min-height:930px}}
+@media(max-width:620px){.nav{height:72px}.hero{min-height:950px}.hero h1{letter-spacing:-2.5px}.hero p{font-size:16px}.tabs{overflow:auto}.tab{min-width:82px;font-size:12px;padding:13px 5px}.panel{padding-left:5px;padding-right:5px}.section{padding:65px 0}.heading{display:block}.dest-grid,.cards,.guides,.footer-grid{grid-template-columns:1fr}.destination{height:280px}.ctain{display:block}.ctain a{display:inline-block;margin-top:20px}}
+
+/* premium visual polish */
+.navbtn{box-shadow:0 12px 32px rgba(0,0,0,.18)}.section{position:relative}.heading h2{font-weight:850}
+.cta{position:relative;overflow:hidden}.ctain{position:relative;z-index:2}.ctain a{box-shadow:0 12px 30px rgba(0,0,0,.2)}
+@media(max-width:620px){.nav{height:72px}.logo{font-size:23px}.searchbox{border-radius:21px}.hero-meta{margin-bottom:10px}}
+
+
+/* Hero video variants */
+.hero-video-player{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.hero-video-mobile{display:none}
+@media (max-width:767px){
+  .hero-video-desktop{display:none}
+  .hero-video-mobile{display:block}
+}
+
+
+/* AmazeVacation fixed GitHub Pages/project-path styling */
+.hero-video-player{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.hero-video-mobile{display:none}
+.quick-search-form{display:grid;grid-template-columns:repeat(3,1fr) auto;gap:12px;align-items:end;margin-top:18px}
+.quick-search-form label{display:flex;flex-direction:column;gap:7px;font-weight:700;font-size:.86rem}
+.quick-search-form input{width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid rgba(20,55,80,.18);border-radius:12px;background:#fff;font:inherit}
+.train-slot{margin-top:12px}
+@media(max-width:767px){
+  .hero-video-desktop{display:none!important}
+  .hero-video-mobile{display:block!important}
+  .quick-search-form{grid-template-columns:1fr}
+  .quick-search-form .gold-btn{width:100%}
+}
+
+</style>
 <style>
 .hero{min-height:900px;position:relative;overflow:hidden;background:#031d2c}
 .hero-video{position:absolute;inset:0;z-index:0;overflow:hidden}.hero-video video{width:100%;height:100%;object-fit:cover}
@@ -18,6 +62,31 @@
 .cards article,.guides article{transition:.3s}.cards article:hover,.guides article:hover{transform:translateY(-6px)}
 @media(max-width:620px){.hero{min-height:980px}.hero-inner{padding-top:100px}.hero h1{font-size:51px;letter-spacing:-2.5px}.hero p{font-size:16px}.tabs{overflow:auto}.tab{min-width:80px;font-size:12px}.panel-top{align-items:flex-start}.hero-meta{gap:10px 16px;font-size:10px}}
 </style>
+
+<style id="amaze-mobile-fixes">
+.tab-icon{display:inline-block;margin-right:5px}
+.train-form{display:grid;grid-template-columns:repeat(3,1fr) auto;gap:10px;align-items:end;margin-top:14px}
+.train-form label{font-size:12px;font-weight:800;color:var(--ink);display:flex;flex-direction:column;gap:5px}
+.train-form input{width:100%;padding:11px 12px;border:1px solid #cbd9e0;border-radius:11px;background:#fff;box-sizing:border-box;font:inherit;color:var(--ink)}
+.gold-btn{border:0;border-radius:12px;padding:12px 16px;background:linear-gradient(135deg,#e0b44e,#f3cf75);color:#102a43;font-weight:900;cursor:pointer}
+.partner-note{display:block;margin-top:12px;color:var(--muted);font-size:11px}
+@media(max-width:767px){
+  .hero{min-height:960px}
+  .hero-inner{padding-top:95px}
+  .hero h1{font-size:48px;line-height:.98}
+  .searchbox{margin-top:20px;border-radius:22px;padding:7px}
+  .tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px;overflow:visible}
+  .tab{min-width:0!important;padding:11px 2px;font-size:10px;line-height:1.15;white-space:normal;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px}
+  .tab-icon{margin-right:0;font-size:14px}
+  .panel{padding:18px 7px 8px}
+  .panel h3{font-size:22px;line-height:1.15}
+  .affiliate{padding:14px}
+  .train-form{grid-template-columns:1fr 1fr}
+  .train-form label:nth-child(3){grid-column:1/-1}
+  .train-form .gold-btn{grid-column:1/-1}
+}
+</style>
+
 </head>
 <body>
 <header class="header"><div class="nav wrap"><a class="logo" href="index.html">Amaze<span>Vacation</span></a>
@@ -41,8 +110,22 @@
 <p>Hotels, flights, experiences and car rentals — discover your next unforgettable journey in one beautiful place.</p>
 <div class="searchbox glass">
 <div class="tabs"><button class="tab active" data-tab="flights">✈ Flights</button>
-<button class="tab-btn" data-tab="trains" type="button">🚆 <span>Trains</span></button><button class="tab" data-tab="hotels">⌂ Hotels</button><button class="tab" data-tab="tours">✦ Experiences</button><button class="tab" data-tab="cars">◆ Cars</button></div><div class="tab-line"></div>
+<button class="tab" data-tab="trains" type="button"><span class="tab-icon">🚆</span><span>Trains</span></button><button class="tab" data-tab="hotels">⌂ Hotels</button><button class="tab" data-tab="tours">✦ Experiences</button><button class="tab" data-tab="cars">◆ Cars</button></div><div class="tab-line"></div>
 <div class="panel active" id="flights"><div class="panel-top"><div><small>FLIGHTS</small><h3>Where do you want to fly?</h3></div><span class="live">● SEARCH</span></div><div class="affiliate"><b>Flight Search Widget</b>Insert your official Travelpayouts / WayAway affiliate-generated code here.</div></div>
+<div class="panel" id="trains">
+<div class="panel-top"><div><small>TRAINS</small><h3>Book your next rail journey</h3></div><span class="live">● SEARCH</span></div>
+<div class="affiliate train-affiliate">
+<b>Train Booking</b>
+<p>Compare train routes and fares with your official travel partner.</p>
+<form class="train-form" onsubmit="return false;">
+<label>From<input type="text" placeholder="Delhi, Mumbai, Paris…" autocomplete="off"></label>
+<label>To<input type="text" placeholder="Destination" autocomplete="off"></label>
+<label>Departure<input type="date"></label>
+<button class="gold-btn" type="button">Search Trains</button>
+</form>
+<small class="partner-note">Add your official train affiliate widget or booking link here.</small>
+</div>
+</div>
 <div class="panel" id="hotels"><div class="panel-top"><div><small>HOTELS</small><h3>Find a stay you'll love</h3></div><span class="live">● SEARCH</span></div><div class="affiliate"><b>Hotel Search Widget</b>Insert your official Booking.com / Agoda / Travelpayouts widget here.</div></div>
 <div class="panel" id="tours"><div class="panel-top"><div><small>EXPERIENCES</small><h3>Make the destination unforgettable</h3></div><span class="live">● EXPLORE</span></div><div class="affiliate"><b>Experiences Widget</b>Insert your official Viator / GetYourGuide widget here.</div></div>
 <div class="panel" id="cars"><div class="panel-top"><div><small>CAR RENTAL</small><h3>Your road trip starts here</h3></div><span class="live">● SEARCH</span></div><div class="affiliate"><b>Car Rental Widget</b>Insert your official Discover Cars / Rentalcars widget here.</div></div>
@@ -79,6 +162,64 @@
 <div><h4>Legal</h4><a href="affiliate-disclosure.html">Affiliate Disclosure</a><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></div>
 <div><h4>Contact</h4><a href="contact.html">Contact Us</a><a href="cookie-policy.html">Cookie Policy</a></div></div>
 <div class="wrap copyright">© 2026 AmazeVacation.com. All rights reserved. Travel offers are provided by third-party travel partners.</div></footer>
-<script src="assets/app.js"></script>
+<script id="amaze-main-js">
+
+document.addEventListener("DOMContentLoaded",function(){
+ const tabs=document.querySelectorAll(".tab"), panels=document.querySelectorAll(".panel");
+ tabs.forEach(tab=>tab.addEventListener("click",()=>{
+   tabs.forEach(t=>t.classList.remove("active"));
+   panels.forEach(p=>p.classList.remove("active"));
+   tab.classList.add("active");
+   document.getElementById(tab.dataset.tab).classList.add("active");
+ }));
+ const menu=document.querySelector(".menu"),nav=document.querySelector("nav");
+ if(menu)menu.addEventListener("click",()=>{
+   nav.style.display=nav.style.display==="flex"?"none":"flex";
+   nav.style.position="absolute";nav.style.right="4%";nav.style.top="65px";
+   nav.style.background="rgba(6,30,45,.98)";nav.style.padding="18px";
+   nav.style.borderRadius="16px";nav.style.flexDirection="column";nav.style.alignItems="stretch";
+ });
+});
+
+/* Responsive hero video switching: landscape video on desktop/tablet,
+   portrait video on mobile. Only the active video is played. */
+(() => {
+  const desktopVideo = document.querySelector(".hero-video-desktop");
+  const mobileVideo = document.querySelector(".hero-video-mobile");
+  if (!desktopVideo || !mobileVideo) return;
+
+  const mobileQuery = window.matchMedia("(max-width: 767px)");
+
+  function setActiveHeroVideo() {
+    const useMobile = mobileQuery.matches;
+    const active = useMobile ? mobileVideo : desktopVideo;
+    const inactive = useMobile ? desktopVideo : mobileVideo;
+
+    inactive.pause();
+    inactive.removeAttribute("autoplay");
+    active.setAttribute("autoplay", "");
+    active.muted = true;
+    active.setAttribute("muted", "");
+    active.setAttribute("playsinline", "");
+
+    const playPromise = active.play();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => {});
+    }
+  }
+
+  setActiveHeroVideo();
+
+  if (mobileQuery.addEventListener) {
+    mobileQuery.addEventListener("change", setActiveHeroVideo);
+  } else {
+    mobileQuery.addListener(setActiveHeroVideo);
+  }
+
+  window.addEventListener("orientationchange", setActiveHeroVideo, { passive: true });
+})();
+
+
+</script>
 <script>document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));t.classList.add("active");document.getElementById(t.dataset.tab).classList.add("active")})})</script>
 </body></html>

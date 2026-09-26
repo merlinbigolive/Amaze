@@ -23,3 +23,7 @@ This build uses relative asset paths, so it works from a project URL such as:
 
 ### Train booking
 A dedicated **Trains** tab is included in the unified search area. It contains a responsive train-search form and a clearly marked affiliate integration slot. Add your official train affiliate widget/link there; no private API key or invented affiliate ID is included.
+
+
+### Final fix
+The homepage CSS and JavaScript are embedded in `index.html` so the premium design works even when GitHub Pages project-path asset loading is misconfigured. The desktop/mobile hero videos remain local in `assets/videos/`.

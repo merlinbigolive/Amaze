@@ -1,3 +1,9 @@
-Amaze Vacation Professional v8
+Amaze Vacation Professional v16
 
-Updated Train search: 1A First AC-specific preferences are shown when 1A is selected: Cabin (4 berth), Coupe (2 berth), lower-berth reservation preferences, same cabin/coupe preference, auto-upgradation, confirmed-berth-only option, and preferred coach. Options are subject to live railway provider availability/rules. Flight and train customer-facing times use 12-hour AM/PM display.
+Updated hero:
+- User-provided video is used as a full-bleed hero background.
+- Video autoplays muted, loops continuously, plays inline on mobile, and uses object-fit: cover.
+- A dark overlay keeps the hero text and search UI readable.
+- Hero headline remains: “Find your next Journey”.
+
+Keep hero-background.mp4 in the same directory as index.html when deploying.

@@ -1,0 +1,13 @@
+<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Amaze Vacation — Flight Search Results</title><style>
+*{box-sizing:border-box}body{margin:0;background:#061224;color:#eef3fb;font-family:Arial,sans-serif}.wrap{max-width:1050px;margin:auto;padding:24px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}.brand{font-size:25px;font-weight:900;color:#f4c95e}.back{border:1px solid #50617a;background:#0d1c31;color:#fff;border-radius:10px;padding:11px 16px;text-decoration:none;font-weight:700}.summary{background:#0b1a2e;border:1px solid #263b58;border-radius:18px;padding:20px;margin-bottom:22px}.summary h1{margin:0 0 8px;font-size:28px}.summary p{margin:5px 0;color:#aeb9c9}.results{background:#09182b;border:1px solid #263b58;border-radius:18px;padding:22px}.result{padding:18px 0;border-bottom:1px solid #22334b}.result:last-child{border-bottom:0}.badge{display:inline-block;color:#081525;background:#f4c95e;border-radius:20px;padding:5px 10px;font-size:12px;font-weight:800}.muted{color:#aeb9c9}.notice{margin-top:14px;padding:12px 14px;border-radius:10px;background:#101f33;color:#aeb9c9;font-size:14px;line-height:1.5}@media(max-width:600px){.wrap{padding:15px}.top{align-items:flex-start}.summary h1{font-size:23px}}
+</style></head><body data-type="flights"><div class="wrap"><div class="top"><div class="brand">Amaze Vacation</div><a class="back" href="index.html">← Back to Search</a></div><div class="summary"><h1 id="title">Flight Search Results</h1><p id="details"></p></div><div class="results"><div class="result"><span class="badge">SEARCH READY</span><h2>Flights search submitted</h2><p class="muted">Your search criteria has been received. Live flights inventory, availability and prices can be connected here through the supplier API.</p><div class="notice">This page is the internal Amaze Vacation results screen. It does not redirect the customer to another travel website.</div></div></div></div><script>
+const p=new URLSearchParams(location.search);
+function pretty(k){return k.replace(/^(flight|stay|train)-/,'').replace(/-/g,' ').replace(/\b\w/g,m=>m.toUpperCase())}
+function val(...keys){for(const k of keys){if(p.get(k)) return p.get(k)}return ''}
+const type=document.body.dataset.type;
+const titles={flights:'Flight Search Results',stays:'Hotel Search Results',trains:'Train Search Results'};
+document.getElementById('title').textContent=titles[type]||'Search Results';
+const details=[];
+for(const [k,v] of p.entries()){if(v) details.push(`<b>${pretty(k)}:</b> ${v}`)}
+document.getElementById('details').innerHTML=details.length?details.join(' &nbsp; • &nbsp; '):'Your search details will appear here.';
+</script></body></html>

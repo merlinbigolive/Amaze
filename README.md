@@ -15,3 +15,11 @@ The hero now uses two local videos:
 - `assets/videos/hero-mobile.mp4` for mobile portrait screens.
 
 JavaScript automatically activates the appropriate video based on viewport width and pauses the other one to avoid unnecessary playback.
+
+
+### GitHub Pages project-path compatibility
+This build uses relative asset paths, so it works from a project URL such as:
+`https://merlinbigolive.github.io/Amaze/`
+
+### Train booking
+A dedicated **Trains** tab is included in the unified search area. It contains a responsive train-search form and a clearly marked affiliate integration slot. Add your official train affiliate widget/link there; no private API key or invented affiliate ID is included.

@@ -35,3 +35,7 @@ The hero content is centered on mobile with reduced vertical spacing. The Flight
 
 ## India Train Station Codes
 The Train tab includes station autocomplete in the format `Station Name — CODE`, for example `New Delhi Station — NDLS`. Popular Indian station codes are included locally, and a comprehensive public station directory is loaded in the background for broader coverage. Indian Railways uses station codes in its reservation/search services; always verify the final station before booking.
+
+
+## Design refresh
+The homepage uses an original Booking.com-inspired travel-search layout: blue service navigation, clean white search panels, yellow accent, and mobile-first stacked booking fields.

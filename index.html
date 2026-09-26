@@ -126,6 +126,31 @@ footer{background:#061e2d;color:#c8d9e1;padding:60px 0 20px}.footer-grid{display
   .hero-meta{justify-content:center;text-align:center;gap:8px 14px;font-size:10px;margin-top:8px}
 }
 </style>
+
+<style id="mobile-search-fix">
+/* Mobile travel search: keep every tab readable and keep the booking card inside the hero. */
+.tabs{align-items:stretch}
+.tab{min-width:0;overflow:hidden}
+.tab-icon{display:block!important;margin:0 0 3px!important;font-size:14px;line-height:1}
+.tab>span:last-child{display:block!important;white-space:nowrap;overflow:hidden;text-overflow:clip;width:100%;text-align:center}
+@media(max-width:767px){
+  .hero-inner{width:100%;padding-left:14px;padding-right:14px}
+  .searchbox{width:100%;max-width:none;margin-left:0;margin-right:0;padding:7px}
+  .tabs{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;width:100%;overflow:hidden}
+  .tab{width:100%;min-width:0!important;height:58px;padding:7px 1px!important;border-radius:12px;font-size:10px!important;line-height:1!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:2px!important}
+  .tab-icon{font-size:15px!important}
+  .tab>span:last-child{font-size:10px!important;letter-spacing:-.15px}
+  .panel{padding:16px 6px 8px}
+  .panel-top{display:flex;align-items:flex-start}
+  .panel-top>div{min-width:0}
+  .panel h3{font-size:22px;max-width:240px}
+}
+@media(max-width:380px){
+  .tab{font-size:9px!important}
+  .tab>span:last-child{font-size:9px!important}
+  .tab-icon{font-size:14px!important}
+}
+</style>
 </head>
 <body>
 <header class="header"><div class="nav wrap"><a class="logo" href="index.html">Amaze <span>Vacation</span></a>
@@ -136,28 +161,29 @@ footer{background:#061e2d;color:#c8d9e1;padding:60px 0 20px}.footer-grid{display
 <div class="hero-video" aria-hidden="true">
   <video class="hero-video-player hero-video-desktop" muted loop playsinline preload="metadata"
          poster="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2200&q=88">
-    <source src="assets/videos/hero-desktop.mp4" type="video/mp4">
+    <source src="hero-desktop.mp4" type="video/mp4">
   </video>
   <video class="hero-video-player hero-video-mobile" muted loop playsinline preload="metadata"
          poster="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=85">
-    <source src="assets/videos/hero-mobile.mp4" type="video/mp4">
+    <source src="hero-mobile.mp4" type="video/mp4">
   </video>
 </div>
 <div class="hero-overlay"></div><div class="glow g1"></div><div class="glow g2"></div>
 <div class="wrap hero-inner"><div class="badge">✦ PREMIUM GLOBAL TRAVEL PORTAL</div>
-<h1>Travel further.<br><em>Live more.</em></h1>
-<p>Hotels, flights, experiences and car rentals — discover your next unforgettable journey in one beautiful place.</p>
-<div class="searchbox glass" id="travel-search">
+<h1>Find your next <em>journey.</em></h1>
+<p>Search stays, flights, trains, experiences and car rentals — all in one place.</p>
+<div class="booking-shell" id="travel-search">
   <div class="tabs" role="tablist" aria-label="Travel booking options">
-    <button class="tab active" type="button" data-tab="flights" role="tab" aria-selected="true">✈ <span>Flights</span></button>
-    <button class="tab" type="button" data-tab="trains" role="tab" aria-selected="false">🚆 <span>Trains</span></button>
-    <button class="tab" type="button" data-tab="hotels" role="tab" aria-selected="false">⌂ <span>Hotels</span></button>
-    <button class="tab" type="button" data-tab="tours" role="tab" aria-selected="false">✦ <span>Experiences</span></button>
-    <button class="tab" type="button" data-tab="cars" role="tab" aria-selected="false">◆ <span>Cars</span></button>
+    <button class="tab active" type="button" data-tab="hotels" role="tab" aria-selected="true"><span class="tab-icon">⌂</span><span>Hotels</span></button>
+    <button class="tab" type="button" data-tab="flights" role="tab" aria-selected="false"><span class="tab-icon">✈</span><span>Flights</span></button>
+    <button class="tab" type="button" data-tab="trains" role="tab" aria-selected="false"><span class="tab-icon">🚆</span><span>Trains</span></button>
+    <button class="tab" type="button" data-tab="tours" role="tab" aria-selected="false"><span class="tab-icon">✦</span><span>Experiences</span></button>
+    <button class="tab" type="button" data-tab="cars" role="tab" aria-selected="false"><span class="tab-icon">◆</span><span>Cars</span></button>
   </div>
-  <div class="tab-line"></div>
+  <div class="searchbox glass">
+    <div class="tab-line"></div>
 
-  <section class="panel active" id="flights" role="tabpanel">
+  <section class="panel" id="flights" role="tabpanel">
     <div class="panel-top"><div><small>FLIGHTS</small><h3>Where do you want to fly?</h3></div><span class="live">● SEARCH</span></div>
     <form class="booking-form" data-partner="flights">
       <label>From<input name="from" required placeholder="Delhi, Mumbai, London…" autocomplete="off"></label>
@@ -181,7 +207,7 @@ footer{background:#061e2d;color:#c8d9e1;padding:60px 0 20px}.footer-grid{display
     <div class="partner-hint">Train booking partner: 12Go / your official train affiliate integration. Always verify the selected station and code before booking.</div>
   </section>
 
-  <section class="panel" id="hotels" role="tabpanel" hidden>
+  <section class="panel active" id="hotels" role="tabpanel">
     <div class="panel-top"><div><small>HOTELS</small><h3>Find a stay you'll love</h3></div><span class="live">● SEARCH</span></div>
     <form class="booking-form one-line" data-partner="hotels">
       <label>Destination<input name="destination" required placeholder="Dubai, Paris, Bali…" autocomplete="off"></label>
@@ -271,7 +297,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  activateTab("flights");
+  activateTab("hotels");
 
   if (menu && nav) {
     menu.addEventListener("click", function () {

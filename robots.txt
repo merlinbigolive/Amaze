@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://amazevacation.com/sitemap.xml

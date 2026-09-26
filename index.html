@@ -33,7 +33,7 @@ body{margin:0;font-family:Inter,Arial,sans-serif;color:#13213a;background:#f6f8f
 
 .search-card{width:100%;background:rgba(5,15,29,.94);border:1px solid rgba(255,255,255,.15);border-radius:22px;padding:14px;box-shadow:0 24px 70px rgba(0,0,0,.35);text-align:left}
 .tabs{display:flex;gap:4px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:14px}
-.tab{flex:0 0 auto;border:0;background:transparent;color:#cbd5e2;padding:14px 20px;font-size:15px;font-weight:700;cursor:pointer;border-bottom:2px solid transparent}
+.tab{flex:0 0 auto;border:0;background:transparent;color:#cbd5e2;padding:15px 28px;font-size:18px;font-weight:800;cursor:pointer;border-bottom:2px solid transparent;letter-spacing:.1px}
 .tab.active{color:#f4c95e;border-bottom-color:#f4c95e}
 .form{display:none;gap:8px;align-items:end}
 .form.active{display:grid}
@@ -81,7 +81,7 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
  .hero-sub{font-size:15px;line-height:1.5}
  .search-card{border-radius:18px;padding:9px}
  .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
- .tab{padding:12px 4px;font-size:12px}
+ .tab{padding:14px 8px;font-size:15px;font-weight:800}
  .form.active,.form.flights,.form.stays,.form.trains,.form.cars{grid-template-columns:1fr;gap:9px}
  .field input,.field select,.search-btn{height:48px}
  .portal{padding:58px 18px 75px}
@@ -1005,7 +1005,7 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
  signupAction?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();setMode(true);openAuth();});
  logoutAction?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();localStorage.removeItem('amazeUser');refreshAccount();setAccountMenu(false);});
  closeBtn?.addEventListener('click',closeAuth);modal?.addEventListener('click',e=>{if(e.target===modal)closeAuth();});modeBtn?.addEventListener('click',()=>setMode(!signupMode));
- googleBtn?.addEventListener('click',()=>{msg.textContent='Google signup is selected. Connect your Google OAuth client to enable live Google authentication.';msg.classList.add('show');});
+ // Google button is wired by the hardened mobile-safe handler below.
  // Searchable phone country-code picker
  const trigger=document.getElementById('auth-country-trigger'), menu=document.getElementById('auth-country-menu'), search=document.getElementById('auth-country-search'), list=document.getElementById('auth-country-list');
  const countries=[['IN','India','+91'],['US','United States','+1'],['GB','United Kingdom','+44'],['AE','United Arab Emirates','+971'],['SG','Singapore','+65'],['AU','Australia','+61'],['CA','Canada','+1'],['NZ','New Zealand','+64'],['DE','Germany','+49'],['FR','France','+33'],['IT','Italy','+39'],['ES','Spain','+34'],['NL','Netherlands','+31'],['CH','Switzerland','+41'],['SE','Sweden','+46'],['NO','Norway','+47'],['DK','Denmark','+45'],['FI','Finland','+358'],['IE','Ireland','+353'],['PT','Portugal','+351'],['BR','Brazil','+55'],['MX','Mexico','+52'],['AR','Argentina','+54'],['CL','Chile','+56'],['CO','Colombia','+57'],['JP','Japan','+81'],['CN','China','+86'],['KR','South Korea','+82'],['TH','Thailand','+66'],['MY','Malaysia','+60'],['ID','Indonesia','+62'],['PH','Philippines','+63'],['VN','Vietnam','+84'],['PK','Pakistan','+92'],['BD','Bangladesh','+880'],['LK','Sri Lanka','+94'],['NP','Nepal','+977'],['SA','Saudi Arabia','+966'],['QA','Qatar','+974'],['KW','Kuwait','+965'],['OM','Oman','+968'],['BH','Bahrain','+973'],['IL','Israel','+972'],['TR','Türkiye','+90'],['ZA','South Africa','+27'],['NG','Nigeria','+234'],['KE','Kenya','+254'],['EG','Egypt','+20'],['MA','Morocco','+212'],['RU','Russia','+7']];
@@ -1245,6 +1245,37 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
     if(t&&(e.key==='Enter'||e.key===' ')){e.preventDefault();e.stopImmediatePropagation();openAccountMenu();}
   },true);
 
+  /* ---------- LOGIN MODAL HARDENING ----------
+     Keep the close button and Google sign-in action independent from the
+     older account interaction layers above. This prevents touch/click event
+     conflicts on mobile browsers.
+  */
+  const loginModal=$('#login-modal');
+  const loginClose=$('#login-close');
+  const googleLogin=$('#google-signup');
+  function closeLoginModal(e){
+    if(e){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();}
+    if(loginModal){
+      loginModal.classList.remove('show');
+      loginModal.setAttribute('aria-hidden','true');
+    }
+  }
+  if(loginClose){
+    loginClose.addEventListener('pointerdown',closeLoginModal,true);
+    loginClose.addEventListener('click',closeLoginModal,true);
+    loginClose.addEventListener('touchend',closeLoginModal,{capture:true,passive:false});
+  }
+  loginModal?.addEventListener('pointerdown',e=>{if(e.target===loginModal)closeLoginModal(e);},true);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape' && loginModal?.classList.contains('show')) closeLoginModal(e);});
+  if(googleLogin){
+    const openGoogleLogin=e=>{
+      e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+      window.location.href='https://accounts.google.com/ServiceLogin?service=mail&continue=https%3A%2F%2Fmail.google.com%2Fmail%2F';
+    };
+    googleLogin.addEventListener('pointerdown',openGoogleLogin,true);
+    googleLogin.addEventListener('click',openGoogleLogin,true);
+  }
+
   /* ---------- LOCATION AUTOCOMPLETE ----------
      Flights + Stays: worldwide countries and cities.
      Trains: Indian cities/stations only.
@@ -1258,6 +1289,7 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
 
   const WORLD_DATA_URL='https://countriesnow.space/api/v0.1/countries';
   const COUNTRY_CODE_URL='https://restcountries.com/v3.1/all?fields=name,cca2';
+  const AIRPORT_DATA_URL='https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat';
   const GEO_CACHE_KEY='amaze_world_locations_v1';
   const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
   const esc=s=>String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -1266,7 +1298,8 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
   // CountriesNow country/city list when the browser can reach the source.
   const fallbackCountries=[
     ['India','IN'],['United States','US'],['United Kingdom','GB'],['United Arab Emirates','AE'],
-    ['Singapore','SG'],['Australia','AU'],['Canada','CA'],['Germany','DE'],['France','FR'],
+    ['Singapore','SG'],['Australia','AU'],['Canada','CA'],['Germany','DE'],
+    ['Sri Lanka','LK'],['France','FR'],
     ['Italy','IT'],['Spain','ES'],['Japan','JP'],['China','CN'],['South Korea','KR'],
     ['Thailand','TH'],['Malaysia','MY'],['Indonesia','ID'],['Nepal','NP'],['Saudi Arabia','SA'],
     ['Qatar','QA'],['Türkiye','TR'],['South Africa','ZA'],['Egypt','EG'],['Brazil','BR']
@@ -1275,7 +1308,8 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
     ['Delhi','DEL','India'],['Mumbai','BOM','India'],['Bengaluru','BLR','India'],['Hyderabad','HYD','India'],
     ['Chennai','MAA','India'],['Kolkata','CCU','India'],['Dubai','DXB','United Arab Emirates'],
     ['Singapore','SIN','Singapore'],['London','LHR','United Kingdom'],['Paris','CDG','France'],
-    ['New York','JFK','United States'],['Tokyo','NRT','Japan'],['Sydney','SYD','Australia']
+    ['New York','JFK','United States'],['Tokyo','NRT','Japan'],['Sydney','SYD','Australia'],
+    ['Colombo','CMB','Sri Lanka'],['Jaffna','JAF','Sri Lanka'],['Batticaloa','BTC','Sri Lanka'],['Hambantota','HRI','Sri Lanka']
   ];
   const fallbackIndiaCities=[
     ['New Delhi','NDLS','India'],['Delhi','DLI','India'],['Mumbai','MMCT','India'],
@@ -1305,6 +1339,8 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
       const d=JSON.parse(raw);
       if(Array.isArray(d.countries)&&d.countries.length>100) COUNTRIES=d.countries;
       if(Array.isArray(d.worldCities)&&d.worldCities.length>1000) WORLD_CITIES=d.worldCities;
+      mergeUnique(WORLD_CITIES,fallbackWorldCities);
+      mergeUnique(COUNTRIES,fallbackCountries);
       if(Array.isArray(d.indiaCities)&&d.indiaCities.length>100) INDIA_CITIES=d.indiaCities;
       COUNTRIES.forEach(x=>CODE_BY_COUNTRY.set(norm(x[0]),x[1]||''));
       return true;
@@ -1314,9 +1350,10 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
 
   async function loadCompleteLocations(){
     try{
-      const [citiesRes,codesRes]=await Promise.all([
+      const [citiesRes,codesRes,airportRes]=await Promise.all([
         fetch(WORLD_DATA_URL,{cache:'force-cache'}),
-        fetch(COUNTRY_CODE_URL,{cache:'force-cache'})
+        fetch(COUNTRY_CODE_URL,{cache:'force-cache'}),
+        fetch(AIRPORT_DATA_URL,{cache:'force-cache'})
       ]);
       if(!citiesRes.ok) throw new Error('world cities request failed');
       const payload=await citiesRes.json();
@@ -1332,8 +1369,24 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
           if(norm(country)==='india') india.push(row.slice());
         }
       }
-      // Preserve useful airport/station codes from the local fallback.
+      // Enrich the worldwide city list with real IATA airport/city codes where available.
+      // This keeps Stays searchable by city while Flights can use airport codes.
       const airportCode=new Map(fallbackWorldCities.map(x=>[norm(x[0]+'|'+x[2]),x[1]]));
+      const airportCountry=new Map();
+      if(airportRes && airportRes.ok){
+        const text=await airportRes.text();
+        for(const line of text.split(/\r?\n/)){
+          if(!line.trim()) continue;
+          const f=[]; let cur='', quoted=false;
+          for(let i=0;i<line.length;i++){const ch=line[i]; if(ch==='\"'){quoted=!quoted; continue;} if(ch===','&&!quoted){f.push(cur);cur='';} else cur+=ch;}
+          f.push(cur);
+          const city=(f[2]||'').trim(), country=(f[3]||'').trim(), iata=(f[4]||'').trim();
+          if(!city||!country||!iata||iata==='\N'||iata.length!==3) continue;
+          const key=norm(city+'|'+country);
+          if(!airportCode.has(key)) airportCode.set(key,iata);
+          if(!airportCountry.has(norm(city))) airportCountry.set(norm(city),[iata,country]);
+        }
+      }
       const indiaCode=new Map(fallbackIndiaCities.map(x=>[norm(x[0]+'|'+x[2]),x[1]]));
       for(const x of world){const k=norm(x[0]+'|'+x[2]); if(airportCode.has(k)) x[1]=airportCode.get(k);}
       for(const x of india){const k=norm(x[0]+'|'+x[2]); if(indiaCode.has(k)) x[1]=indiaCode.get(k);}
@@ -1370,6 +1423,8 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
     // Flights and Stays use the complete worldwide city/country dataset.
     // Trains intentionally use only India.
     const source=type==='station'?INDIA_CITIES:WORLD_CITIES;
+    mergeUnique(WORLD_CITIES,fallbackWorldCities);
+    mergeUnique(COUNTRIES,fallbackCountries);
     if(!n){
       // Do not dump thousands of results on focus; show useful first matches.
       source.slice(0,12).forEach(x=>out.push([x[0],x[1],x[2],type==='station'?'🚆':'🏙️']));

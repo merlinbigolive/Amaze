@@ -354,8 +354,8 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
 .brand-name b{display:block!important;font-size:29px!important;line-height:.92!important}
 .brand-name span{display:block!important;margin-top:7px!important;margin-left:20px!important;font-size:19px!important;font-weight:900!important;letter-spacing:1.2px!important;line-height:1!important;font-family:Georgia,"Times New Roman",serif!important;color:#f4c95e!important}
 .user-popover{z-index:9999!important;pointer-events:auto!important}
-.top-account{z-index:10000!important}
-.top-icon-btn{position:relative!important;z-index:10001!important;cursor:pointer!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent}
+.top-account{z-index:10000!important;pointer-events:auto!important}
+.top-icon-btn{position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important;pointer-events:auto!important;z-index:10001!important;cursor:pointer!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent}
 @media(max-width:560px){
  .brand-name b{font-size:23px!important}
  .brand-name span{font-size:16px!important;margin-top:6px!important;margin-left:15px!important;letter-spacing:1px!important}
@@ -663,36 +663,93 @@ async function loadLocations(){
 }
 loadLocations();
 
+const REMOTE_GEO={cities:new Map(),countries:new Map()};
+const REMOTE_GEO_URL='https://countries.dev';
+async function fetchWorldCities(query){
+  const q=query.trim(); if(q.length<2) return [];
+  const key=q.toLowerCase(); if(REMOTE_GEO.cities.has(key)) return REMOTE_GEO.cities.get(key);
+  try{
+    const r=await fetch(`${REMOTE_GEO_URL}/cities?q=${encodeURIComponent(q)}&limit=10`,{cache:'force-cache'});
+    if(!r.ok) return [];
+    const data=await r.json();
+    const arr=(Array.isArray(data)?data:(data.data||data.cities||[])).map(x=>[
+      x.name||x.city||x.cityName||'',
+      '',
+      x.countryName||x.country||x.country_name||x.countryCode||'',
+      '🏙️',
+      x.adminName||x.admin||x.region||x.state||''
+    ]).filter(x=>x[0]);
+    REMOTE_GEO.cities.set(key,arr); return arr;
+  }catch(_){return []}
+}
+async function fetchWorldCountries(query){
+  const q=query.trim(); if(q.length<2) return [];
+  const key=q.toLowerCase(); if(REMOTE_GEO.countries.has(key)) return REMOTE_GEO.countries.get(key);
+  try{
+    const r=await fetch(`${REMOTE_GEO_URL}/name/${encodeURIComponent(q)}`,{cache:'force-cache'});
+    if(!r.ok) return [];
+    const data=await r.json();
+    const arr=(Array.isArray(data)?data:(data.data||[])).map(x=>[
+      x.name||'', x.alpha2Code||x.cca2||'', x.region||'', '🌍', x.capital||''
+    ]).filter(x=>x[0]);
+    REMOTE_GEO.countries.set(key,arr); return arr;
+  }catch(_){return []}
+}
 function setupAutocomplete(box){
-  const type=box.dataset.type, input=box.querySelector("input"), list=box.querySelector(".suggestions");
-  let active=-1;
-  function render(q=""){
+  const type=box.dataset.type, input=box.querySelector('input'), list=box.querySelector('.suggestions');
+  let active=-1, timer=null, requestId=0;
+  const isWorldSearch=type==='city';
+  function localMatches(q){
     const query=q.trim().toLowerCase();
-    const matches=DATA[type].filter(x=>(x[0]+' '+x[1]+' '+x[2]+' '+(x[4]||'')+' '+(x[5]||'')).toLowerCase().includes(query)).slice(0,10);
-    list.innerHTML="";
-    matches.forEach((x,i)=>{
-      const row=document.createElement("div");
-      row.className="suggestion";
-      row.innerHTML=`<span class="suggestion-icon">${x[3]}</span><span><div class="suggestion-main">${x[0]}${x[1] ? " ("+x[1]+")" : ""}</div><div class="suggestion-sub">${x[2]}${x[4] ? " • "+x[4] : ""}</div></span>`;
-      row.addEventListener("mousedown",e=>{e.preventDefault();input.value=x[0]+(x[1] ? " ("+x[1]+")" : "");list.classList.remove("show");});
+    return DATA[type].filter(x=>(x[0]+' '+x[1]+' '+x[2]+' '+(x[4]||'')+' '+(x[5]||'')).toLowerCase().includes(query)).slice(0,8);
+  }
+  function draw(matches){
+    list.innerHTML='';
+    matches.slice(0,10).forEach((x,i)=>{
+      const row=document.createElement('div'); row.className='suggestion';
+      const label=x[1] ? `${x[0]} (${x[1]})` : x[0];
+      const sub=x[2]||''; const extra=x[4] ? ` • ${x[4]}` : '';
+      row.innerHTML=`<span class="suggestion-icon">${x[3]||'🏙️'}</span><span><div class="suggestion-main">${esc(label)}</div><div class="suggestion-sub">${esc(sub+extra)}</div></span>`;
+      row.addEventListener('mousedown',e=>{
+        e.preventDefault();
+        input.value=x[1] ? `${x[0]} (${x[1]})` : x[0];
+        input.dataset.code=x[1]||''; input.dataset.country=x[2]||'';
+        list.classList.remove('show');
+      });
       list.appendChild(row);
     });
-    list.classList.toggle("show",matches.length>0);
-    active=-1;
+    list.classList.toggle('show',matches.length>0); active=-1;
   }
-  input.addEventListener("focus",()=>render(input.value));
-  input.addEventListener("input",()=>render(input.value));
-  input.addEventListener("keydown",e=>{
-    const rows=[...list.querySelectorAll(".suggestion")];
-    if(!list.classList.contains("show")||!rows.length)return;
-    if(e.key==="ArrowDown"){e.preventDefault();active=(active+1)%rows.length;}
-    if(e.key==="ArrowUp"){e.preventDefault();active=(active-1+rows.length)%rows.length;}
-    if(e.key==="Enter"&&active>=0){e.preventDefault();rows[active].dispatchEvent(new MouseEvent("mousedown"));return;}
-    if(e.key==="Escape")list.classList.remove("show");
-    rows.forEach((r,i)=>r.classList.toggle("active",i===active));
+  async function render(q=''){
+    const query=q.trim();
+    if(!query){draw(localMatches(''));return;}
+    const id=++requestId;
+    let matches=localMatches(query);
+    if(isWorldSearch && query.length>=2){
+      const [cities,countries]=await Promise.all([fetchWorldCities(query),fetchWorldCountries(query)]);
+      if(id!==requestId)return;
+      const seen=new Set(matches.map(x=>(x[0]+'|'+x[1]+'|'+x[2]).toLowerCase()));
+      for(const x of countries.concat(cities)){
+        const k=(x[0]+'|'+x[1]+'|'+x[2]).toLowerCase();
+        if(!seen.has(k)){seen.add(k);matches.push(x)}
+      }
+    }
+    draw(matches);
+  }
+  input.addEventListener('focus',()=>render(input.value));
+  input.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>render(input.value),120)});
+  input.addEventListener('keydown',e=>{
+    const rows=[...list.querySelectorAll('.suggestion')];
+    if(!list.classList.contains('show')||!rows.length)return;
+    if(e.key==='ArrowDown'){e.preventDefault();active=(active+1)%rows.length;}
+    if(e.key==='ArrowUp'){e.preventDefault();active=(active-1+rows.length)%rows.length;}
+    if(e.key==='Enter'&&active>=0){e.preventDefault();rows[active].dispatchEvent(new MouseEvent('mousedown'));return;}
+    if(e.key==='Escape')list.classList.remove('show');
+    rows.forEach((r,i)=>r.classList.toggle('active',i===active));
   });
-  document.addEventListener("mousedown",e=>{if(!box.contains(e.target))list.classList.remove("show")});
+  document.addEventListener('mousedown',e=>{if(!box.contains(e.target))list.classList.remove('show')});
 }
+document.querySelectorAll('.autocomplete').forEach(setupAutocomplete);
 document.querySelectorAll(".autocomplete").forEach(setupAutocomplete);
 // Customer-facing travel times: always display 12-hour format with AM/PM.
 function formatTravelTime(time, dateOnly=false){
@@ -922,18 +979,24 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
  function openAuth(){modal.classList.add('show');modal.setAttribute('aria-hidden','false');pop.classList.remove('show');setTimeout(()=>{if(signupMode)nameInput.focus();else emailInput.focus()},50);}
  function closeAuth(){modal.classList.remove('show');modal.setAttribute('aria-hidden','true');msg.classList.remove('show');}
  function setMode(signup){signupMode=signup;title.textContent=signup?'Create your Amaze account':'Welcome to Amaze';sub.textContent=signup?'Sign up with Google, Gmail/email, or phone number.':'Login with your email or phone number.';nameInput.required=signup;emailInput.required=signup;document.getElementById('auth-phone').required=!signup;submit.textContent=signup?'Create account':'Continue';document.getElementById('auth-switch-text').textContent=signup?'Already have an account?':'New to Amaze?';modeBtn.textContent=signup?'Login':'Create account';googleBtn.hidden=!signup;}
+ function setAccountMenu(open){
+   if(!accountToggle || !pop) return;
+   if(open && countryMenu) countryMenu.classList.remove('show');
+   pop.classList.toggle('show',!!open);
+   pop.setAttribute('aria-hidden',String(!open));
+   accountToggle.setAttribute('aria-expanded',String(!!open));
+ }
  function toggleAccountMenu(e){
    if(e){e.preventDefault();e.stopPropagation();}
-   const open=!pop.classList.contains('show');
-   if(open){countryMenu.classList.remove('show');}
-   pop.classList.toggle('show',open);
-   pop.setAttribute('aria-hidden',String(!open));
-   accountToggle.setAttribute('aria-expanded',String(open));
+   setAccountMenu(!pop.classList.contains('show'));
  }
- accountToggle?.addEventListener('click',toggleAccountMenu);
- loginAction?.addEventListener('click',e=>{e.stopPropagation();setMode(false);openAuth();});
- signupAction?.addEventListener('click',e=>{e.stopPropagation();setMode(true);openAuth();});
- logoutAction?.addEventListener('click',e=>{e.stopPropagation();localStorage.removeItem('amazeUser');refreshAccount();pop.classList.remove('show');});
+ // Use pointerdown for reliable mouse + touch activation, with click as a keyboard fallback.
+ accountToggle?.addEventListener('pointerdown',toggleAccountMenu,{passive:false});
+ accountToggle?.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){toggleAccountMenu(e);}});
+ pop?.addEventListener('pointerdown',e=>e.stopPropagation());
+ loginAction?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();setMode(false);openAuth();});
+ signupAction?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();setMode(true);openAuth();});
+ logoutAction?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();localStorage.removeItem('amazeUser');refreshAccount();setAccountMenu(false);});
  closeBtn?.addEventListener('click',closeAuth);modal?.addEventListener('click',e=>{if(e.target===modal)closeAuth();});modeBtn?.addEventListener('click',()=>setMode(!signupMode));
  googleBtn?.addEventListener('click',()=>{msg.textContent='Google signup is selected. Connect your Google OAuth client to enable live Google authentication.';msg.classList.add('show');});
  // Searchable phone country-code picker
@@ -1000,12 +1063,12 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
  }
  setCountry(localStorage.getItem('amazeManualCountry')||'IN');
  autoDetectCountry();
- document.addEventListener('click',e=>{
+ document.addEventListener('pointerdown',e=>{
    const insideAccount=!!e.target.closest?.('#account-toggle, #user-popover');
    const insideCountry=!!e.target.closest?.('#country-toggle, #country-menu');
-   if(!insideAccount){pop.classList.remove('show');pop.setAttribute('aria-hidden','true');accountToggle.setAttribute('aria-expanded','false');}
-   if(!insideCountry)countryMenu.classList.remove('show');
- });
+   if(!insideAccount) setAccountMenu(false);
+   if(!insideCountry && countryMenu) countryMenu.classList.remove('show');
+ },true);
  refreshAccount();
  setMode(false);
 })();

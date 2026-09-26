@@ -87,6 +87,21 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
  .card{min-height:auto;padding:27px}
  .card h3{margin-top:23px}
 }
+
+.autocomplete{position:relative;width:100%}
+.suggestions{display:none;position:absolute;left:0;right:0;top:calc(100% + 5px);z-index:100;background:#fff;color:#14233d;border:1px solid #dce2e9;border-radius:13px;box-shadow:0 16px 35px rgba(0,0,0,.18);overflow:hidden;max-height:280px;overflow-y:auto}
+.suggestions.show{display:block}
+.suggestion{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid #edf0f4;cursor:pointer;text-align:left}
+.suggestion:last-child{border-bottom:0}
+.suggestion:hover,.suggestion.active{background:#f3f6fa}
+.suggestion-icon{font-size:20px;width:28px;text-align:center}
+.suggestion-main{font-size:14px;font-weight:700;line-height:1.25}
+.suggestion-sub{font-size:11px;color:#718096;margin-top:3px}
+@media(max-width:560px){
+ .suggestions{position:absolute;max-height:245px}
+ .suggestion{padding:11px 12px}
+}
+
 </style>
 </head>
 <body>
@@ -118,8 +133,8 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
    </div>
 
    <div class="form flights active" id="form-flights">
-    <div class="field"><label>From</label><input list="airports" placeholder="City or airport"></div>
-    <div class="field"><label>To</label><input list="airports" placeholder="City or airport"></div>
+    <div class="field"><label>From</label><div class="autocomplete" data-type="airport"><input autocomplete="off" placeholder="City or airport"><div class="suggestions"></div></div></div>
+    <div class="field"><label>To</label><div class="autocomplete" data-type="airport"><input autocomplete="off" placeholder="City or airport"><div class="suggestions"></div></div></div>
     <div class="field"><label>Departure</label><input type="date"></div>
     <div class="field"><label>Return</label><input type="date"></div>
     <div class="field"><label>Travellers</label><select><option>1 Adult</option><option>2 Adults</option><option>2 Adults, 1 Child</option></select></div>
@@ -127,7 +142,7 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
    </div>
 
    <div class="form stays" id="form-stays">
-    <div class="field"><label>Destination</label><input list="cities" placeholder="City, hotel or landmark"></div>
+    <div class="field"><label>Destination</label><div class="autocomplete" data-type="city"><input autocomplete="off" placeholder="City, country or landmark"><div class="suggestions"></div></div></div>
     <div class="field"><label>Check-in</label><input type="date"></div>
     <div class="field"><label>Check-out</label><input type="date"></div>
     <div class="field"><label>Guests</label><select><option>2 Adults</option><option>1 Adult</option><option>2 Adults, 1 Child</option></select></div>
@@ -135,15 +150,15 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
    </div>
 
    <div class="form trains" id="form-trains">
-    <div class="field"><label>From</label><input list="stations" placeholder="City or station"></div>
-    <div class="field"><label>To</label><input list="stations" placeholder="City or station"></div>
+    <div class="field"><label>From</label><div class="autocomplete" data-type="station"><input autocomplete="off" placeholder="City or station"><div class="suggestions"></div></div></div>
+    <div class="field"><label>To</label><div class="autocomplete" data-type="station"><input autocomplete="off" placeholder="City or station"><div class="suggestions"></div></div></div>
     <div class="field"><label>Travel date</label><input type="date"></div>
     <div class="field"><label>Travellers</label><select><option>1 Adult</option><option>2 Adults</option></select></div>
     <button class="search-btn">Search Trains →</button>
    </div>
 
    <div class="form cars" id="form-cars">
-    <div class="field"><label>Pick-up</label><input list="cities" placeholder="City or airport"></div>
+    <div class="field"><label>Pick-up</label><div class="autocomplete" data-type="city"><input autocomplete="off" placeholder="City or airport"><div class="suggestions"></div></div></div>
     <div class="field"><label>Pick-up date</label><input type="date"></div>
     <div class="field"><label>Drop-off date</label><input type="date"></div>
     <div class="field"><label>Car type</label><select><option>Any car</option><option>Economy</option><option>SUV</option></select></div>
@@ -165,22 +180,84 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
 </section>
 <footer>© 2026 Amaze Vacation • Your travel, one portal.</footer>
 
-<datalist id="airports"><option>Delhi (DEL) — India</option><option>Mumbai (BOM) — India</option><option>Bengaluru (BLR) — India</option><option>Dubai (DXB) — UAE</option><option>Singapore (SIN) — Singapore</option><option>London (LHR) — United Kingdom</option></datalist>
-<datalist id="stations"><option>New Delhi (NDLS) — India</option><option>Old Delhi (DLI) — India</option><option>Mumbai Central (MMCT) — India</option><option>Chhatrapati Shivaji Maharaj Terminus (CSMT) — India</option><option>Howrah (HWH) — India</option><option>Kanpur Central (CNB) — India</option></datalist>
-<datalist id="cities"><option>Delhi, India</option><option>Mumbai, India</option><option>Goa, India</option><option>Dubai, UAE</option><option>Singapore</option><option>London, United Kingdom</option></datalist>
-
 <script>
 const tabs=document.querySelectorAll(".tab");
 const forms=document.querySelectorAll(".form");
+
 function activate(name){
- tabs.forEach(t=>t.classList.toggle("active",t.dataset.tab===name));
- forms.forEach(f=>f.classList.toggle("active",f.classList.contains(name)));
+  tabs.forEach(t=>t.classList.toggle("active",t.dataset.tab===name));
+  forms.forEach(f=>f.classList.toggle("active",f.classList.contains(name)));
 }
 tabs.forEach(t=>t.addEventListener("click",()=>activate(t.dataset.tab)));
 document.querySelectorAll("[data-open]").forEach(a=>a.addEventListener("click",()=>{
- activate(a.dataset.open);
- document.getElementById("search").scrollIntoView({behavior:"smooth"});
+  activate(a.dataset.open);
+  document.getElementById("search").scrollIntoView({behavior:"smooth"});
 }));
+
+/* Amaze Vacation autocomplete database.
+   Flights: city + airport code + country.
+   Trains: city + station code + country.
+   Hotels/Cars: city + country.
+   This is a UI suggestion database; live inventory will later come from the travel API.
+*/
+const DATA={
+ airport:[
+  ["Delhi","DEL","India","✈️"],["Mumbai","BOM","India","✈️"],["Bengaluru","BLR","India","✈️"],
+  ["Hyderabad","HYD","India","✈️"],["Chennai","MAA","India","✈️"],["Kolkata","CCU","India","✈️"],
+  ["Goa","GOI","India","✈️"],["Ahmedabad","AMD","India","✈️"],["Pune","PNQ","India","✈️"],
+  ["Dubai","DXB","United Arab Emirates","✈️"],["Abu Dhabi","AUH","United Arab Emirates","✈️"],
+  ["Singapore","SIN","Singapore","✈️"],["London","LHR","United Kingdom","✈️"],
+  ["New York","JFK","United States","✈️"],["Paris","CDG","France","✈️"],
+  ["Bangkok","BKK","Thailand","✈️"],["Doha","DOH","Qatar","✈️"]
+ ],
+ station:[
+  ["New Delhi","NDLS","India","🚆"],["Old Delhi","DLI","India","🚆"],["Hazrat Nizamuddin","NZM","India","🚆"],
+  ["Anand Vihar Terminal","ANVT","India","🚆"],["Mumbai Central","MMCT","India","🚆"],
+  ["Chhatrapati Shivaji Maharaj Terminus","CSMT","India","🚆"],["Bandra Terminus","BDTS","India","🚆"],
+  ["Howrah","HWH","India","🚆"],["Sealdah","SDAH","India","🚆"],["Kolkata","KOAA","India","🚆"],
+  ["Kanpur Central","CNB","India","🚆"],["Lucknow","LKO","India","🚆"],["Jaipur","JP","India","🚆"],
+  ["Agra Cantt","AGC","India","🚆"],["Chandigarh","CDG","India","🚆"],["Ahmedabad","ADI","India","🚆"]
+ ],
+ city:[
+  ["Delhi","India","","🏨"],["Mumbai","India","","🏨"],["Bengaluru","India","","🏨"],["Goa","India","","🏨"],
+  ["Jaipur","India","","🏨"],["Agra","India","","🏨"],["Hyderabad","India","","🏨"],["Chennai","India","","🏨"],
+  ["Dubai","United Arab Emirates","","🏨"],["Abu Dhabi","United Arab Emirates","","🏨"],
+  ["Singapore","Singapore","","🏨"],["Bangkok","Thailand","","🏨"],["London","United Kingdom","","🏨"],
+  ["Paris","France","","🏨"],["New York","United States","","🏨"]
+ ]
+};
+
+function setupAutocomplete(box){
+  const type=box.dataset.type, input=box.querySelector("input"), list=box.querySelector(".suggestions");
+  let active=-1;
+  function render(q=""){
+    const query=q.trim().toLowerCase();
+    const matches=DATA[type].filter(x=>(x[0]+" "+x[1]+" "+x[2]).toLowerCase().includes(query)).slice(0,8);
+    list.innerHTML="";
+    matches.forEach((x,i)=>{
+      const row=document.createElement("div");
+      row.className="suggestion";
+      row.innerHTML=`<span class="suggestion-icon">${x[3]}</span><span><div class="suggestion-main">${x[0]}${x[1] ? " ("+x[1]+")" : ""}</div><div class="suggestion-sub">${x[2]}</div></span>`;
+      row.addEventListener("mousedown",e=>{e.preventDefault();input.value=x[0]+(x[1] ? " ("+x[1]+")" : "");list.classList.remove("show");});
+      list.appendChild(row);
+    });
+    list.classList.toggle("show",matches.length>0);
+    active=-1;
+  }
+  input.addEventListener("focus",()=>render(input.value));
+  input.addEventListener("input",()=>render(input.value));
+  input.addEventListener("keydown",e=>{
+    const rows=[...list.querySelectorAll(".suggestion")];
+    if(!list.classList.contains("show")||!rows.length)return;
+    if(e.key==="ArrowDown"){e.preventDefault();active=(active+1)%rows.length;}
+    if(e.key==="ArrowUp"){e.preventDefault();active=(active-1+rows.length)%rows.length;}
+    if(e.key==="Enter"&&active>=0){e.preventDefault();rows[active].dispatchEvent(new MouseEvent("mousedown"));return;}
+    if(e.key==="Escape")list.classList.remove("show");
+    rows.forEach((r,i)=>r.classList.toggle("active",i===active));
+  });
+  document.addEventListener("mousedown",e=>{if(!box.contains(e.target))list.classList.remove("show")});
+}
+document.querySelectorAll(".autocomplete").forEach(setupAutocomplete);
 </script>
 </body>
 </html>

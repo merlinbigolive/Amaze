@@ -462,7 +462,7 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
     <div class="field"><label>Check-in</label><input type="date"></div>
     <div class="field"><label>Check-out</label><input type="date"></div>
     <div class="field"><label>Guests</label><div class="passenger-wrap">
-      <button type="button" class="passenger-btn" id="stay-passenger-btn">2 Adults</button>
+      <button type="button" class="passenger-btn" id="stay-passenger-btn">2 Adults, 0 Children</button>
       <div class="passenger-panel" id="stay-passenger-panel">
         <div class="passenger-row"><div><strong>Adults</strong></div><select id="stay-adults"></select></div>
         <div class="custom-count" id="stay-adults-custom" style="display:none"><label>Number of adults</label><input id="stay-adults-custom-input" type="number" min="11" max="50" inputmode="numeric" placeholder="Enter 11–50"></div>
@@ -624,7 +624,7 @@ function rebuildCities(){
  DATA.city=[]; citySeen.clear();
  for(const a of DATA.airport){
    const key=(a[0]+'|'+a[1]).toLowerCase();
-   if(!citySeen.has(key)){citySeen.add(key);DATA.city.push([a[0],a[1],'','🏨']);}
+   if(!citySeen.has(key)){citySeen.add(key);DATA.city.push([a[0],a[1],a[2],'🏨','',countryIso(a[2])]);}
  }
 }
 rebuildCities();
@@ -641,13 +641,13 @@ async function loadLocations(){
     if(!line.trim())return; const x=parseCSVLine(line); const city=x[2],country=x[3],iata=x[4],icao=x[5],name=x[1];
     if(!city||!country||(!iata&&!icao))return;
     const key=(city+'|'+country+'|'+(iata||icao)).toLowerCase(); if(seen.has(key))return; seen.add(key);
-    parsed.push([city,iata||icao,country,'✈️',name,icao]);
+    parsed.push([city,iata||icao,country,'✈️',name,icao,countryIso(country)]);
    });
    if(parsed.length>500) DATA.airport=parsed;
   }
   if(sRes.ok){
    const arr=await sRes.json(); const parsed=[]; const seen=new Set();
-   for(const s of arr){const name=s.name||'',code=s.code||'',state=s.state||'',address=s.address||''; if(!name||!code)continue; const key=(name+'|'+code).toLowerCase(); if(seen.has(key))continue; seen.add(key); parsed.push([name,code,state||address||'India','🚆']);}
+   for(const s of arr){const name=s.name||'',code=s.code||'',state=s.state||'',address=s.address||''; if(!name||!code)continue; const key=(name+'|'+code).toLowerCase(); if(seen.has(key))continue; seen.add(key); parsed.push([name,code,state||address||'India','🚆','', '', 'IN']);}
    if(parsed.length>1000) DATA.station=parsed;
   }
   rebuildCities();
@@ -677,7 +677,8 @@ async function fetchWorldCities(query){
       '',
       x.countryName||x.country||x.country_name||x.countryCode||'',
       '🏙️',
-      x.adminName||x.admin||x.region||x.state||''
+      x.adminName||x.admin||x.region||x.state||'',
+      x.countryCode||x.country_code||x.cca2||''
     ]).filter(x=>x[0]);
     REMOTE_GEO.cities.set(key,arr); return arr;
   }catch(_){return []}
@@ -695,10 +696,15 @@ async function fetchWorldCountries(query){
     REMOTE_GEO.countries.set(key,arr); return arr;
   }catch(_){return []}
 }
+const COUNTRY_ISO={India:'IN','United States':'US','United Kingdom':'GB','United Arab Emirates':'AE','Singapore':'SG','Australia':'AU','Canada':'CA','New Zealand':'NZ','Germany':'DE','France':'FR','Italy':'IT','Spain':'ES','Netherlands':'NL','Switzerland':'CH','Sweden':'SE','Norway':'NO','Denmark':'DK','Finland':'FI','Ireland':'IE','Portugal':'PT','Brazil':'BR','Mexico':'MX','Argentina':'AR','Chile':'CL','Colombia':'CO','Japan':'JP','China':'CN','South Korea':'KR','Thailand':'TH','Malaysia':'MY','Indonesia':'ID','Philippines':'PH','Vietnam':'VN','Pakistan':'PK','Bangladesh':'BD','Sri Lanka':'LK','Nepal':'NP','Saudi Arabia':'SA','Qatar':'QA','Kuwait':'KW','Oman':'OM','Bahrain':'BH','Israel':'IL','Türkiye':'TR','South Africa':'ZA','Nigeria':'NG','Kenya':'KE','Egypt':'EG','Morocco':'MA','Russia':'RU','Austria':'AT','Belgium':'BE','Czechia':'CZ','Poland':'PL','Greece':'GR','Iceland':'IS','Romania':'RO','Hungary':'HU','Croatia':'HR','Serbia':'RS','Ukraine':'UA','United States of America':'US','UAE':'AE'};
+function countryIso(name){const n=String(name||'').trim();return COUNTRY_ISO[n]||COUNTRY_ISO[Object.keys(COUNTRY_ISO).find(k=>k.toLowerCase()===n.toLowerCase())]||'';}
+const COUNTRY_ISO_CACHE=new Map();
+async function fetchCountryIso(name){const known=countryIso(name);if(known)return known;const key=String(name||'').trim().toLowerCase();if(!key)return '';if(COUNTRY_ISO_CACHE.has(key))return COUNTRY_ISO_CACHE.get(key);try{const r=await fetch(`https://restcountries.com/v3.1/name/${encodeURIComponent(name)}?fields=name,cca2`,{cache:'force-cache'});if(!r.ok)return '';const d=await r.json();const code=d?.[0]?.cca2||'';COUNTRY_ISO_CACHE.set(key,code);return code;}catch(_){return ''}}
+
 function setupAutocomplete(box){
   const type=box.dataset.type, input=box.querySelector('input'), list=box.querySelector('.suggestions');
   let active=-1, timer=null, requestId=0;
-  const isWorldSearch=type==='city';
+  const isWorldSearch=type==='city'||type==='station';
   function localMatches(q){
     const query=q.trim().toLowerCase();
     return DATA[type].filter(x=>(x[0]+' '+x[1]+' '+x[2]+' '+(x[4]||'')+' '+(x[5]||'')).toLowerCase().includes(query)).slice(0,8);
@@ -708,12 +714,13 @@ function setupAutocomplete(box){
     matches.slice(0,10).forEach((x,i)=>{
       const row=document.createElement('div'); row.className='suggestion';
       const label=x[1] ? `${x[0]} (${x[1]})` : x[0];
-      const sub=x[2]||''; const extra=x[4] ? ` • ${x[4]}` : '';
-      row.innerHTML=`<span class="suggestion-icon">${x[3]||'🏙️'}</span><span><div class="suggestion-main">${esc(label)}</div><div class="suggestion-sub">${esc(sub+extra)}</div></span>`;
+      const iso=x[6]||countryIso(x[2]);
+      const sub=[x[2]||'',iso?`(${iso})`:'',x[4]||''].filter(Boolean).join(' ');
+      row.innerHTML=`<span class="suggestion-icon">${x[3]||'🏙️'}</span><span><div class="suggestion-main">${esc(label)}</div><div class="suggestion-sub">${esc(sub)}</div></span>`;
       row.addEventListener('mousedown',e=>{
         e.preventDefault();
         input.value=x[1] ? `${x[0]} (${x[1]})` : x[0];
-        input.dataset.code=x[1]||''; input.dataset.country=x[2]||'';
+        input.dataset.code=x[1]||''; input.dataset.country=x[2]||''; input.dataset.countryCode=x[6]||countryIso(x[2]);
         list.classList.remove('show');
       });
       list.appendChild(row);
@@ -734,6 +741,9 @@ function setupAutocomplete(box){
         if(!seen.has(k)){seen.add(k);matches.push(x)}
       }
     }
+    // Resolve ISO country codes for every suggestion so Flights, Stays, Trains and Cars all show them.
+    await Promise.all(matches.slice(0,10).map(async x=>{if(!x[6]&&x[2])x[6]=await fetchCountryIso(x[2]);}));
+    if(id!==requestId)return;
     draw(matches);
   }
   input.addEventListener('focus',()=>render(input.value));
@@ -750,7 +760,6 @@ function setupAutocomplete(box){
   document.addEventListener('mousedown',e=>{if(!box.contains(e.target))list.classList.remove('show')});
 }
 document.querySelectorAll('.autocomplete').forEach(setupAutocomplete);
-document.querySelectorAll(".autocomplete").forEach(setupAutocomplete);
 // Customer-facing travel times: always display 12-hour format with AM/PM.
 function formatTravelTime(time, dateOnly=false){
   if(!time) return "";
@@ -990,10 +999,10 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
    if(e){e.preventDefault();e.stopPropagation();}
    setAccountMenu(!pop.classList.contains('show'));
  }
- // Use pointerdown for reliable mouse + touch activation, with click as a keyboard fallback.
- accountToggle?.addEventListener('pointerdown',toggleAccountMenu,{passive:false});
- accountToggle?.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){toggleAccountMenu(e);}});
- pop?.addEventListener('pointerdown',e=>e.stopPropagation());
+ // Use click for reliable mouse + touch activation. A document-level pointerdown handler previously closed the menu before this ran.
+ accountToggle?.addEventListener('click',toggleAccountMenu);
+ accountToggle?.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleAccountMenu(e);}});
+ pop?.addEventListener('click',e=>e.stopPropagation());
  loginAction?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();setMode(false);openAuth();});
  signupAction?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();setMode(true);openAuth();});
  logoutAction?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();localStorage.removeItem('amazeUser');refreshAccount();setAccountMenu(false);});
@@ -1063,12 +1072,12 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
  }
  setCountry(localStorage.getItem('amazeManualCountry')||'IN');
  autoDetectCountry();
- document.addEventListener('pointerdown',e=>{
+ document.addEventListener('click',e=>{
    const insideAccount=!!e.target.closest?.('#account-toggle, #user-popover');
    const insideCountry=!!e.target.closest?.('#country-toggle, #country-menu');
    if(!insideAccount) setAccountMenu(false);
    if(!insideCountry && countryMenu) countryMenu.classList.remove('show');
- },true);
+ });
  refreshAccount();
  setMode(false);
 })();

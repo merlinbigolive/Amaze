@@ -53,3 +53,18 @@ document.addEventListener("DOMContentLoaded",function(){
 
   window.addEventListener("orientationchange", setActiveHeroVideo, { passive: true });
 })();
+
+/* Train booking tab fallback */
+(() => {
+  const trainBtn = document.querySelector('[data-tab="trains"]');
+  const trainPanel = document.querySelector('[data-panel="trains"]');
+  if (!trainBtn || !trainPanel) return;
+  trainBtn.addEventListener('click', () => {
+    document.querySelectorAll('.search-panel').forEach(p => {
+      if (p !== trainPanel) p.hidden = true;
+    });
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    trainBtn.classList.add('active');
+    trainPanel.hidden = false;
+  });
+})();

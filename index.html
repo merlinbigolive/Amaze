@@ -45,7 +45,8 @@ linear-gradient(135deg,#061326 0%,#0b1c32 58%,#151e35 100%)}
 .field label{display:block;color:#aeb9c9;font-size:11px;font-weight:700;margin-bottom:6px}
 .field input,.field select{width:100%;height:46px;background:#101f34;border:1px solid #33445c;border-radius:10px;color:#fff;padding:0 12px;font-size:13px;outline:none}
 .field input:focus,.field select:focus{border-color:#f4c95e}
-.passenger-wrap{position:relative}.passenger-btn{width:100%;height:46px;background:#101f34;border:1px solid #33445c;border-radius:10px;color:#fff;padding:0 12px;font-size:13px;text-align:left;cursor:pointer}.passenger-btn:focus{border-color:#f4c95e;outline:none}.passenger-panel{display:none;position:absolute;top:calc(100% + 6px);left:0;width:290px;z-index:120;background:#fff;color:#14233d;border-radius:14px;border:1px solid #dce2e9;box-shadow:0 18px 40px rgba(0,0,0,.24);padding:14px}.passenger-panel.show{display:block}.passenger-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #edf0f4}.passenger-row:last-of-type{border-bottom:0}.passenger-row strong{display:block;font-size:13px}.passenger-row small{display:block;color:#718096;font-size:10px;margin-top:2px}.passenger-row select{width:95px;height:38px;background:#f7f9fc;border:1px solid #d7dee8;border-radius:8px;color:#14233d;padding:0 8px}.senior-toggle{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:700;margin-top:10px}.senior-toggle input{width:17px;height:17px;accent-color:#b78a2d}.passenger-note{font-size:10px;color:#718096;line-height:1.4;margin-top:10px}.passenger-done{width:100%;margin-top:10px;height:36px;border:0;border-radius:8px;background:#f4c95e;color:#081525;font-weight:800;cursor:pointer}
+.passenger-wrap{position:relative}.passenger-btn{width:100%;height:46px;background:#101f34;border:1px solid #33445c;border-radius:10px;color:#fff;padding:0 12px;font-size:13px;text-align:left;cursor:pointer}.passenger-btn:focus{border-color:#f4c95e;outline:none}.passenger-panel{display:none;position:absolute;top:calc(100% + 6px);left:0;width:290px;z-index:120;background:#fff;color:#14233d;border-radius:14px;border:1px solid #dce2e9;box-shadow:0 18px 40px rgba(0,0,0,.24);padding:14px}.passenger-panel.show{display:block}.passenger-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #edf0f4}.passenger-row:last-of-type{border-bottom:0}.passenger-row strong{display:block;font-size:13px}.passenger-row small{display:block;color:#718096;font-size:10px;margin-top:2px}.passenger-row select{width:95px;height:38px;background:#f7f9fc;border:1px solid #d7dee8;border-radius:8px;color:#14233d;padding:0 8px}.senior-toggle{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:700;margin-top:10px}.senior-toggle input{width:17px;height:17px;accent-color:#b78a2d}.custom-count{margin:0 0 12px;padding:0 0 12px;border-bottom:1px solid #e5e7eb}.custom-count label{display:block;font-size:14px;font-weight:700;margin-bottom:7px;color:#18263d}.custom-count input{width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid #d5dbe5;border-radius:12px;background:#f8fafc;font-size:16px;color:#18263d}.custom-count input:focus{outline:2px solid rgba(226,181,75,.35);border-color:#c89b35}
+.passenger-note{font-size:10px;color:#718096;line-height:1.4;margin-top:10px}.passenger-done{width:100%;margin-top:10px;height:36px;border:0;border-radius:8px;background:#f4c95e;color:#081525;font-weight:800;cursor:pointer}
 .search-btn{height:46px;border:0;border-radius:10px;background:#f4c95e;color:#081525;font-size:13px;font-weight:800;padding:0 18px;white-space:nowrap;cursor:pointer}
 
 .portal{max-width:1240px;margin:auto;padding:80px 20px 100px}
@@ -106,6 +107,16 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
 
 .first-ac-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.first-ac-grid select,.first-ac-grid input{width:100%;padding:13px 12px;border:1px solid #dce2e9;border-radius:11px;background:#fff;color:#17233b;font:inherit}.check-option{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid #dce2e9;border-radius:11px;background:#fff;font-size:12px;color:#344054}.check-option input{width:auto}.first-ac-note{font-size:11px;color:#7b8798;margin-top:8px}@media(max-width:700px){.first-ac-grid{grid-template-columns:1fr}}
 .time-format-note{grid-column:1/-1;text-align:center;font-size:11px;color:#8f9aaa;margin-top:-2px}
+
+/* Passenger details for the ticket-booking step */
+.booking-passenger-page{display:none;position:fixed;inset:0;z-index:500;background:rgba(4,13,27,.82);backdrop-filter:blur(5px);overflow:auto;padding:28px 14px;}
+.booking-passenger-card{max-width:760px;margin:20px auto;background:#fff;color:#14233d;border-radius:20px;padding:22px;box-shadow:0 24px 60px rgba(0,0,0,.35);}
+.booking-passenger-card h3{margin:0 0 6px;font-size:24px}.booking-passenger-card .booking-sub{margin:0 0 18px;color:#718096;font-size:14px}
+.booking-passenger-row{display:grid;grid-template-columns:1.5fr .8fr .8fr;gap:10px;padding:14px 0;border-bottom:1px solid #e9edf2;align-items:end}
+.booking-passenger-row:last-child{border-bottom:0}.booking-passenger-row label{display:block;font-size:12px;font-weight:700;color:#516174;margin-bottom:6px}
+.booking-passenger-row input,.booking-passenger-row select{width:100%;height:44px;border:1px solid #d7dee7;border-radius:10px;background:#f8fafc;color:#14233d;padding:0 11px;font-size:14px;outline:none;box-sizing:border-box}
+.booking-passenger-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}.booking-close,.booking-continue{height:46px;border-radius:10px;padding:0 20px;font-weight:800;cursor:pointer}.booking-close{background:#edf1f5;border:1px solid #d7dee7;color:#26364d}.booking-continue{background:#f4c95e;border:1px solid #e0b548;color:#14233d}
+@media(max-width:620px){.booking-passenger-page{padding:12px 8px}.booking-passenger-card{padding:16px;border-radius:16px}.booking-passenger-row{grid-template-columns:1fr 1fr;}.booking-passenger-row .name-field{grid-column:1/-1}.booking-passenger-actions{flex-direction:column}.booking-close,.booking-continue{width:100%}}
 </style>
 </head>
 <body>
@@ -162,10 +173,13 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
     <div class="field"><label>Travellers</label><div class="passenger-wrap">
       <button type="button" class="passenger-btn" id="train-passenger-btn">1 Adult</button>
       <div class="passenger-panel" id="train-passenger-panel">
-        <div class="passenger-row"><div><strong>Adults</strong><small>Age 12+</small></div><select id="train-adults"></select></div>
-        <div class="passenger-row"><div><strong>Children</strong><small>Age 5–11</small></div><select id="train-children"></select></div>
-        <label class="senior-toggle"><input type="checkbox" id="train-senior"> Senior citizen</label>
-        <div class="passenger-note">Up to 10 adults and 10 children can be selected in the search form. Final passenger limits depend on the live railway booking provider.</div>
+        <div class="passenger-row"><div><strong>Adults</strong></div><select id="train-adults"></select></div>
+        <div class="custom-count" id="train-adults-custom" style="display:none"><label>Number of adults</label><input id="train-adults-custom-input" type="number" min="11" max="50" inputmode="numeric" placeholder="Enter 11–50"></div>
+        <div class="passenger-row"><div><strong>Children</strong></div><select id="train-children"></select></div>
+        <div class="custom-count" id="train-children-custom" style="display:none"><label>Number of children</label><input id="train-children-custom-input" type="number" min="11" max="50" inputmode="numeric" placeholder="Enter 11–50"></div>
+        <div class="passenger-row"><div><strong>Senior citizen</strong></div><select id="train-senior"></select></div>
+        <div class="custom-count" id="train-senior-custom" style="display:none"><label>Number of senior citizens</label><input id="train-senior-custom-input" type="number" min="11" max="50" inputmode="numeric" placeholder="Enter 11–50"></div>
+        <div class="passenger-note">Adults, children and senior citizens can be selected separately. Up to 10 can be selected in each category; use Custom for more. Final passenger limits depend on the live railway booking provider.</div>
         <button type="button" class="passenger-done" id="train-passenger-done">Done</button>
       </div>
     </div></div>
@@ -341,24 +355,55 @@ function formatTravelTimeRange(departure, arrival, nextDay=false){
 
 const trainAdults=document.getElementById("train-adults");
 const trainChildren=document.getElementById("train-children");
+const trainSenior=document.getElementById("train-senior");
 for(let i=1;i<=10;i++){
   trainAdults.insertAdjacentHTML("beforeend",`<option value="${i}">${i}</option>`);
   trainChildren.insertAdjacentHTML("beforeend",`<option value="${i}">${i}</option>`);
 }
+trainAdults.insertAdjacentHTML("beforeend",`<option value="custom">Custom</option>`);
 trainChildren.insertAdjacentHTML("afterbegin",`<option value="0" selected>0</option>`);
+trainChildren.insertAdjacentHTML("beforeend",`<option value="custom">Custom</option>`);
+for(let i=1;i<=10;i++) trainSenior.insertAdjacentHTML("beforeend",`<option value="${i}">${i}</option>`);
+trainSenior.insertAdjacentHTML("afterbegin",`<option value="0" selected>0</option>`);
+trainSenior.insertAdjacentHTML("beforeend",`<option value="custom">Custom</option>`);
+const trainAdultsCustom=document.getElementById("train-adults-custom");
+const trainChildrenCustom=document.getElementById("train-children-custom");
+const trainAdultsCustomInput=document.getElementById("train-adults-custom-input");
+const trainChildrenCustomInput=document.getElementById("train-children-custom-input");
+const trainSeniorCustom=document.getElementById("train-senior-custom");
+const trainSeniorCustomInput=document.getElementById("train-senior-custom-input");
 const trainPassengerBtn=document.getElementById("train-passenger-btn");
 const trainPassengerPanel=document.getElementById("train-passenger-panel");
-const trainSenior=document.getElementById("train-senior");
+function selectedPassengerCount(select,input,fallback){
+  if(select.value==='custom'){
+    const n=Number(input.value);
+    return Number.isFinite(n) && n>=11 ? Math.min(50,Math.floor(n)) : fallback;
+  }
+  return Number(select.value||fallback);
+}
+function syncCustomPassenger(select,box,input){
+  const isCustom=select.value==='custom';
+  box.style.display=isCustom?'block':'none';
+  if(isCustom && !input.value) input.value='11';
+}
 function updateTrainPassengerSummary(){
-  const a=Number(trainAdults.value||1), c=Number(trainChildren.value||0);
+  const a=selectedPassengerCount(trainAdults,trainAdultsCustomInput,1);
+  const c=selectedPassengerCount(trainChildren,trainChildrenCustomInput,0);
+  const sc=selectedPassengerCount(trainSenior,trainSeniorCustomInput,0);
   const parts=[`${a} Adult${a===1?'':'s'}`];
   if(c) parts.push(`${c} Child${c===1?'':'ren'}`);
-  if(trainSenior.checked) parts.push("Senior citizen");
+  if(sc) parts.push(`${sc} Senior${sc===1?'':'s'}`);
   trainPassengerBtn.textContent=parts.join(", ");
 }
 trainPassengerBtn.addEventListener("click",()=>trainPassengerPanel.classList.toggle("show"));
-[trainAdults,trainChildren,trainSenior].forEach(el=>el.addEventListener("change",updateTrainPassengerSummary));
+trainAdults.addEventListener("change",()=>{syncCustomPassenger(trainAdults,trainAdultsCustom,trainAdultsCustomInput);updateTrainPassengerSummary();});
+trainChildren.addEventListener("change",()=>{syncCustomPassenger(trainChildren,trainChildrenCustom,trainChildrenCustomInput);updateTrainPassengerSummary();});
+trainSenior.addEventListener("change",()=>{syncCustomPassenger(trainSenior,trainSeniorCustom,trainSeniorCustomInput);updateTrainPassengerSummary();});
+[trainAdultsCustomInput,trainChildrenCustomInput,trainSeniorCustomInput].forEach(el=>el.addEventListener("input",updateTrainPassengerSummary));
 document.getElementById("train-passenger-done").addEventListener("click",()=>trainPassengerPanel.classList.remove("show"));
+syncCustomPassenger(trainAdults,trainAdultsCustom,trainAdultsCustomInput);
+syncCustomPassenger(trainChildren,trainChildrenCustom,trainChildrenCustomInput);
+syncCustomPassenger(trainSenior,trainSeniorCustom,trainSeniorCustomInput);
 document.addEventListener("mousedown",e=>{if(!e.target.closest(".passenger-wrap"))trainPassengerPanel.classList.remove("show")});
 
 
@@ -366,6 +411,43 @@ const trainClass=document.getElementById("train-class");
 const firstAcOptions=document.getElementById("first-ac-options");
 function toggleFirstAc(){ firstAcOptions.style.display = trainClass.value.startsWith("1A") ? "block" : "none"; }
 trainClass.addEventListener("change",toggleFirstAc); toggleFirstAc();
+
+// Ticket-booking passenger details: age and gender are selected here, not in the traveller summary.
+const bookingPage=document.getElementById("booking-passenger-page");
+const bookingList=document.getElementById("booking-passenger-list");
+const trainSearchBtn=[...document.querySelectorAll("#form-trains .search-btn")][0];
+function addPassengerFields(label,index){
+  const row=document.createElement("div"); row.className="booking-passenger-row";
+  row.innerHTML=`
+    <div class="name-field"><label>${label} ${index}</label><input type="text" placeholder="Full name" autocomplete="name"></div>
+    <div><label>Age</label><select><option value="">Select age</option>${Array.from({length:100},(_,i)=>`<option>${i+1}</option>`).join("")}</select></div>
+    <div><label>Gender</label><select><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>`;
+  bookingList.appendChild(row);
+}
+function openBookingPassengerPage(){
+  bookingList.innerHTML="";
+  const a=selectedPassengerCount(trainAdults,trainAdultsCustomInput,1), c=selectedPassengerCount(trainChildren,trainChildrenCustomInput,0), sc=selectedPassengerCount(trainSenior,trainSeniorCustomInput,0);
+  for(let i=1;i<=a;i++) addPassengerFields("Adult",i);
+  for(let i=1;i<=c;i++) addPassengerFields("Child",i);
+  for(let i=1;i<=sc;i++) addPassengerFields("Senior Citizen",i);
+  bookingPage.style.display="block"; bookingPage.setAttribute("aria-hidden","false"); document.body.style.overflow="hidden";
+}
+function closeBookingPassengerPage(){bookingPage.style.display="none";bookingPage.setAttribute("aria-hidden","true");document.body.style.overflow="";}
+if(trainSearchBtn) trainSearchBtn.addEventListener("click",openBookingPassengerPage);
+document.getElementById("booking-close").addEventListener("click",closeBookingPassengerPage);
+document.getElementById("booking-continue").addEventListener("click",()=>{ alert("Passenger details saved for the ticket-booking step."); });
 </script>
+
+<div class="booking-passenger-page" id="booking-passenger-page" aria-hidden="true">
+  <div class="booking-passenger-card">
+    <h3>Passenger details</h3>
+    <p class="booking-sub">Enter the details of each passenger for ticket booking.</p>
+    <div id="booking-passenger-list"></div>
+    <div class="booking-passenger-actions">
+      <button type="button" class="booking-close" id="booking-close">Back</button>
+      <button type="button" class="booking-continue" id="booking-continue">Continue to booking</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>

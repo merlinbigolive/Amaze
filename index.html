@@ -12,8 +12,8 @@ body{margin:0;font-family:Inter,Arial,sans-serif;color:#13213a;background:#f6f8f
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;min-width:205px}
 .brand-plane{font-size:29px;color:#f4c95e;transform:rotate(-8deg)}
 .brand-name{display:flex;flex-direction:column;line-height:.95}
-.brand-name b{font-size:27px;letter-spacing:-1.2px}
-.brand-name span{font-size:12px;letter-spacing:3px;color:#f4c95e;margin-top:6px;text-transform:uppercase}
+.brand-name b{font-size:27px;letter-spacing:-1.2px;line-height:.95}
+.brand-name span{font-size:15px;font-weight:800;letter-spacing:2px;color:#f4c95e;margin-top:5px;text-transform:none;line-height:1;font-family:Georgia,"Times New Roman",serif}
 .nav{display:flex;gap:28px;margin:auto}
 .nav a{color:#dce4ef;text-decoration:none;font-size:14px;font-weight:600}
 .nav a:hover{color:#f4c95e}
@@ -74,7 +74,7 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
 }
 @media(max-width:560px){
  .header{height:70px;padding:0 18px}
- .brand{min-width:0}.brand-plane{font-size:26px}.brand-name b{font-size:24px}.brand-name span{font-size:10px;letter-spacing:2.5px}
+ .brand{min-width:0}.brand-plane{font-size:26px}.brand-name b{font-size:24px}.brand-name span{font-size:13px;letter-spacing:1.6px;font-weight:800;margin-top:4px}
  .hero{padding:102px 14px 40px}
  .eyebrow{font-size:9px;letter-spacing:3px;margin-bottom:18px}
  .hero h1{font-size:50px;letter-spacing:-2px}
@@ -143,6 +143,8 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
 .auth-field{margin-bottom:11px}.auth-field label{display:block;font-size:11px;font-weight:800;color:#526175;margin-bottom:6px}
 .auth-field input,.auth-field select{width:100%;height:44px;border:1px solid #d6dde7;border-radius:10px;background:#f8fafc;color:#17233b;padding:0 11px;font-size:14px;box-sizing:border-box}
 .phone-row{display:grid;grid-template-columns:120px 1fr;gap:8px}
+.auth-socials{display:block}.auth-social.auth-google{width:100%;height:46px;font-size:14px}
+.phone-row{position:relative;grid-template-columns:138px 1fr}.country-code-picker{position:relative;min-width:0}.country-code-trigger{width:100%;height:44px;border:1px solid #d6dde7;border-radius:10px;background:#f8fafc;color:#17233b;padding:0 9px;display:flex;align-items:center;gap:7px;font-size:14px;font-weight:800;cursor:pointer}.country-chevron{margin-left:auto;color:#68778d}.country-code-menu{position:absolute;left:0;top:49px;width:310px;max-width:calc(100vw - 70px);background:#fff;border:1px solid #d6dde7;border-radius:12px;box-shadow:0 18px 45px rgba(0,0,0,.18);padding:8px;z-index:900}.country-search{width:100%;height:40px;border:1px solid #d6dde7;border-radius:9px;padding:0 10px;box-sizing:border-box;font-size:13px;outline:none;margin-bottom:7px}.country-code-list{max-height:220px;overflow:auto}.country-code-option{display:flex;align-items:center;gap:9px;width:100%;border:0;background:#fff;padding:9px 8px;border-radius:8px;text-align:left;cursor:pointer;color:#17233b;font-size:13px}.country-code-option:hover{background:#f3f6fa}.country-code-option .cc-name{flex:1}.country-code-option .cc-code{font-weight:800;color:#68778d}.country-code-empty{padding:15px 8px;color:#718096;font-size:12px;text-align:center}
 .auth-submit{width:100%;height:46px;border:0;border-radius:10px;background:#f4c95e;color:#081525;font-weight:900;cursor:pointer;margin-top:4px}
 .auth-switch{text-align:center;margin:14px 0 0;font-size:12px;color:#718096}.auth-switch button{border:0;background:none;color:#9b721c;font-weight:900;cursor:pointer}
 .auth-message{display:none;margin:0 0 12px;padding:9px 11px;border-radius:9px;background:#eef8f0;color:#27653a;font-size:12px;font-weight:700}
@@ -324,7 +326,7 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
   .brand{min-width:0;gap:7px}
   .brand-plane{font-size:24px}
   .brand-name b{font-size:22px}
-  .brand-name span{font-size:9px;letter-spacing:2.2px;margin-top:4px}
+  .brand-name span{font-size:12px;letter-spacing:1.4px;margin-top:4px;font-weight:800}
   .header-right{gap:6px}
   .top-icon-btn,.country-btn{height:38px!important;min-height:38px}
   .top-icon-btn{width:38px!important}
@@ -369,7 +371,11 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
    <div class="user-popover" id="user-popover" aria-hidden="true">
     <strong id="account-name">Welcome</strong>
     <small id="account-status">Login to manage your trips</small>
-    <button id="account-main-action">Login / Sign Up</button>
+    <div class="account-actions">
+      <button id="account-login-action" type="button">Login</button>
+      <button id="account-signup-action" type="button">Sign Up</button>
+      <button id="account-logout-action" type="button" hidden>Logout</button>
+    </div>
    </div>
   </div>
   <div class="top-country">
@@ -523,21 +529,25 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
   <p id="login-subtitle">Login or create your account to manage trips.</p>
   <div class="auth-message" id="auth-message"></div>
   <div class="auth-socials">
-   <button class="auth-social" type="button" data-social="Google">G&nbsp; Google</button>
-   <button class="auth-social" type="button" data-social="Facebook">f&nbsp; Facebook</button>
-   <button class="auth-social" type="button" data-social="X">𝕏&nbsp; X</button>
+   <button class="auth-social auth-google" id="google-signup" type="button">G&nbsp; Continue with Google</button>
   </div>
-  <div class="auth-divider"><span>or continue with phone</span></div>
+  <div class="auth-divider"><span>or use your phone number</span></div>
   <form id="auth-form">
    <div class="auth-field"><label for="auth-name">Full name</label><input id="auth-name" type="text" placeholder="Your name"></div>
+   <div class="auth-field" id="auth-email-field"><label for="auth-email">Gmail / Email</label><input id="auth-email" type="email" placeholder="you@gmail.com"></div>
    <div class="auth-field"><label for="auth-phone">Phone number</label>
     <div class="phone-row">
-     <select id="auth-country"><option value="+91" selected>🇮🇳 +91</option><option value="+1">🇺🇸 +1</option><option value="+44">🇬🇧 +44</option><option value="+971">🇦🇪 +971</option><option value="+65">🇸🇬 +65</option><option value="+61">🇦🇺 +61</option></select>
-     <input id="auth-phone" type="tel" inputmode="tel" placeholder="Phone number" required>
+     <div class="country-code-picker" id="phone-country-picker">
+      <button type="button" class="country-code-trigger" id="auth-country-trigger" aria-expanded="false"><span id="auth-country-flag">🇮🇳</span><span id="auth-country-code">+91</span><span class="country-chevron">⌄</span></button>
+      <div class="country-code-menu" id="auth-country-menu" hidden>
+       <input id="auth-country-search" class="country-search" type="search" placeholder="Search country name or code…" autocomplete="off">
+       <div class="country-code-list" id="auth-country-list"></div>
+      </div>
+     </div>
+     <input id="auth-phone" type="tel" inputmode="tel" placeholder="Phone number">
     </div>
    </div>
-   <div class="auth-field" id="auth-email-field"><label for="auth-email">Email (optional)</label><input id="auth-email" type="email" placeholder="you@example.com"></div>
-   <button class="auth-submit" id="auth-submit" type="submit">Continue with phone</button>
+   <button class="auth-submit" id="auth-submit" type="submit">Create account</button>
   </form>
   <div class="auth-switch"><span id="auth-switch-text">New to Amaze?</span> <button type="button" id="auth-mode-toggle">Create account</button></div>
  </div>
@@ -883,50 +893,39 @@ if(trainSearchBtn) trainSearchBtn.addEventListener("click",()=>goToResults('trai
 document.getElementById("booking-close").addEventListener("click",closeBookingPassengerPage);
 document.getElementById("booking-continue").addEventListener("click",()=>{ alert("Passenger details saved for the ticket-booking step."); });
 
-// v19 account, signup and country selector
+// v22 account, signup, Google + searchable phone country code
 (function(){
  const modal=document.getElementById('login-modal'), closeBtn=document.getElementById('login-close');
  const accountToggle=document.getElementById('account-toggle'), pop=document.getElementById('user-popover');
- const accountAction=document.getElementById('account-main-action');
+ const loginAction=document.getElementById('account-login-action'), signupAction=document.getElementById('account-signup-action'), logoutAction=document.getElementById('account-logout-action');
  const form=document.getElementById('auth-form'), modeBtn=document.getElementById('auth-mode-toggle');
  const title=document.getElementById('login-title'), sub=document.getElementById('login-subtitle'), submit=document.getElementById('auth-submit');
- const msg=document.getElementById('auth-message'), nameInput=document.getElementById('auth-name');
+ const msg=document.getElementById('auth-message'), nameInput=document.getElementById('auth-name'), emailInput=document.getElementById('auth-email');
+ const googleBtn=document.getElementById('google-signup');
  let signupMode=false;
  const getUser=()=>{try{return JSON.parse(localStorage.getItem('amazeUser')||'null')}catch(e){return null}};
- function refreshAccount(){
-   const u=getUser();
-   document.getElementById('account-name').textContent=u?(u.name||'Amaze Traveller'):'Welcome';
-   document.getElementById('account-status').textContent=u?('Signed in with '+(u.phone||'phone')):'Login to manage your trips';
-   accountAction.textContent=u?'Logout':'Login / Sign Up';
- }
- function openAuth(){ modal.classList.add('show');modal.setAttribute('aria-hidden','false');pop.classList.remove('show');setTimeout(()=>document.getElementById('auth-phone').focus(),50); }
+ function refreshAccount(){const u=getUser();document.getElementById('account-name').textContent=u?(u.name||'Amaze Traveller'):'Welcome';document.getElementById('account-status').textContent=u?('Signed in with '+(u.email||u.phone||'account')):'Login to manage your trips';if(loginAction)loginAction.hidden=!!u;if(signupAction)signupAction.hidden=!!u;if(logoutAction)logoutAction.hidden=!u;}
+ function openAuth(){modal.classList.add('show');modal.setAttribute('aria-hidden','false');pop.classList.remove('show');setTimeout(()=>{if(signupMode)nameInput.focus();else emailInput.focus()},50);}
  function closeAuth(){modal.classList.remove('show');modal.setAttribute('aria-hidden','true');msg.classList.remove('show');}
- function setMode(signup){
-   signupMode=signup; title.textContent=signup?'Create your Amaze account':'Welcome to Amaze';
-   sub.textContent=signup?'Sign up to manage trips and travel details.':'Login or create your account to manage trips.';
-   nameInput.required=signup; document.getElementById('auth-email').required=false;
-   submit.textContent=signup?'Create account':'Continue with phone';
-   document.getElementById('auth-switch-text').textContent=signup?'Already have an account?':'New to Amaze?';
-   modeBtn.textContent=signup?'Login':'Create account';
- }
- accountToggle?.addEventListener('click',e=>{e.stopPropagation();const open=!pop.classList.contains('show');pop.classList.toggle('show',open);countryMenu.classList.remove('show');});
- accountAction?.addEventListener('click',()=>{if(getUser()){localStorage.removeItem('amazeUser');refreshAccount();pop.classList.remove('show');}else openAuth();});
- closeBtn?.addEventListener('click',closeAuth);
- modal?.addEventListener('click',e=>{if(e.target===modal)closeAuth();});
- modeBtn?.addEventListener('click',()=>setMode(!signupMode));
- document.querySelectorAll('[data-social]').forEach(b=>b.addEventListener('click',()=>{
-   msg.textContent=b.dataset.social+' sign-in is ready to connect. For now, continue with your phone number below.';
-   msg.classList.add('show');
- }));
- form?.addEventListener('submit',e=>{
-   e.preventDefault();
-   const phone=document.getElementById('auth-phone').value.trim();
-   const country=document.getElementById('auth-country').value;
-   const name=nameInput.value.trim()||'Amaze Traveller';
-   if(!phone)return;
-   localStorage.setItem('amazeUser',JSON.stringify({name,phone:country+' '+phone}));
-   refreshAccount(); closeAuth(); pop.classList.add('show');
- });
+ function setMode(signup){signupMode=signup;title.textContent=signup?'Create your Amaze account':'Welcome to Amaze';sub.textContent=signup?'Sign up with Google, Gmail/email, or phone number.':'Login with your email or phone number.';nameInput.required=signup;emailInput.required=signup;document.getElementById('auth-phone').required=!signup;submit.textContent=signup?'Create account':'Continue';document.getElementById('auth-switch-text').textContent=signup?'Already have an account?':'New to Amaze?';modeBtn.textContent=signup?'Login':'Create account';googleBtn.hidden=!signup;}
+ accountToggle?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const open=!pop.classList.contains('show');pop.classList.toggle('show',open);pop.setAttribute('aria-hidden',String(!open));accountToggle.setAttribute('aria-expanded',String(open));countryMenu.classList.remove('show');});
+ loginAction?.addEventListener('click',e=>{e.stopPropagation();setMode(false);openAuth();});
+ signupAction?.addEventListener('click',e=>{e.stopPropagation();setMode(true);openAuth();});
+ logoutAction?.addEventListener('click',e=>{e.stopPropagation();localStorage.removeItem('amazeUser');refreshAccount();pop.classList.remove('show');});
+ closeBtn?.addEventListener('click',closeAuth);modal?.addEventListener('click',e=>{if(e.target===modal)closeAuth();});modeBtn?.addEventListener('click',()=>setMode(!signupMode));
+ googleBtn?.addEventListener('click',()=>{msg.textContent='Google signup is selected. Connect your Google OAuth client to enable live Google authentication.';msg.classList.add('show');});
+ // Searchable phone country-code picker
+ const trigger=document.getElementById('auth-country-trigger'), menu=document.getElementById('auth-country-menu'), search=document.getElementById('auth-country-search'), list=document.getElementById('auth-country-list');
+ const countries=[['IN','India','+91'],['US','United States','+1'],['GB','United Kingdom','+44'],['AE','United Arab Emirates','+971'],['SG','Singapore','+65'],['AU','Australia','+61'],['CA','Canada','+1'],['NZ','New Zealand','+64'],['DE','Germany','+49'],['FR','France','+33'],['IT','Italy','+39'],['ES','Spain','+34'],['NL','Netherlands','+31'],['CH','Switzerland','+41'],['SE','Sweden','+46'],['NO','Norway','+47'],['DK','Denmark','+45'],['FI','Finland','+358'],['IE','Ireland','+353'],['PT','Portugal','+351'],['BR','Brazil','+55'],['MX','Mexico','+52'],['AR','Argentina','+54'],['CL','Chile','+56'],['CO','Colombia','+57'],['JP','Japan','+81'],['CN','China','+86'],['KR','South Korea','+82'],['TH','Thailand','+66'],['MY','Malaysia','+60'],['ID','Indonesia','+62'],['PH','Philippines','+63'],['VN','Vietnam','+84'],['PK','Pakistan','+92'],['BD','Bangladesh','+880'],['LK','Sri Lanka','+94'],['NP','Nepal','+977'],['SA','Saudi Arabia','+966'],['QA','Qatar','+974'],['KW','Kuwait','+965'],['OM','Oman','+968'],['BH','Bahrain','+973'],['IL','Israel','+972'],['TR','Türkiye','+90'],['ZA','South Africa','+27'],['NG','Nigeria','+234'],['KE','Kenya','+254'],['EG','Egypt','+20'],['MA','Morocco','+212'],['RU','Russia','+7']];
+ const flagFor=code=>[...code].map(c=>String.fromCodePoint(127397+c.charCodeAt(0))).join('');
+ let selectedPhoneCode='+91';
+ function renderCountries(q=''){const term=q.trim().toLowerCase();const matches=countries.filter(c=>(c[1]+' '+c[2]+' '+c[0]).toLowerCase().includes(term));list.innerHTML=matches.length?matches.map(c=>`<button type="button" class="country-code-option" data-code="${c[0]}" data-phone="${c[2]}"><span>${flagFor(c[0])}</span><span class="cc-name">${c[1]}</span><span class="cc-code">${c[2]}</span></button>`).join(''):'<div class="country-code-empty">No country found</div>';}
+ trigger?.addEventListener('click',e=>{e.stopPropagation();const open=menu.hidden;menu.hidden=!open;trigger.setAttribute('aria-expanded',String(open));if(open){renderCountries();setTimeout(()=>search.focus(),30);}});
+ search?.addEventListener('input',()=>renderCountries(search.value));
+ list?.addEventListener('click',e=>{const b=e.target.closest('.country-code-option');if(!b)return;selectedPhoneCode=b.dataset.phone;document.getElementById('auth-country-flag').textContent=flagFor(b.dataset.code);document.getElementById('auth-country-code').textContent=b.dataset.phone;menu.hidden=true;trigger.setAttribute('aria-expanded','false');});
+ document.addEventListener('click',e=>{if(!document.getElementById('phone-country-picker')?.contains(e.target)){if(menu)menu.hidden=true;trigger?.setAttribute('aria-expanded','false');}});
+ form?.addEventListener('submit',e=>{e.preventDefault();const phone=document.getElementById('auth-phone').value.trim();const email=emailInput.value.trim();const name=nameInput.value.trim()||'Amaze Traveller';if(signupMode&&!email&&!phone){msg.textContent='Please enter your Gmail/email or phone number.';msg.classList.add('show');return;}if(!signupMode&&!email&&!phone){msg.textContent='Please enter your email or phone number.';msg.classList.add('show');return;}localStorage.setItem('amazeUser',JSON.stringify({name,email,phone:phone?selectedPhoneCode+' '+phone:''}));refreshAccount();closeAuth();pop.classList.add('show');});
+ refreshAccount();setMode(false);
  const countryToggle=document.getElementById('country-toggle'), countryMenu=document.getElementById('country-menu'), flag=document.getElementById('selected-flag'), countryName=document.getElementById('selected-country-name');
  const countryMeta={IN:['India','+91'],US:['United States','+1'],GB:['United Kingdom','+44'],AE:['UAE','+971'],SG:['Singapore','+65'],AU:['Australia','+61']};
  const codeToFlag=code=>{
@@ -980,10 +979,11 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
  setCountry(localStorage.getItem('amazeManualCountry')||'IN');
  autoDetectCountry();
  document.addEventListener('click',e=>{
-   if(!pop.contains(e.target)&&e.target!==accountToggle)pop.classList.remove('show');
+   if(!pop.contains(e.target)&&e.target!==accountToggle){pop.classList.remove('show');pop.setAttribute('aria-hidden','true');accountToggle.setAttribute('aria-expanded','false');}
    if(!countryMenu.contains(e.target)&&e.target!==countryToggle)countryMenu.classList.remove('show');
  });
  refreshAccount();
+ setMode(false);
 })();
 
 </script>

@@ -1,18 +1,186 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Amaze Vacation</title><link rel="stylesheet" href="style.css"></head><body>
-<header><a class="logo" href="#"><b>✈ Amaze</b><span>Vacation</span></a><nav>Search　 Flights　 Stays　 Trains　 Cars</nav><button>☰</button></header>
-<section class="hero"><p>SMARTER SEARCH • BETTER TRIPS</p><h1>Find your next<br><em>great escape.</em></h1><div class="search">
-<div class="tabs"><button class="on" data-t="flights">✈ Flights</button><button data-t="stays">🏨 Stays</button><button data-t="trains">🚆 Trains</button><button data-t="cars">🚗 Cars</button></div>
-<div class="forms">
-<form id="flights" class="on"><input list="airports" placeholder="From — city or airport"><input list="airports" placeholder="To — city or airport"><input type="date"><input type="date"><select><option>1 Adult</option><option>2 Adults</option></select><button>Search Flights →</button></form>
-<form id="stays"><input list="cities" placeholder="City, hotel or landmark"><input type="date"><input type="date"><select><option>2 Adults</option><option>1 Adult</option></select><button>Search Stays →</button></form>
-<form id="trains"><input list="stations" placeholder="From — city or station"><input list="stations" placeholder="To — city or station"><input type="date"><select><option>1 Adult</option><option>2 Adults</option></select><button>Search Trains →</button></form>
-<form id="cars"><input list="cities" placeholder="Pick-up location"><input type="date"><input type="date"><select><option>Any car</option><option>SUV</option></select><button>Search Cars →</button></form>
-</div></div></section>
-<section class="portal"><small>ONE PORTAL</small><h2>One portal for the whole trip</h2><div class="cards">
-<article>✈️<h3>Flights</h3><p>Search routes, compare fares, stops, times and cabin options.</p><a data-t="flights">Search flights →</a></article>
-<article>🏨<h3>Stays</h3><p>Find hotels and accommodation with dates, guests and flexible choices.</p><a data-t="stays">Search stays →</a></article>
-<article>🚆<h3>Trains</h3><p>Search city-to-city rail routes, stations, timings and available fares.</p><a data-t="trains">Search trains →</a></article>
-<article>🚗<h3>Cars & activities</h3><p>Complete the trip with rental cars, tours and activities.</p><a data-t="cars">Search cars →</a></article>
-</div></section><footer>© 2026 Amaze Vacation • Your travel, one portal.</footer>
-<datalist id="airports"><option>Delhi (DEL) — India</option><option>Mumbai (BOM) — India</option><option>Dubai (DXB) — UAE</option></datalist><datalist id="stations"><option>New Delhi (NDLS) — India</option><option>Mumbai Central (MMCT) — India</option><option>Howrah (HWH) — India</option></datalist><datalist id="cities"><option>Delhi, India</option><option>Mumbai, India</option><option>Goa, India</option><option>Dubai, UAE</option></datalist>
-<script src="script.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Amaze Vacation</title>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,Arial,sans-serif;color:#13213a;background:#f6f8fb;overflow-x:hidden}
+.header{height:76px;width:100%;position:absolute;top:0;left:0;z-index:20;background:#071426;color:#fff;border-bottom:1px solid rgba(255,255,255,.12);display:flex;align-items:center;padding:0 clamp(18px,5vw,70px)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;min-width:205px}
+.brand-plane{font-size:29px;color:#f4c95e;transform:rotate(-8deg)}
+.brand-name{display:flex;flex-direction:column;line-height:.95}
+.brand-name b{font-size:27px;letter-spacing:-1.2px}
+.brand-name span{font-size:12px;letter-spacing:3px;color:#f4c95e;margin-top:6px;text-transform:uppercase}
+.nav{display:flex;gap:28px;margin:auto}
+.nav a{color:#dce4ef;text-decoration:none;font-size:14px;font-weight:600}
+.nav a:hover{color:#f4c95e}
+.header-right{display:flex;gap:10px}
+.header-right button{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:8px 13px}
+.menu{display:none;margin-left:auto;border:0;background:transparent;color:#fff;font-size:28px}
+
+.hero{min-height:800px;padding:126px 20px 65px;position:relative;color:#fff;background:
+radial-gradient(circle at 78% 20%,rgba(245,198,89,.22),transparent 25%),
+radial-gradient(circle at 18% 80%,rgba(35,111,185,.18),transparent 30%),
+linear-gradient(135deg,#061326 0%,#0b1c32 58%,#151e35 100%)}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,8,18,.05),rgba(2,8,18,.38));pointer-events:none}
+.hero-inner{position:relative;z-index:2;max-width:1240px;margin:auto;text-align:center}
+.eyebrow{margin:10px 0 20px;color:#e8edf5;font-size:13px;font-weight:700;letter-spacing:6px}
+.hero h1{margin:0;font-size:clamp(48px,7vw,82px);line-height:.98;letter-spacing:-3px;font-weight:800}
+.hero h1 span{color:#f4c95e}
+.hero-sub{max-width:680px;margin:23px auto 34px;color:#d8e0eb;font-size:18px;line-height:1.55}
+
+.search-card{width:100%;background:rgba(5,15,29,.94);border:1px solid rgba(255,255,255,.15);border-radius:22px;padding:14px;box-shadow:0 24px 70px rgba(0,0,0,.35);text-align:left}
+.tabs{display:flex;gap:4px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:14px}
+.tab{flex:0 0 auto;border:0;background:transparent;color:#cbd5e2;padding:14px 20px;font-size:15px;font-weight:700;cursor:pointer;border-bottom:2px solid transparent}
+.tab.active{color:#f4c95e;border-bottom-color:#f4c95e}
+.form{display:none;gap:8px;align-items:end}
+.form.active{display:grid}
+.form.flights{grid-template-columns:1.35fr 1.35fr 1fr 1fr 1fr auto}
+.form.stays{grid-template-columns:1.8fr 1fr 1fr 1fr auto}
+.form.trains{grid-template-columns:1.35fr 1.35fr 1fr 1fr auto}
+.form.cars{grid-template-columns:1.5fr 1fr 1fr 1fr auto}
+.field label{display:block;color:#aeb9c9;font-size:11px;font-weight:700;margin-bottom:6px}
+.field input,.field select{width:100%;height:46px;background:#101f34;border:1px solid #33445c;border-radius:10px;color:#fff;padding:0 12px;font-size:13px;outline:none}
+.field input:focus,.field select:focus{border-color:#f4c95e}
+.search-btn{height:46px;border:0;border-radius:10px;background:#f4c95e;color:#081525;font-size:13px;font-weight:800;padding:0 18px;white-space:nowrap;cursor:pointer}
+
+.portal{max-width:1240px;margin:auto;padding:80px 20px 100px}
+.portal-kicker{font-size:12px;letter-spacing:4px;color:#a97f21;font-weight:800}
+.portal h2{font-size:clamp(36px,5vw,52px);letter-spacing:-2px;margin:10px 0 34px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{background:#fff;border:1px solid #e1e5eb;border-radius:23px;padding:30px;min-height:300px;box-shadow:0 10px 35px rgba(20,35,58,.06)}
+.card .icon{font-size:37px}
+.card h3{font-size:24px;margin:34px 0 13px}
+.card p{font-size:15px;line-height:1.55;color:#657184;min-height:70px;margin:0 0 18px}
+.card a{color:#1676c8;font-size:15px;font-weight:800;text-decoration:none;cursor:pointer}
+footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font-size:13px}
+
+@media(max-width:900px){
+ .nav,.header-right{display:none}.menu{display:block}
+ .hero{padding-top:112px;min-height:auto;padding-bottom:48px}
+ .hero-inner{max-width:720px}
+ .eyebrow{letter-spacing:4px;font-size:11px}
+ .hero h1{font-size:clamp(46px,12vw,64px)}
+ .hero-sub{font-size:16px;margin-bottom:28px}
+ .form.active,.form.flights,.form.stays,.form.trains,.form.cars{grid-template-columns:1fr 1fr}
+ .search-btn{width:100%}
+ .cards{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+ .header{height:70px;padding:0 18px}
+ .brand{min-width:0}.brand-plane{font-size:26px}.brand-name b{font-size:24px}.brand-name span{font-size:10px;letter-spacing:2.5px}
+ .hero{padding:102px 14px 40px}
+ .eyebrow{font-size:9px;letter-spacing:3px;margin-bottom:18px}
+ .hero h1{font-size:50px;letter-spacing:-2px}
+ .hero-sub{font-size:15px;line-height:1.5}
+ .search-card{border-radius:18px;padding:9px}
+ .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+ .tab{padding:12px 4px;font-size:12px}
+ .form.active,.form.flights,.form.stays,.form.trains,.form.cars{grid-template-columns:1fr;gap:9px}
+ .field input,.field select,.search-btn{height:48px}
+ .portal{padding:58px 18px 75px}
+ .portal h2{font-size:36px}
+ .cards{grid-template-columns:1fr;gap:14px}
+ .card{min-height:auto;padding:27px}
+ .card h3{margin-top:23px}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+ <a class="brand" href="#">
+  <span class="brand-plane">✈</span>
+  <span class="brand-name"><b>Amaze</b><span>Vacation</span></span>
+ </a>
+ <nav class="nav">
+  <a href="#search">Search</a><a href="#flights-card">Flights</a><a href="#stays-card">Stays</a><a href="#trains-card">Trains</a><a href="#cars-card">Cars</a>
+ </nav>
+ <div class="header-right"><button>INR ▾</button><button>Account</button></div>
+ <button class="menu" aria-label="Menu">☰</button>
+</header>
+
+<section class="hero" id="search">
+ <div class="hero-inner">
+  <p class="eyebrow">SMARTER SEARCH • BETTER TRIPS</p>
+  <h1>Find your next<br><span>great escape.</span></h1>
+  <p class="hero-sub">Compare travel options, discover stays and plan your trip in one place.</p>
+
+  <div class="search-card">
+   <div class="tabs">
+    <button class="tab active" data-tab="flights">✈ Flights</button>
+    <button class="tab" data-tab="stays">🏨 Stays</button>
+    <button class="tab" data-tab="trains">🚆 Trains</button>
+    <button class="tab" data-tab="cars">🚗 Cars</button>
+   </div>
+
+   <div class="form flights active" id="form-flights">
+    <div class="field"><label>From</label><input list="airports" placeholder="City or airport"></div>
+    <div class="field"><label>To</label><input list="airports" placeholder="City or airport"></div>
+    <div class="field"><label>Departure</label><input type="date"></div>
+    <div class="field"><label>Return</label><input type="date"></div>
+    <div class="field"><label>Travellers</label><select><option>1 Adult</option><option>2 Adults</option><option>2 Adults, 1 Child</option></select></div>
+    <button class="search-btn">Search Flights →</button>
+   </div>
+
+   <div class="form stays" id="form-stays">
+    <div class="field"><label>Destination</label><input list="cities" placeholder="City, hotel or landmark"></div>
+    <div class="field"><label>Check-in</label><input type="date"></div>
+    <div class="field"><label>Check-out</label><input type="date"></div>
+    <div class="field"><label>Guests</label><select><option>2 Adults</option><option>1 Adult</option><option>2 Adults, 1 Child</option></select></div>
+    <button class="search-btn">Search Stays →</button>
+   </div>
+
+   <div class="form trains" id="form-trains">
+    <div class="field"><label>From</label><input list="stations" placeholder="City or station"></div>
+    <div class="field"><label>To</label><input list="stations" placeholder="City or station"></div>
+    <div class="field"><label>Travel date</label><input type="date"></div>
+    <div class="field"><label>Travellers</label><select><option>1 Adult</option><option>2 Adults</option></select></div>
+    <button class="search-btn">Search Trains →</button>
+   </div>
+
+   <div class="form cars" id="form-cars">
+    <div class="field"><label>Pick-up</label><input list="cities" placeholder="City or airport"></div>
+    <div class="field"><label>Pick-up date</label><input type="date"></div>
+    <div class="field"><label>Drop-off date</label><input type="date"></div>
+    <div class="field"><label>Car type</label><select><option>Any car</option><option>Economy</option><option>SUV</option></select></div>
+    <button class="search-btn">Search Cars →</button>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="portal">
+ <span class="portal-kicker">ONE PORTAL</span>
+ <h2>One portal for the whole trip</h2>
+ <div class="cards">
+  <article class="card" id="flights-card"><div class="icon">✈️</div><h3>Flights</h3><p>Search routes, compare fares, stops, times and cabin options.</p><a data-open="flights">Search flights →</a></article>
+  <article class="card" id="stays-card"><div class="icon">🏨</div><h3>Stays</h3><p>Find hotels and accommodation with dates, guests and flexible choices.</p><a data-open="stays">Search stays →</a></article>
+  <article class="card" id="trains-card"><div class="icon">🚆</div><h3>Trains</h3><p>Search city-to-city rail routes, stations, timings and available fares.</p><a data-open="trains">Search trains →</a></article>
+  <article class="card" id="cars-card"><div class="icon">🚗</div><h3>Cars & activities</h3><p>Complete the trip with rental cars, tours and activities.</p><a data-open="cars">Search cars →</a></article>
+ </div>
+</section>
+<footer>© 2026 Amaze Vacation • Your travel, one portal.</footer>
+
+<datalist id="airports"><option>Delhi (DEL) — India</option><option>Mumbai (BOM) — India</option><option>Bengaluru (BLR) — India</option><option>Dubai (DXB) — UAE</option><option>Singapore (SIN) — Singapore</option><option>London (LHR) — United Kingdom</option></datalist>
+<datalist id="stations"><option>New Delhi (NDLS) — India</option><option>Old Delhi (DLI) — India</option><option>Mumbai Central (MMCT) — India</option><option>Chhatrapati Shivaji Maharaj Terminus (CSMT) — India</option><option>Howrah (HWH) — India</option><option>Kanpur Central (CNB) — India</option></datalist>
+<datalist id="cities"><option>Delhi, India</option><option>Mumbai, India</option><option>Goa, India</option><option>Dubai, UAE</option><option>Singapore</option><option>London, United Kingdom</option></datalist>
+
+<script>
+const tabs=document.querySelectorAll(".tab");
+const forms=document.querySelectorAll(".form");
+function activate(name){
+ tabs.forEach(t=>t.classList.toggle("active",t.dataset.tab===name));
+ forms.forEach(f=>f.classList.toggle("active",f.classList.contains(name)));
+}
+tabs.forEach(t=>t.addEventListener("click",()=>activate(t.dataset.tab)));
+document.querySelectorAll("[data-open]").forEach(a=>a.addEventListener("click",()=>{
+ activate(a.dataset.open);
+ document.getElementById("search").scrollIntoView({behavior:"smooth"});
+}));
+</script>
+</body>
+</html>

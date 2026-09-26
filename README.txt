@@ -1,0 +1,1 @@
+Amaze Vacation v3 — responsive single-file professional frontend. Live APIs are not connected yet.

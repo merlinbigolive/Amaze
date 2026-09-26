@@ -179,6 +179,173 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
  .country-menu{right:-36px;top:44px;width:min(250px,calc(100vw - 24px))}
  .user-popover{right:-8px;top:44px;width:min(230px,calc(100vw - 24px))}
 }
+
+/* v20 — polished top account + country controls */
+.header{
+  padding-left:clamp(18px,4vw,56px);
+  padding-right:clamp(18px,4vw,56px);
+}
+.header-right{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:9px;
+  flex:0 0 auto;
+}
+.top-account,.top-country{
+  position:relative;
+  display:flex;
+  align-items:center;
+}
+.top-icon-btn,.country-btn{
+  box-sizing:border-box;
+  height:42px;
+  min-height:42px;
+  border-radius:12px!important;
+  background:rgba(255,255,255,.07)!important;
+  border:1px solid rgba(255,255,255,.20)!important;
+  box-shadow:0 5px 18px rgba(0,0,0,.10);
+  transition:background .18s ease,border-color .18s ease,transform .18s ease;
+}
+.top-icon-btn:hover,.country-btn:hover{
+  background:rgba(255,255,255,.13)!important;
+  border-color:rgba(244,201,94,.65)!important;
+  transform:translateY(-1px);
+}
+.top-icon-btn{
+  width:42px!important;
+  padding:0!important;
+  justify-content:center;
+}
+.user-svg{
+  width:20px;
+  height:20px;
+  fill:none;
+  stroke:#fff!important;
+  color:#fff!important;
+  stroke-width:2.15;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));
+}
+.country-btn{
+  width:auto!important;
+  min-width:94px!important;
+  padding:0 13px!important;
+  justify-content:center;
+  gap:7px;
+  font-size:13px!important;
+  font-weight:700;
+}
+.selected-flag,.country-flag{line-height:1}
+.country-menu,.user-popover{
+  top:50px!important;
+  right:0!important;
+  border-radius:14px!important;
+  box-shadow:0 22px 55px rgba(0,0,0,.34)!important;
+}
+.country-menu{
+  width:270px!important;
+  padding:11px!important;
+}
+.country-menu-title{
+  padding:5px 7px 9px;
+  margin:0!important;
+  border-bottom:1px solid #edf0f4;
+}
+.country-option{
+  min-height:42px;
+  padding:8px 9px!important;
+  margin-top:3px;
+  border-radius:10px!important;
+  font-size:13px!important;
+  transition:background .15s ease;
+}
+.country-option:hover{background:#f4f7fa!important}
+.country-option input.country-check{
+  appearance:none;
+  -webkit-appearance:none;
+  width:17px!important;
+  height:17px!important;
+  min-width:17px;
+  margin:0!important;
+  border:1.5px solid #b8c2cf;
+  border-radius:50%;
+  background:#fff;
+  position:relative;
+  cursor:pointer;
+}
+.country-option input.country-check:checked{
+  border-color:#c69b3a;
+  background:#fff;
+}
+.country-option input.country-check:checked:after{
+  content:"";
+  position:absolute;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#c69b3a;
+  top:3.5px;
+  left:3.5px;
+}
+.user-popover{
+  width:250px!important;
+  padding:12px!important;
+}
+.user-popover strong{padding:7px 8px 3px!important}
+.user-popover small{padding:0 8px 10px!important}
+.user-popover button{
+  border:1px solid #e2e7ed!important;
+  background:#f6f8fa!important;
+  transition:.15s ease;
+}
+.user-popover button:hover{
+  background:#edf2f6!important;
+  border-color:#cfd8e2!important;
+}
+@media(max-width:900px){
+  .nav{display:none}
+  .header-right{gap:7px}
+  .country-btn{
+    min-width:42px!important;
+    width:42px!important;
+    padding:0!important;
+  }
+  .country-code-label{display:none!important}
+}
+@media(max-width:560px){
+  .header{
+    height:70px;
+    padding-left:14px;
+    padding-right:10px;
+  }
+  .brand{min-width:0;gap:7px}
+  .brand-plane{font-size:24px}
+  .brand-name b{font-size:22px}
+  .brand-name span{font-size:9px;letter-spacing:2.2px;margin-top:4px}
+  .header-right{gap:6px}
+  .top-icon-btn,.country-btn{height:38px!important;min-height:38px}
+  .top-icon-btn{width:38px!important}
+  .country-btn{width:38px!important;min-width:38px!important}
+  .menu{
+    margin-left:2px!important;
+    padding:6px!important;
+    font-size:27px;
+  }
+  .country-menu{
+    top:46px!important;
+    right:-7px!important;
+    width:min(270px,calc(100vw - 20px))!important;
+  }
+  .user-popover{
+    top:46px!important;
+    right:-2px!important;
+    width:min(245px,calc(100vw - 20px))!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -206,15 +373,15 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
    </div>
   </div>
   <div class="top-country">
-   <button class="country-btn" id="country-toggle" aria-label="Select country"><span id="selected-flag">🇮🇳</span><span class="country-code-label"> India ▾</span></button>
+   <button class="country-btn" id="country-toggle" aria-label="Select country"><span id="selected-flag">🇮🇳</span><span class="country-code-label" id="selected-country-name"> India ▾</span></button>
    <div class="country-menu" id="country-menu" aria-hidden="true">
     <div class="country-menu-title">Select country</div>
-    <label class="country-option"><input type="checkbox" value="IN" checked><span class="country-flag">🇮🇳</span><span>India (+91)</span></label>
-    <label class="country-option"><input type="checkbox" value="US"><span class="country-flag">🇺🇸</span><span>United States (+1)</span></label>
-    <label class="country-option"><input type="checkbox" value="GB"><span class="country-flag">🇬🇧</span><span>United Kingdom (+44)</span></label>
-    <label class="country-option"><input type="checkbox" value="AE"><span class="country-flag">🇦🇪</span><span>UAE (+971)</span></label>
-    <label class="country-option"><input type="checkbox" value="SG"><span class="country-flag">🇸🇬</span><span>Singapore (+65)</span></label>
-    <label class="country-option"><input type="checkbox" value="AU"><span class="country-flag">🇦🇺</span><span>Australia (+61)</span></label>
+    <label class="country-option"><input type="checkbox" class="country-check" value="IN" checked><span class="country-flag">🇮🇳</span><span>India (+91)</span></label>
+    <label class="country-option"><input type="checkbox" class="country-check" value="US"><span class="country-flag">🇺🇸</span><span>United States (+1)</span></label>
+    <label class="country-option"><input type="checkbox" class="country-check" value="GB"><span class="country-flag">🇬🇧</span><span>United Kingdom (+44)</span></label>
+    <label class="country-option"><input type="checkbox" class="country-check" value="AE"><span class="country-flag">🇦🇪</span><span>UAE (+971)</span></label>
+    <label class="country-option"><input type="checkbox" class="country-check" value="SG"><span class="country-flag">🇸🇬</span><span>Singapore (+65)</span></label>
+    <label class="country-option"><input type="checkbox" class="country-check" value="AU"><span class="country-flag">🇦🇺</span><span>Australia (+61)</span></label>
    </div>
   </div>
  </div>
@@ -760,18 +927,58 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
    localStorage.setItem('amazeUser',JSON.stringify({name,phone:country+' '+phone}));
    refreshAccount(); closeAuth(); pop.classList.add('show');
  });
- const countryToggle=document.getElementById('country-toggle'), countryMenu=document.getElementById('country-menu'), flag=document.getElementById('selected-flag');
+ const countryToggle=document.getElementById('country-toggle'), countryMenu=document.getElementById('country-menu'), flag=document.getElementById('selected-flag'), countryName=document.getElementById('selected-country-name');
+ const countryMeta={IN:['India','+91'],US:['United States','+1'],GB:['United Kingdom','+44'],AE:['UAE','+971'],SG:['Singapore','+65'],AU:['Australia','+61']};
+ const codeToFlag=code=>{
+   if(!/^[A-Z]{2}$/.test(code||'')) return '🌐';
+   return [...code].map(c=>String.fromCodePoint(127397+c.charCodeAt(0))).join('');
+ };
+ const setCountry=(code,name,manual=false)=>{
+   code=(code||'IN').toUpperCase();
+   const meta=countryMeta[code];
+   name=name || (meta?meta[0]:code);
+   flag.textContent=codeToFlag(code);
+   if(countryName) countryName.textContent=' '+name+' ▾';
+   document.querySelectorAll('#country-menu input.country-check').forEach(x=>x.checked=(x.value===code));
+   if(meta){
+     const select=document.getElementById('auth-country');
+     if(select) select.value=meta[1];
+   }
+   if(manual) localStorage.setItem('amazeManualCountry',code);
+ };
  countryToggle?.addEventListener('click',e=>{e.stopPropagation();countryMenu.classList.toggle('show');pop.classList.remove('show');});
  countryMenu?.querySelectorAll('input[type=checkbox]').forEach(cb=>cb.addEventListener('change',()=>{
-   if(cb.checked){flag.textContent=cb.parentElement.querySelector('.country-flag').textContent;
-     document.querySelectorAll('#country-menu input[type=checkbox]').forEach(x=>{if(x!==cb)x.checked=false;});
-     const code={IN:'+91',US:'+1',GB:'+44',AE:'+971',SG:'+65',AU:'+61'}[cb.value];
-     const select=document.getElementById('auth-country'); if(select) select.value=code;
+   if(cb.checked){
+     const meta=countryMeta[cb.value]||[cb.value, ''];
+     setCountry(cb.value,meta[0],true);
    } else {
      const any=[...countryMenu.querySelectorAll('input[type=checkbox]')].some(x=>x.checked);
      if(!any) cb.checked=true;
    }
  }));
+ // Automatically detect the visitor's country from their IP. No GPS/location permission is requested.
+ async function autoDetectCountry(){
+   if(localStorage.getItem('amazeManualCountry')) return;
+   try{
+     const controller=new AbortController();
+     const timer=setTimeout(()=>controller.abort(),3500);
+     const res=await fetch('https://ipapi.co/json/',{headers:{'Accept':'application/json'},signal:controller.signal,cache:'no-store'});
+     clearTimeout(timer);
+     if(!res.ok) throw new Error('country lookup failed');
+     const data=await res.json();
+     if(data && data.country_code) setCountry(data.country_code,data.country_name||data.country_code,false);
+   }catch(err){
+     // Fallback to the browser's locale when IP detection is unavailable.
+     try{
+       const locale=(navigator.language||'en-IN').replace('_','-');
+       const parts=locale.split('-');
+       const region=(parts[1]||'IN').toUpperCase();
+       setCountry(region,region,false);
+     }catch(e){}
+   }
+ }
+ setCountry(localStorage.getItem('amazeManualCountry')||'IN');
+ autoDetectCountry();
  document.addEventListener('click',e=>{
    if(!pop.contains(e.target)&&e.target!==accountToggle)pop.classList.remove('show');
    if(!countryMenu.contains(e.target)&&e.target!==countryToggle)countryMenu.classList.remove('show');

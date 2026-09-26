@@ -348,6 +348,19 @@ footer{background:#071426;color:#c7d0dc;text-align:center;padding:30px 20px;font
   }
 }
 
+
+/* v25 — brand lockup + reliable mobile account menu */
+.brand-name{align-items:flex-start!important;line-height:1!important}
+.brand-name b{display:block!important;font-size:29px!important;line-height:.92!important}
+.brand-name span{display:block!important;margin-top:7px!important;margin-left:20px!important;font-size:19px!important;font-weight:900!important;letter-spacing:1.2px!important;line-height:1!important;font-family:Georgia,"Times New Roman",serif!important;color:#f4c95e!important}
+.user-popover{z-index:9999!important;pointer-events:auto!important}
+.top-account{z-index:10000!important}
+.top-icon-btn{position:relative!important;z-index:10001!important;cursor:pointer!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent}
+@media(max-width:560px){
+ .brand-name b{font-size:23px!important}
+ .brand-name span{font-size:16px!important;margin-top:6px!important;margin-left:15px!important;letter-spacing:1px!important}
+ .user-popover{z-index:9999!important}
+}
 </style>
 </head>
 <body>
@@ -908,7 +921,16 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
  function openAuth(){modal.classList.add('show');modal.setAttribute('aria-hidden','false');pop.classList.remove('show');setTimeout(()=>{if(signupMode)nameInput.focus();else emailInput.focus()},50);}
  function closeAuth(){modal.classList.remove('show');modal.setAttribute('aria-hidden','true');msg.classList.remove('show');}
  function setMode(signup){signupMode=signup;title.textContent=signup?'Create your Amaze account':'Welcome to Amaze';sub.textContent=signup?'Sign up with Google, Gmail/email, or phone number.':'Login with your email or phone number.';nameInput.required=signup;emailInput.required=signup;document.getElementById('auth-phone').required=!signup;submit.textContent=signup?'Create account':'Continue';document.getElementById('auth-switch-text').textContent=signup?'Already have an account?':'New to Amaze?';modeBtn.textContent=signup?'Login':'Create account';googleBtn.hidden=!signup;}
- accountToggle?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const open=!pop.classList.contains('show');pop.classList.toggle('show',open);pop.setAttribute('aria-hidden',String(!open));accountToggle.setAttribute('aria-expanded',String(open));countryMenu.classList.remove('show');});
+ function toggleAccountMenu(e){
+   if(e){e.preventDefault();e.stopPropagation();}
+   const open=!pop.classList.contains('show');
+   if(open){countryMenu.classList.remove('show');}
+   pop.classList.toggle('show',open);
+   pop.setAttribute('aria-hidden',String(!open));
+   accountToggle.setAttribute('aria-expanded',String(open));
+ }
+ accountToggle?.addEventListener('click',toggleAccountMenu);
+ accountToggle?.addEventListener('pointerup',e=>{ if(e.pointerType==='touch') toggleAccountMenu(e); });
  loginAction?.addEventListener('click',e=>{e.stopPropagation();setMode(false);openAuth();});
  signupAction?.addEventListener('click',e=>{e.stopPropagation();setMode(true);openAuth();});
  logoutAction?.addEventListener('click',e=>{e.stopPropagation();localStorage.removeItem('amazeUser');refreshAccount();pop.classList.remove('show');});
@@ -979,8 +1001,10 @@ document.getElementById("booking-continue").addEventListener("click",()=>{ alert
  setCountry(localStorage.getItem('amazeManualCountry')||'IN');
  autoDetectCountry();
  document.addEventListener('click',e=>{
-   if(!pop.contains(e.target)&&e.target!==accountToggle){pop.classList.remove('show');pop.setAttribute('aria-hidden','true');accountToggle.setAttribute('aria-expanded','false');}
-   if(!countryMenu.contains(e.target)&&e.target!==countryToggle)countryMenu.classList.remove('show');
+   const insideAccount=!!e.target.closest?.('#account-toggle, #user-popover');
+   const insideCountry=!!e.target.closest?.('#country-toggle, #country-menu');
+   if(!insideAccount){pop.classList.remove('show');pop.setAttribute('aria-hidden','true');accountToggle.setAttribute('aria-expanded','false');}
+   if(!insideCountry)countryMenu.classList.remove('show');
  });
  refreshAccount();
  setMode(false);

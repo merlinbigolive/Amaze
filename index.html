@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AmazeVacation | Hotels, Flights, Experiences & Car Rentals</title>
-<meta name="description" content="Discover hotels, flights, unforgettable experiences and car rentals around the world with AmazeVacation.">
+<title>Amaze Vacation | Hotels, Flights, Trains, Experiences & Car Rentals</title>
+<meta name="description" content="Discover hotels, flights, unforgettable experiences and car rentals around the world with Amaze Vacation.">
 <meta name="robots" content="index,follow"><link rel="canonical" href="https://amazevacation.com/">
 <style id="amaze-main-css">
 
@@ -126,546 +126,9 @@ footer{background:#061e2d;color:#c8d9e1;padding:60px 0 20px}.footer-grid{display
   .hero-meta{justify-content:center;text-align:center;gap:8px 14px;font-size:10px;margin-top:8px}
 }
 </style>
-
-<style id="dark-blue-silver-theme">
-:root{
-  --navy:#061526;
-  --navy2:#0a2238;
-  --navy3:#0d304d;
-  --silver:#dfe8ef;
-  --silver2:#9eafbd;
-  --white:#f7fbff;
-  --line:rgba(211,226,238,.20);
-  --glass:rgba(5,23,39,.78);
-}
-
-/* Deep navy cinematic background */
-body{
-  background:#061526!important;
-  color:var(--white)!important;
-}
-.hero{
-  background:#061526!important;
-}
-.hero::after{
-  background:
-    linear-gradient(180deg,rgba(2,12,23,.25),rgba(2,14,27,.72) 72%,#061526 100%)!important;
-}
-.hero-video-player{
-  filter:saturate(.72) brightness(.58) contrast(1.08);
-}
-
-/* Silver animated shine text */
-.hero h1,
-.hero h1 span,
-.shine-text{
-  color:transparent!important;
-  background:
-    linear-gradient(
-      110deg,
-      #778795 0%,
-      #eef5fa 18%,
-      #ffffff 31%,
-      #9aaab7 43%,
-      #ffffff 54%,
-      #6f7f8d 70%,
-      #f7fbff 86%,
-      #82929f 100%
-    );
-  background-size:260% auto;
-  -webkit-background-clip:text;
-  background-clip:text;
-  animation:silverShine 4.5s linear infinite;
-  text-shadow:0 0 28px rgba(220,235,245,.12);
-}
-@keyframes silverShine{
-  0%{background-position:260% center}
-  100%{background-position:-60% center}
-}
-
-/* Brand */
-.brand,
-.logo,
-.site-logo{
-  color:#fff!important;
-}
-.brand span,
-.logo span,
-.site-logo span{
-  color:#dbe5ec!important;
-  background:linear-gradient(110deg,#778692,#fff,#a9b7c1,#fff,#758592);
-  background-size:220% auto;
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation:silverShine 4s linear infinite;
-}
-
-/* Premium badge */
-.badge,
-.eyebrow{
-  border-color:rgba(220,231,239,.35)!important;
-  color:#e9f0f5!important;
-  background:rgba(7,28,46,.42)!important;
-}
-
-/* Glass search panel */
-.searchbox,
-.glass{
-  background:linear-gradient(145deg,rgba(9,32,51,.91),rgba(3,18,32,.86))!important;
-  border:1px solid rgba(210,224,234,.34)!important;
-  box-shadow:
-    0 24px 70px rgba(0,0,0,.42),
-    inset 0 1px 0 rgba(255,255,255,.12),
-    0 0 0 1px rgba(255,255,255,.03)!important;
-  backdrop-filter:blur(18px);
-}
-
-/* Tabs */
-.tabs,.tab-line{
-  border-color:rgba(210,225,237,.16)!important;
-}
-.tab{
-  color:#b9c8d3!important;
-}
-.tab:hover{
-  color:#fff!important;
-  background:rgba(220,231,239,.07)!important;
-}
-.tab[aria-selected="true"],
-.tab.active{
-  background:linear-gradient(135deg,#173f5e,#0b2b45)!important;
-  color:#fff!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 8px 24px rgba(0,0,0,.2);
-}
-
-/* Panel */
-.panel-top h3{
-  color:#f2f7fa!important;
-}
-.panel-top small,
-.live{
-  color:#c9d6df!important;
-}
-.live{
-  text-shadow:0 0 12px rgba(220,235,245,.35);
-}
-
-/* Form */
-.booking-form label{
-  color:#c6d4de!important;
-}
-.booking-form input{
-  background:rgba(242,247,250,.97)!important;
-  color:#102c42!important;
-  border-color:rgba(218,231,240,.32)!important;
-}
-.gold-btn{
-  background:linear-gradient(135deg,#dfe7ec,#9eacb7,#f7fbff,#8797a4)!important;
-  background-size:220% auto!important;
-  color:#071a2b!important;
-  box-shadow:0 8px 24px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.7)!important;
-  animation:silverButton 4s linear infinite;
-}
-@keyframes silverButton{
-  0%{background-position:220% center}
-  100%{background-position:-40% center}
-}
-
-/* Hero copy */
-.hero p{
-  color:#d9e4eb!important;
-  text-shadow:0 2px 18px rgba(0,0,0,.5);
-}
-.hero-meta{
-  color:#c5d2dc!important;
-}
-
-/* Navigation */
-header{
-  background:linear-gradient(180deg,rgba(3,18,31,.90),rgba(3,18,31,.30))!important;
-}
-nav a{
-  color:#d4e0e8!important;
-}
-nav a:hover{
-  color:#fff!important;
-  text-shadow:0 0 14px rgba(220,235,245,.45);
-}
-
-/* Sections/footer */
-section:not(.hero){
-  background:#071a2c!important;
-}
-.card,
-.destination-card,
-.guide-card,
-.experience-card{
-  background:linear-gradient(145deg,#0b263e,#071a2c)!important;
-  border-color:rgba(214,228,238,.16)!important;
-}
-h2,h3,h4{
-  color:#edf4f8!important;
-}
-p{
-  color:#b8c8d3;
-}
-footer{
-  background:#04111f!important;
-  color:#aebec9!important;
-  border-top:1px solid rgba(214,228,238,.12)!important;
-}
-footer a{
-  color:#d8e3ea!important;
-}
-
-/* Silver shimmer on section headings */
-.section-title,
-.section-heading{
-  position:relative;
-}
-.section-title::after,
-.section-heading::after{
-  content:"";
-  display:block;
-  width:72px;
-  height:2px;
-  margin:12px auto 0;
-  background:linear-gradient(90deg,transparent,#e9f1f5,transparent);
-  animation:lineShine 2.8s ease-in-out infinite;
-}
-@keyframes lineShine{
-  0%,100%{opacity:.35;transform:scaleX(.55)}
-  50%{opacity:1;transform:scaleX(1)}
-}
-
-/* Mobile */
-@media(max-width:767px){
-  .hero-video-player{filter:saturate(.70) brightness(.55) contrast(1.08)}
-  .hero-inner{padding-top:86px!important}
-  .searchbox{background:linear-gradient(145deg,rgba(7,28,47,.94),rgba(3,17,30,.93))!important}
-  .tab{color:#b8c8d3!important}
-  .tab.active,.tab[aria-selected="true"]{color:#fff!important}
-}
-</style>
-
-
-<style id="final-premium-layout-fix">
-/* =========================================================
-   AMAZEVACATION — FINAL PREMIUM LAYOUT
-   Dark navy / silver chrome / clean responsive booking UI
-   ========================================================= */
-html,body{width:100%;overflow-x:hidden}
-body{background:#061526!important}
-
-/* HERO */
-.hero{
-  min-height:100svh!important;
-  height:auto!important;
-  display:block!important;
-  position:relative!important;
-  overflow:hidden!important;
-}
-.hero-video{position:absolute!important;inset:0!important;z-index:0!important}
-.hero-overlay{
-  z-index:1!important;
-  background:
-    linear-gradient(180deg,rgba(2,12,24,.55) 0%,rgba(3,19,33,.60) 48%,rgba(3,16,29,.90) 100%)!important;
-}
-.hero-inner{
-  position:relative!important;
-  z-index:3!important;
-  width:min(1180px,100%)!important;
-  max-width:1180px!important;
-  min-height:100svh!important;
-  margin:0 auto!important;
-  padding:105px 30px 48px!important;
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:center!important;
-  justify-content:center!important;
-  text-align:center!important;
-}
-
-/* Logo/header */
-.header{z-index:30!important;background:linear-gradient(180deg,rgba(2,13,25,.72),transparent)!important}
-.nav{width:min(1180px,92%)!important}
-
-/* HERO TYPOGRAPHY */
-.badge{
-  margin:0 auto!important;
-  white-space:nowrap;
-  border-color:rgba(224,235,243,.36)!important;
-  background:rgba(5,25,41,.48)!important;
-  color:#edf4f8!important;
-}
-.hero h1{
-  width:100%!important;
-  max-width:920px!important;
-  margin:22px auto 16px!important;
-  font-size:clamp(58px,7vw,92px)!important;
-  line-height:.93!important;
-  letter-spacing:-4px!important;
-  text-align:center!important;
-  white-space:normal!important;
-}
-.hero h1 em{
-  color:transparent!important;
-  background:linear-gradient(105deg,#7c8c99,#fff,#aebbc5,#fff,#758592)!important;
-  background-size:240% auto!important;
-  -webkit-background-clip:text!important;
-  background-clip:text!important;
-  -webkit-text-fill-color:transparent!important;
-  animation:silverShine 4.5s linear infinite!important;
-}
-.hero p{
-  width:100%!important;
-  max-width:720px!important;
-  margin:0 auto 26px!important;
-  text-align:center!important;
-  font-size:18px!important;
-  line-height:1.55!important;
-}
-
-/* SEARCH BOX */
-.searchbox{
-  width:100%!important;
-  max-width:1080px!important;
-  margin:0 auto!important;
-  padding:10px!important;
-  border-radius:26px!important;
-  background:linear-gradient(145deg,rgba(7,28,46,.94),rgba(3,17,30,.91))!important;
-  border:1px solid rgba(220,232,240,.26)!important;
-  box-shadow:0 28px 80px rgba(0,0,0,.46),inset 0 1px 0 rgba(255,255,255,.10)!important;
-  backdrop-filter:blur(20px)!important;
-}
-
-/* TABS — no overlap */
-.tabs{
-  width:100%!important;
-  display:grid!important;
-  grid-template-columns:repeat(5,minmax(0,1fr))!important;
-  gap:5px!important;
-  overflow:visible!important;
-}
-.tab{
-  width:100%!important;
-  min-width:0!important;
-  min-height:64px!important;
-  padding:9px 5px!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  flex-direction:column!important;
-  gap:4px!important;
-  border-radius:15px!important;
-  color:#b9c9d4!important;
-  font-size:13px!important;
-  line-height:1.1!important;
-  white-space:normal!important;
-}
-.tab-icon{margin:0!important}
-.tab span{
-  display:block!important;
-  white-space:nowrap!important;
-}
-.tab.active,
-.tab[aria-selected="true"]{
-  color:#fff!important;
-  background:linear-gradient(145deg,#194666,#0c2b45)!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 8px 22px rgba(0,0,0,.24)!important;
-}
-.tab-line{
-  width:calc(100% - 12px)!important;
-  margin:4px 6px 0!important;
-  background:rgba(210,224,235,.17)!important;
-}
-
-/* PANELS */
-.panel{
-  width:100%!important;
-  padding:22px 12px 8px!important;
-}
-.panel-top{
-  width:100%!important;
-  display:flex!important;
-  align-items:flex-end!important;
-  justify-content:space-between!important;
-  gap:20px!important;
-  margin-bottom:14px!important;
-}
-.panel-top h3{
-  margin:4px 0 0!important;
-  color:#f3f7fa!important;
-  font-size:25px!important;
-  line-height:1.15!important;
-}
-.panel-top small{color:#9fb2bf!important}
-.live{color:#d6e2e9!important;white-space:nowrap}
-
-/* BOOKING FORMS */
-.booking-form{
-  width:100%!important;
-  display:grid!important;
-  grid-template-columns:repeat(3,minmax(0,1fr)) auto!important;
-  gap:10px!important;
-  align-items:end!important;
-}
-.booking-form label{
-  min-width:0!important;
-  color:#c9d6df!important;
-}
-.booking-form input{
-  width:100%!important;
-  min-width:0!important;
-  height:48px!important;
-  background:#f1f5f8!important;
-  border:1px solid rgba(210,225,235,.4)!important;
-  border-radius:13px!important;
-}
-.gold-btn{
-  height:48px!important;
-  background:linear-gradient(105deg,#e7edf1,#9caeb9,#f7fbff,#899aa6)!important;
-  background-size:240% auto!important;
-  color:#061a2b!important;
-  animation:silverButton 4s linear infinite!important;
-}
-
-/* META */
-.hero-meta{
-  position:relative!important;
-  z-index:3!important;
-  width:min(1080px,calc(100% - 60px))!important;
-  margin:-28px auto 28px!important;
-  display:flex!important;
-  justify-content:center!important;
-  flex-wrap:wrap!important;
-  gap:12px 28px!important;
-  color:#d0dce4!important;
-  font-size:12px!important;
-  font-weight:700!important;
-  text-align:center!important;
-}
-
-/* CONTENT */
-.section{background:#071a2c!important}
-.section.light{background:#081d31!important}
-.heading h2,.section h2{color:#edf4f8!important}
-.heading>p{color:#aebfca!important}
-.destination,.cards article,.guides article{
-  border:1px solid rgba(216,229,237,.10)!important;
-}
-
-/* MOBILE */
-@media(max-width:767px){
-  .header{position:absolute!important}
-  .nav{
-    width:100%!important;
-    padding:0 22px!important;
-  }
-  .hero{
-    min-height:0!important;
-  }
-  .hero-inner{
-    width:100%!important;
-    max-width:none!important;
-    min-height:0!important;
-    padding:94px 16px 30px!important;
-  }
-  .badge{
-    max-width:100%!important;
-    white-space:normal!important;
-    padding:9px 16px!important;
-    font-size:10px!important;
-    letter-spacing:1.1px!important;
-  }
-  .hero h1{
-    width:100%!important;
-    max-width:100%!important;
-    margin:20px auto 15px!important;
-    font-size:clamp(50px,14vw,64px)!important;
-    line-height:.94!important;
-    letter-spacing:-2.8px!important;
-  }
-  .hero p{
-    max-width:350px!important;
-    font-size:16px!important;
-    line-height:1.5!important;
-    margin-bottom:22px!important;
-  }
-  .searchbox{
-    width:100%!important;
-    max-width:none!important;
-    padding:8px!important;
-    border-radius:23px!important;
-  }
-  .tabs{
-    grid-template-columns:repeat(5,minmax(0,1fr))!important;
-    gap:3px!important;
-  }
-  .tab{
-    min-height:66px!important;
-    padding:8px 1px!important;
-    border-radius:13px!important;
-    font-size:10px!important;
-  }
-  .tab span{
-    font-size:10px!important;
-  }
-  .tab:first-child span{font-size:10px!important}
-  .panel{
-    padding:18px 8px 8px!important;
-  }
-  .panel-top{
-    align-items:flex-start!important;
-  }
-  .panel-top h3{
-    font-size:23px!important;
-  }
-  .booking-form,
-  .experience-form{
-    grid-template-columns:1fr!important;
-    gap:10px!important;
-  }
-  .booking-form .gold-btn,
-  .experience-form .gold-btn{
-    width:100%!important;
-  }
-  .hero-meta{
-    width:calc(100% - 32px)!important;
-    margin:0 auto 25px!important;
-    gap:8px 15px!important;
-    font-size:10px!important;
-  }
-}
-
-/* Very small phones */
-@media(max-width:390px){
-  .hero-inner{padding-left:12px!important;padding-right:12px!important}
-  .hero h1{font-size:48px!important}
-  .hero p{font-size:15px!important}
-  .tab{font-size:9px!important;min-height:62px!important}
-  .tab span{font-size:9px!important}
-  .panel-top h3{font-size:21px!important}
-}
-
-/* Desktop */
-@media(min-width:768px){
-  .hero-inner{padding-left:40px!important;padding-right:40px!important}
-  .searchbox{margin-top:4px!important}
-}
-</style>
-
-
-<style id="logo-space-fix">
-.brand, .logo, .site-logo, .navbar-brand, .header-logo {
-  word-spacing: 0.22em !important;
-}
-</style>
-
 </head>
 <body>
-<header class="header"><div class="nav wrap"><a class="logo" href="index.html">Amaze<span>Vacation</span></a>
+<header class="header"><div class="nav wrap"><a class="logo" href="index.html">Amaze <span>Vacation</span></a>
 <nav><a href="#destinations">Destinations</a><a href="#experiences">Experiences</a><a href="#guides">Travel Guides</a><a class="navbtn" href="#search">Plan a Trip</a></nav><button class="menu" aria-label="Menu">☰</button></div></header>
 
 <main>
@@ -673,16 +136,16 @@ body{background:#061526!important}
 <div class="hero-video" aria-hidden="true">
   <video class="hero-video-player hero-video-desktop" muted loop playsinline preload="metadata"
          poster="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2200&q=88">
-    <source src="hero-desktop.mp4" type="video/mp4">
+    <source src="assets/videos/hero-desktop.mp4" type="video/mp4">
   </video>
   <video class="hero-video-player hero-video-mobile" muted loop playsinline preload="metadata"
          poster="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=85">
-    <source src="hero-mobile.mp4" type="video/mp4">
+    <source src="assets/videos/hero-mobile.mp4" type="video/mp4">
   </video>
 </div>
 <div class="hero-overlay"></div><div class="glow g1"></div><div class="glow g2"></div>
 <div class="wrap hero-inner"><div class="badge">✦ PREMIUM GLOBAL TRAVEL PORTAL</div>
-<h1 class="shine-text">Travel further.<br><em>Live more.</em></h1>
+<h1>Travel further.<br><em>Live more.</em></h1>
 <p>Hotels, flights, experiences and car rentals — discover your next unforgettable journey in one beautiful place.</p>
 <div class="searchbox glass" id="travel-search">
   <div class="tabs" role="tablist" aria-label="Travel booking options">
@@ -708,12 +171,14 @@ body{background:#061526!important}
   <section class="panel" id="trains" role="tabpanel" hidden>
     <div class="panel-top"><div><small>TRAINS</small><h3>Book your next rail journey</h3></div><span class="live">● SEARCH</span></div>
     <form class="booking-form" data-partner="trains">
-      <label>From<input name="from" required placeholder="Delhi, Mumbai, Paris…" autocomplete="off"></label>
-      <label>To<input name="to" required placeholder="Jaipur, London, Rome…" autocomplete="off"></label>
+      <label>From<input name="from" list="indian-stations" required placeholder="New Delhi Station — NDLS" autocomplete="off"></label>
+      <label>To<input name="to" list="indian-stations" required placeholder="Jaipur Junction — JP" autocomplete="off"></label>
       <label>Departure<input name="date" type="date" required></label>
       <button class="gold-btn" type="submit">Search Trains</button>
     </form>
-    <div class="partner-hint">Train search partner: 12Go / your official train affiliate integration.</div>
+    <datalist id="indian-stations"></datalist>
+    <div class="station-code-note">India station search: type a city/station name or code. Example: <b>New Delhi Station — NDLS</b>.</div>
+    <div class="partner-hint">Train booking partner: 12Go / your official train affiliate integration. Always verify the selected station and code before booking.</div>
   </section>
 
   <section class="panel" id="hotels" role="tabpanel" hidden>
@@ -754,7 +219,7 @@ body{background:#061526!important}
 <a class="destination" href="#guides"><img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1000&q=85" alt="Bali"><div><h3>Bali</h3><span>Indonesia</span></div></a>
 <a class="destination" href="#guides"><img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1000&q=85" alt="Dubai"><div><h3>Dubai</h3><span>United Arab Emirates</span></div></a>
 <a class="destination" href="#guides"><img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1000&q=85" alt="Paris"><div><h3>Paris</h3><span>France</span></div></a>
-<a class="destination" href="#guides"><img src="https://images.unsplash.com/photo-1605833556294-ea0c7a1b0b1f?auto=format&fit=crop&w=1000&q=85" alt="Las Vegas"><div><h3>Las Vegas</h3><span>United States</span></div></a>
+<a class="destination" href="#guides"><img src="https://images.unsplash.com/photo-1578730260101-bc64d8f28730?auto=format&fit=crop&w=1200&q=85" alt="Las Vegas"><div><h3>Las Vegas</h3><span>United States</span></div></a>
 </div></div></section>
 
 <section class="section light" id="experiences"><div class="wrap"><div class="heading"><div><small>TRAVEL DIFFERENTLY</small><h2>Handpicked inspiration</h2></div><p>Build memorable trips around stays, experiences and adventures.</p></div>
@@ -774,11 +239,11 @@ body{background:#061526!important}
 <section class="cta"><div class="wrap ctain"><div><small>AMAZEVACATION</small><h2>Plan less. Experience more.</h2><p>Discover your next unforgettable journey.</p></div><a href="#search">Start exploring</a></div></section>
 </main>
 
-<footer><div class="wrap footer-grid"><div><a class="logo" href="index.html">Amaze<span>Vacation</span></a><p>Discover destinations, compare travel options and find unforgettable experiences around the world.</p></div>
+<footer><div class="wrap footer-grid"><div><a class="logo" href="index.html">Amaze <span>Vacation</span></a><p>Discover destinations, compare travel options and find unforgettable experiences around the world.</p></div>
 <div><h4>Explore</h4><a href="#destinations">Destinations</a><a href="#experiences">Experiences</a><a href="#guides">Travel Guides</a></div>
 <div><h4>Legal</h4><a href="affiliate-disclosure.html">Affiliate Disclosure</a><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></div>
 <div><h4>Contact</h4><a href="contact.html">Contact Us</a><a href="cookie-policy.html">Cookie Policy</a></div></div>
-<div class="wrap copyright">© 2026 AmazeVacation.com. All rights reserved. Travel offers are provided by third-party travel partners.</div></footer>
+<div class="wrap copyright">© 2026 Amaze Vacation.com. All rights reserved. Travel offers are provided by third-party travel partners.</div></footer>
 <script id="amaze-main-js">
 document.addEventListener("DOMContentLoaded", function () {
   const tabs = Array.from(document.querySelectorAll(".tab[data-tab]"));
@@ -848,10 +313,53 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const type = form.dataset.partner;
       const url = partnerUrls[type];
-      showToast("Opening the " + type + " booking partner…");
+      showToast(type === "trains" ? "Opening train booking partner with your selected route…" : "Opening the " + type + " booking partner…");
       setTimeout(() => window.open(url, "_blank", "noopener,noreferrer"), 250);
     });
   });
+
+
+  // Indian railway station directory: popular codes are local, while the comprehensive directory loads in the background.
+  const stationList = document.getElementById("indian-stations");
+  if (stationList) {
+    const fallbackStations = [
+      ["New Delhi Station","NDLS"],["Old Delhi Junction","DLI"],["Hazrat Nizamuddin","NZM"],["Delhi Cantt","DEC"],["Delhi Sarai Rohilla","DEE"],
+      ["Mumbai Central","BCT"],["Chhatrapati Shivaji Maharaj Terminus","CSMT"],["Dadar Central","DR"],["Bandra Terminus","BDTS"],
+      ["Bengaluru City Junction","SBC"],["Yeshvantpur Junction","YPR"],["Chennai Central","MAS"],["Chennai Egmore","MS"],
+      ["Howrah Junction","HWH"],["Sealdah","SDAH"],["Kolkata Shalimar","SHM"],["Patna Junction","PNBE"],["Lucknow","LKO"],
+      ["Kanpur Central","CNB"],["Varanasi Junction","BSB"],["Prayagraj Junction","PRYJ"],["Agra Cantt","AGC"],
+      ["Jaipur Junction","JP"],["Jodhpur Junction","JU"],["Ajmer Junction","AII"],["Udaipur City","UDZ"],
+      ["Ahmedabad Junction","ADI"],["Surat","ST"],["Vadodara Junction","BRC"],["Bhopal Junction","BPL"],["Indore Junction","INDB"],
+      ["Nagpur","NGP"],["Pune Junction","PUNE"],["Nashik Road","NK"],["Bhubaneswar","BBS"],["Cuttack","CTC"],["Puri","PURI"],
+      ["Ranchi","RNC"],["Dhanbad Junction","DHN"],["Gaya Junction","GAYA"],["Guwahati","GHY"],["New Jalpaiguri","NJP"],
+      ["Amritsar Junction","ASR"],["Ludhiana Junction","LDH"],["Chandigarh","CDG"],["Dehradun","DDN"],["Haridwar Junction","HW"],
+      ["Jammu Tawi","JAT"],["Kota Junction","KOTA"],["Mathura Junction","MTJ"],["Gwalior","GWL"],["Jhansi Junction","JHS"],
+      ["Jabalpur","JBP"],["Raipur Junction","R"],["Vijayawada Junction","BZA"],["Visakhapatnam","VSKP"],["Hyderabad Deccan","HYB"],
+      ["Secunderabad Junction","SC"],["Tirupati","TPTY"],["Madurai Junction","MDU"],["Coimbatore Junction","CBE"],
+      ["Ernakulam Junction","ERS"],["Thiruvananthapuram Central","TVC"],["Mysuru Junction","MYS"],["Madgaon","MAO"]
+    ];
+    const seen = new Set();
+    const addStation = (name, code) => {
+      name = String(name || "").trim(); code = String(code || "").trim();
+      if (!name || !code || seen.has(code)) return;
+      seen.add(code);
+      const option = document.createElement("option");
+      option.value = `${name} — ${code}`;
+      option.label = `${name} — ${code}`;
+      stationList.appendChild(option);
+    };
+    fallbackStations.forEach(s => addStation(s[0], s[1]));
+    fetch("https://raw.githubusercontent.com/prasenjit-27/Indian-Railway-Data/main/stations.json", {cache:"force-cache"})
+      .then(r => r.ok ? r.json() : Promise.reject(new Error("station directory unavailable")))
+      .then(data => {
+        data.forEach(s => {
+          const code = String(s.code || "").trim();
+          const name = String(s.name || "").trim();
+          if (code.startsWith("XX-") || code.startsWith("YY-")) return;
+          addStation(name, code);
+        });
+      }).catch(() => {});
+  }
 
   // Responsive hero video: landscape on desktop/tablet, portrait on mobile.
   const desktopVideo = document.querySelector(".hero-video-desktop");

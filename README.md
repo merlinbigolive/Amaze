@@ -31,3 +31,7 @@ The homepage CSS and JavaScript are embedded in `index.html` so the premium desi
 
 ### Final mobile UX update
 The hero content is centered on mobile with reduced vertical spacing. The Flights, Trains, Hotels, Experiences and Cars tabs are fully interactive. Each search form validates its fields and opens the corresponding travel partner landing page. Replace those partner URLs with your official affiliate URLs/widgets when available.
+
+
+## India Train Station Codes
+The Train tab includes station autocomplete in the format `Station Name — CODE`, for example `New Delhi Station — NDLS`. Popular Indian station codes are included locally, and a comprehensive public station directory is loaded in the background for broader coverage. Indian Railways uses station codes in its reservation/search services; always verify the final station before booking.
